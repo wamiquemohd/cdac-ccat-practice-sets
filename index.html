@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CDAC C-CAT Mock Test – Practice Set 4</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #222; }
+
+/* ===== WAITING SCREEN ===== */
+#waiting-screen {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #1a237e 0%, #1565c0 100%);
+  color: white; text-align: center; padding: 20px;
+}
+#waiting-screen h1 { font-size: 2rem; margin-bottom: 8px; }
+#waiting-screen .subtitle { opacity: 0.8; font-size: 1rem; margin-bottom: 6px; }
+#start-time-label { font-size: 1.1rem; font-weight: 600; margin: 10px 0 24px; }
+#countdown-display {
+  font-size: 3.5rem; font-weight: bold; letter-spacing: 4px;
+  background: rgba(255,255,255,0.15); padding: 18px 40px;
+  border-radius: 12px; margin-bottom: 12px; font-family: monospace;
+}
+.hint { font-size: 0.82rem; opacity: 0.65; }
+#start-now-btn {
+  margin-top: 28px; padding: 13px 40px; background: #43a047; color: white;
+  border: none; border-radius: 8px; font-size: 1.05rem; cursor: pointer; display: none;
+}
+#start-now-btn:hover { background: #2e7d32; }
+.info-grid {
+  display: flex; gap: 24px; margin: 20px 0; flex-wrap: wrap; justify-content: center;
+}
+.info-tile {
+  background: rgba(255,255,255,0.12); border-radius: 8px;
+  padding: 12px 20px; text-align: center;
+}
+.info-tile .val { font-size: 1.4rem; font-weight: 700; }
+.info-tile .lbl { font-size: 0.75rem; opacity: 0.75; margin-top: 2px; }
+
+/* ===== EXAM SCREEN ===== */
+#exam-screen { display: none; flex-direction: column; min-height: 100vh; }
+
+#exam-header {
+  background: #1a237e; color: white; padding: 10px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  gap: 10px;
+}
+#exam-header h2 { font-size: 0.95rem; font-weight: 600; }
+#section-label { font-size: 0.78rem; opacity: 0.8; margin-top: 2px; }
+#timer-box { display: flex; flex-direction: column; align-items: center; }
+#timer-display {
+  background: rgba(255,255,255,0.15); padding: 6px 18px; border-radius: 6px;
+  font-size: 1.4rem; font-weight: bold; letter-spacing: 2px; font-family: monospace;
+}
+#timer-display.warning { background: #b71c1c; animation: pulse 1s infinite; }
+#timer-label { font-size: 0.7rem; opacity: 0.7; margin-top: 2px; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.6; } }
+#progress-text { font-size: 0.78rem; opacity: 0.85; text-align: right; }
+
+#exam-main { display: flex; flex: 1; overflow: hidden; }
+
+/* ===== PALETTE ===== */
+#palette-panel {
+  width: 210px; min-width: 210px; background: white;
+  border-right: 1px solid #ddd; padding: 12px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 10px;
+}
+#palette-panel h4 { font-size: 0.78rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+#palette-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.palette-btn {
+  width: 100%; aspect-ratio: 1; border: 1px solid #ccc; border-radius: 4px;
+  font-size: 0.68rem; font-weight: 700; cursor: pointer;
+  background: #f5f5f5; color: #555; transition: all 0.12s;
+}
+.palette-btn:hover { transform: scale(1.1); z-index: 1; position: relative; }
+.palette-btn.current { outline: 2px solid #1a237e; outline-offset: 1px; }
+.palette-btn.answered  { background: #2e7d32; color: white; border-color: #2e7d32; }
+.palette-btn.marked    { background: #e65100; color: white; border-color: #e65100; }
+.palette-btn.ans-marked{ background: #6a1b9a; color: white; border-color: #6a1b9a; }
+.palette-btn.visited   { background: #ffcdd2; color: #555; border-color: #ef9a9a; }
+
+.legend { display: flex; flex-direction: column; gap: 5px; }
+.legend-item { display: flex; align-items: center; gap: 7px; font-size: 0.7rem; color: #555; }
+.leg-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.leg-dot.nv  { background:#f5f5f5; border:1px solid #ccc; }
+.leg-dot.vis { background:#ffcdd2; }
+.leg-dot.ans { background:#2e7d32; }
+.leg-dot.mrk { background:#e65100; }
+.leg-dot.am  { background:#6a1b9a; }
+
+.pal-stats { border-top: 1px solid #eee; padding-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.stat-row { display: flex; justify-content: space-between; font-size: 0.72rem; color: #444; }
+
+/* ===== QUESTION AREA ===== */
+#question-area {
+  flex: 1; padding: 20px 28px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 14px;
+}
+#q-meta { display: flex; justify-content: space-between; align-items: center; }
+#q-number { font-size: 0.88rem; color: #555; font-weight: 500; }
+#q-cat-tag {
+  font-size: 0.75rem; background: #e3f2fd; color: #1565c0;
+  padding: 3px 10px; border-radius: 10px; font-weight: 500;
+}
+#q-text {
+  background: white; border: 1px solid #ddd; border-radius: 8px;
+  padding: 16px 20px; font-size: 1.02rem; line-height: 1.7;
+  white-space: pre-wrap; font-family: inherit;
+}
+.opts { display: flex; flex-direction: column; gap: 9px; }
+.opt-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 16px; border: 2px solid #e0e0e0; border-radius: 8px;
+  cursor: pointer; background: white; transition: all 0.13s;
+  font-size: 0.96rem; user-select: none;
+}
+.opt-item:hover { border-color: #5c6bc0; background: #f8f9ff; }
+.opt-item.selected { border-color: #1a237e; background: #e8eaf6; }
+.opt-letter {
+  width: 28px; height: 28px; border-radius: 50%; background: #e8eaf6;
+  color: #1a237e; font-weight: 700; font-size: 0.82rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
+}
+.opt-item.selected .opt-letter { background: #1a237e; color: white; }
+
+#q-nav {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding-top: 4px; border-top: 1px solid #eee;
+}
+.nav-btn {
+  padding: 9px 22px; border: none; border-radius: 6px;
+  font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.13s;
+}
+.nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-prev  { background: #e8eaf6; color: #1a237e; }
+.btn-prev:hover:not(:disabled) { background: #c5cae9; }
+.btn-next  { background: #1a237e; color: white; }
+.btn-next:hover  { background: #0d1b6e; }
+.btn-review { background: #ff6f00; color: white; }
+.btn-review:hover { background: #e65100; }
+.btn-review.on { background: #6a1b9a; }
+.btn-review.on:hover { background: #4a0072; }
+.btn-submit { background: #b71c1c; color: white; margin-left: auto; }
+.btn-submit:hover { background: #7f0000; }
+
+/* ===== SECTION MODAL ===== */
+#sec-modal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.65); z-index: 300;
+  align-items: center; justify-content: center;
+}
+#sec-modal.show { display: flex; }
+.modal-box {
+  background: white; padding: 32px 28px; border-radius: 12px;
+  max-width: 440px; width: 90%; text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+.modal-box h3 { font-size: 1.25rem; color: #1a237e; margin-bottom: 12px; }
+.modal-box p  { color: #555; line-height: 1.5; margin-bottom: 22px; font-size: 0.93rem; }
+.modal-box button {
+  padding: 11px 30px; background: #1a237e; color: white;
+  border: none; border-radius: 7px; font-size: 1rem; cursor: pointer;
+}
+.modal-box button:hover { background: #0d1b6e; }
+
+/* ===== RESULTS SCREEN ===== */
+#results-screen { display: none; background: #f0f2f5; min-height: 100vh; }
+#res-header {
+  background: #1a237e; color: white; padding: 18px 24px; text-align: center;
+}
+#res-header h2 { font-size: 1.4rem; }
+#res-header p  { opacity: 0.8; font-size: 0.88rem; margin-top: 4px; }
+#res-body { padding: 24px; max-width: 960px; margin: 0 auto; }
+
+.score-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px; margin-bottom: 24px;
+}
+.score-tile {
+  background: white; border-radius: 10px; padding: 16px; text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.score-tile .s-val { font-size: 2.1rem; font-weight: 700; }
+.score-tile .s-lbl { font-size: 0.76rem; color: #777; margin-top: 4px; }
+.score-tile.t .s-val { color: #1a237e; }
+.score-tile.c .s-val { color: #2e7d32; }
+.score-tile.w .s-val { color: #b71c1c; }
+.score-tile.u .s-val { color: #e65100; }
+
+.filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.f-btn {
+  padding: 6px 18px; border: 1px solid #ccc; border-radius: 20px;
+  background: white; cursor: pointer; font-size: 0.83rem; transition: all 0.12s;
+}
+.f-btn.on { background: #1a237e; color: white; border-color: #1a237e; }
+
+.sol-section-title {
+  font-size: 1rem; font-weight: 700; color: #333;
+  border-bottom: 2px solid #1a237e; padding-bottom: 6px; margin-bottom: 14px;
+}
+.sol-item {
+  background: white; border-radius: 8px; padding: 16px;
+  margin-bottom: 11px; border-left: 4px solid #bbb;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+}
+.sol-item.c { border-left-color: #2e7d32; }
+.sol-item.w { border-left-color: #b71c1c; }
+.sol-item.u { border-left-color: #e65100; }
+.sol-meta  { font-size: 0.75rem; color: #888; font-weight: 600; margin-bottom: 5px; }
+.sol-q     { font-size: 0.91rem; color: #333; white-space: pre-wrap; margin-bottom: 10px; line-height: 1.5; }
+.sol-opts  { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 8px; }
+.sol-opt   { padding: 3px 11px; border-radius: 4px; font-size: 0.8rem; border: 1px solid #ddd; background: #fafafa; }
+.sol-opt.ca{ background: #e8f5e9; border-color: #2e7d32; color: #1b5e20; font-weight: 700; }
+.sol-opt.wa{ background: #ffebee; border-color: #b71c1c; color: #7f0000; text-decoration: line-through; }
+.sol-exp   {
+  font-size: 0.81rem; color: #555; background: #f5f5f5;
+  padding: 8px 12px; border-radius: 5px; line-height: 1.5;
+}
+</style>
+</head>
+<body>
+
+<!-- ============ WAITING SCREEN ============ -->
+<div id="waiting-screen">
+  <h1>CDAC C-CAT Mock Test</h1>
+  <div class="subtitle">Practice Set 4 (Advanced)</div>
+  <div class="info-grid">
+    <div class="info-tile"><div class="val">100</div><div class="lbl">Questions</div></div>
+    <div class="info-tile"><div class="val">2 Hrs</div><div class="lbl">Duration</div></div>
+    <div class="info-tile"><div class="val">+3 / −1</div><div class="lbl">Marking</div></div>
+  </div>
+  <div style="font-size:0.85rem;opacity:0.7;margin-bottom:6px;">Exam begins at</div>
+  <div id="start-time-label"></div>
+  <div id="countdown-display">--:--:--</div>
+  <div class="hint">The exam will start automatically at the scheduled time</div>
+  <button id="start-now-btn" onclick="startExam()">Start Exam Now ▶</button>
+</div>
+
+<!-- ============ EXAM SCREEN ============ -->
+<div id="exam-screen">
+  <div id="exam-header">
+    <div>
+      <h2>CDAC C-CAT Mock Test</h2>
+      <div id="section-label"></div>
+    </div>
+    <div id="timer-box">
+      <div id="timer-display">60:00</div>
+      <div id="timer-label">Time Left</div>
+    </div>
+    <div><div id="progress-text"></div></div>
+  </div>
+  <div id="exam-main">
+    <!-- Palette -->
+    <div id="palette-panel">
+      <h4>Question Palette</h4>
+      <div id="palette-grid"></div>
+      <div class="legend">
+        <div class="legend-item"><div class="leg-dot nv"></div>Not Visited</div>
+        <div class="legend-item"><div class="leg-dot vis"></div>Not Answered</div>
+        <div class="legend-item"><div class="leg-dot ans"></div>Answered</div>
+        <div class="legend-item"><div class="leg-dot mrk"></div>Marked for Review</div>
+        <div class="legend-item"><div class="leg-dot am"></div>Answered + Marked</div>
+      </div>
+      <div class="pal-stats">
+        <div class="stat-row"><span>Answered</span>    <span id="s-ans" style="color:#2e7d32;font-weight:700;">0</span></div>
+        <div class="stat-row"><span>Not Answered</span><span id="s-not" style="color:#b71c1c;font-weight:700;">0</span></div>
+        <div class="stat-row"><span>Marked</span>      <span id="s-mrk" style="color:#e65100;font-weight:700;">0</span></div>
+        <div class="stat-row"><span>Not Visited</span> <span id="s-nv"  style="color:#555;font-weight:700;">0</span></div>
+      </div>
+    </div>
+    <!-- Question -->
+    <div id="question-area">
+      <div id="q-meta">
+        <div id="q-number"></div>
+        <div id="q-cat-tag"></div>
+      </div>
+      <div id="q-text"></div>
+      <div class="opts" id="opts-list"></div>
+      <div id="q-nav">
+        <button class="nav-btn btn-prev" id="btn-prev" onclick="navigate(-1)">← Prev</button>
+        <button class="nav-btn btn-review" id="btn-review" onclick="toggleReview()">Mark for Review</button>
+        <button class="nav-btn btn-next" onclick="navigate(1)">Next →</button>
+        <button class="nav-btn btn-submit" onclick="confirmSubmit()">Submit Section</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Section transition modal -->
+<div id="sec-modal">
+  <div class="modal-box">
+    <h3 id="modal-title"></h3>
+    <p id="modal-body"></p>
+    <button onclick="beginSectionB()">Start Section B →</button>
+  </div>
+</div>
+
+<!-- ============ RESULTS SCREEN ============ -->
+<div id="results-screen">
+  <div id="res-header">
+    <h2>Exam Completed — Your Results</h2>
+    <p>CDAC C-CAT Practice Set 4 (Advanced) &nbsp;|&nbsp; Marking: +3 correct, −1 wrong</p>
+  </div>
+  <div id="res-body">
+    <div class="score-grid" id="score-grid"></div>
+    <div class="filter-bar">
+      <button class="f-btn on" onclick="filterSol('all',this)">All 100</button>
+      <button class="f-btn"    onclick="filterSol('w',this)">Wrong Only</button>
+      <button class="f-btn"    onclick="filterSol('c',this)">Correct Only</button>
+      <button class="f-btn"    onclick="filterSol('u',this)">Unattempted</button>
+    </div>
+    <div class="sol-section-title">Detailed Solutions</div>
+    <div id="sol-list"></div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+//  ★ CONFIG — Edit before deploying to GitHub Pages
+// ================================================================
+const CFG = {
+  // Set exam start time in ISO format (IST = +05:30).
+  // Example: '2026-07-01T10:00:00+05:30'
+  // Set to null to let the exam start immediately when the page loads.
+  startTime: '2026-06-23T10:15:00+05:30',
+
+  secDuration: 3600,   // seconds per section  (3600 = 1 hour)
+  marking: { correct: 3, wrong: -1 }
+};
+
+// ================================================================
+//  QUESTIONS  (100 total — do not edit unless fixing a question)
+// ================================================================
+const Q = [
+  // — Section A: English, Quantitative Aptitude & Reasoning —
+  {id:1, s:'A', cat:'English – Vocabulary',
+   q:'Choose the SYNONYM of the word: METICULOUS',
+   o:['Careless','Thorough','Hasty','Vague'], a:1,
+   exp:'Meticulous means showing great attention to detail; thorough.'},
+  {id:2, s:'A', cat:'English – Vocabulary',
+   q:'Choose the SYNONYM of the word: ABATE',
+   o:['Increase','Subside','Continue','Strengthen'], a:1,
+   exp:'Abate means to lessen or subside.'},
+  {id:3, s:'A', cat:'English – Vocabulary',
+   q:'Choose the ANTONYM of the word: VERBOSE',
+   o:['Wordy','Concise','Lengthy','Talkative'], a:1,
+   exp:'Verbose means using too many words; its opposite is concise.'},
+  {id:4, s:'A', cat:'English – Vocabulary',
+   q:'Choose the ANTONYM of the word: PROLIFIC',
+   o:['Productive','Unproductive','Fertile','Abundant'], a:1,
+   exp:'Prolific means producing a great deal; its opposite is unproductive.'},
+  {id:5, s:'A', cat:'English – Idioms',
+   q:"Meaning of the idiom: 'To cut corners'.",
+   o:['To turn sharply','To do something in the cheapest or easiest way','To get lost','To win easily'], a:1,
+   exp:"'To cut corners' means to do something the cheapest/easiest way, often sacrificing quality."},
+  {id:6, s:'A', cat:'English – Vocabulary',
+   q:'One-word substitution: A list of items to be discussed at a meeting.',
+   o:['Minutes','Agenda','Memo','Schedule'], a:1,
+   exp:'An agenda is the list of items to be discussed at a meeting.'},
+  {id:7, s:'A', cat:'English – Grammar',
+   q:'Fill in the blank: No sooner had he arrived ____ it started raining.',
+   o:['when','than','then','that'], a:1,
+   exp:"The fixed correlative structure is 'No sooner ... than'."},
+  {id:8, s:'A', cat:'English – Grammar',
+   q:'Fill in the blank: I wish I ____ taller.',
+   o:['am','was','were','will be'], a:2,
+   exp:"After 'I wish', the unreal subjunctive uses 'were'."},
+  {id:9, s:'A', cat:'English – Error Spotting',
+   q:"Identify the part with the error:\n'Each of the boys (A) / have submitted (B) / their assignment (C) / on time (D).'",
+   o:['Part A','Part B','Part C','Part D'], a:1,
+   exp:"'Each of' takes a singular verb, so 'have' should be 'has' (Part B)."},
+  {id:10,s:'A', cat:'English – Error Spotting',
+   q:"Identify the part with the error:\n'She is more cleverer (A) / than her (B) / younger sister (C) / in mathematics (D).'",
+   o:['Part A','Part B','Part C','Part D'], a:0,
+   exp:"'Cleverer' is already comparative; 'more cleverer' is a double comparative (Part A)."},
+  {id:11,s:'A', cat:'English – Vocabulary',
+   q:'Fill in the blank: The lawyer presented ____ evidence that convinced the jury.',
+   o:['trivial','compelling','dubious','scanty'], a:1,
+   exp:"'Compelling' evidence is convincing/forceful, fitting 'convinced the jury'."},
+  {id:12,s:'A', cat:'English – Para-jumble',
+   q:'Arrange to form a meaningful sentence:\n(P) the entire city  (Q) within hours  (R) the flood had submerged  (S) of heavy rain.',
+   o:['QSRP','RPQS','QSPR','RQSP'], a:0,
+   exp:"Correct order QSRP: 'Within hours of heavy rain, the flood had submerged the entire city.'"},
+  {id:13,s:'A', cat:'English – Para-jumble',
+   q:'Arrange to form a meaningful sentence:\n(P) before making  (Q) all the options  (R) a final decision  (S) consider carefully.',
+   o:['SQPR','SPQR','QSPR','SQRP'], a:0,
+   exp:"Correct order SQPR: 'Consider carefully all the options before making a final decision.'"},
+  {id:14,s:'A', cat:'English – Comprehension',
+   q:"Read the passage: 'The new software reduced processing time, but its high cost deterred many small businesses from adopting it.'\nWhat can be inferred?",
+   o:['It was cheap and widely adopted','It was efficient but too costly for many small businesses','Small businesses preferred it','It increased processing time'], a:1,
+   exp:'It cut processing time (efficient) but its high cost kept many small firms away.'},
+  {id:15,s:'A', cat:'English – Grammar',
+   q:'Fill in the blank: He was accused ____ stealing the documents.',
+   o:['for','of','with','about'], a:1,
+   exp:"The correct idiom is 'accused of'."},
+  {id:16,s:'A', cat:'Quantitative Aptitude',
+   q:'A train running at 54 km/h crosses a 250 m long bridge in 25 seconds.\nThe length of the train is:',
+   o:['100 m','125 m','150 m','175 m'], a:1,
+   exp:'54 km/h = 15 m/s; in 25 s it covers 375 m = bridge + train → train = 375 − 250 = 125 m.'},
+  {id:17,s:'A', cat:'Quantitative Aptitude',
+   q:'The average age of 5 members is 30 years. A new member joins and the average becomes 28 years.\nThe age of the new member is:',
+   o:['16 years','18 years','20 years','22 years'], a:1,
+   exp:'New total = 28 × 6 = 168; old total = 30 × 5 = 150; new member\'s age = 168 − 150 = 18.'},
+  {id:18,s:'A', cat:'Quantitative Aptitude',
+   q:'An article is sold at 15% profit. Had it been bought at 20% less and sold for Rs.36 less, the gain would have been 25%.\nThe cost price is:',
+   o:['Rs.200','Rs.240','Rs.250','Rs.300'], a:1,
+   exp:'Let CP = x: 1.15x − 36 = 1.25(0.8x) → 0.15x = 36 → x = 240.'},
+  {id:19,s:'A', cat:'Quantitative Aptitude',
+   q:'Two numbers are in the ratio 5:8. If 9 is added to each, the ratio becomes 8:11.\nThe smaller number is:',
+   o:['15','24','20','30'], a:0,
+   exp:'(5x+9)/(8x+9) = 8/11 gives x = 3, so the smaller number is 5x = 15.'},
+  {id:20,s:'A', cat:'Quantitative Aptitude',
+   q:'A sum amounts to Rs.1323 in 2 years at 5% per annum compound interest.\nThe principal is:',
+   o:['Rs.1100','Rs.1200','Rs.1250','Rs.1300'], a:1,
+   exp:'P × (1.05)² = 1323 → P = 1323 / 1.1025 = 1200.'},
+  {id:21,s:'A', cat:'Quantitative Aptitude',
+   q:'Pipe A fills a tank in 6 hours and pipe B in 8 hours. They are opened alternately for one hour each, starting with A.\nThe tank is full in:',
+   o:['6¾ hours','7 hours','6½ hours','6 hours'], a:0,
+   exp:'In 6 h (three A+B cycles) the tank is 7/8 full; pipe A fills the last 1/8 in 3/4 h → total 6¾ h.'},
+  {id:22,s:'A', cat:'Quantitative Aptitude',
+   q:'A boat covers 16 km downstream in 2 hours and the same distance upstream in 4 hours.\nThe speed of the stream is:',
+   o:['1 km/h','2 km/h','3 km/h','4 km/h'], a:1,
+   exp:'Downstream = 8 km/h, upstream = 4 km/h; stream = (8 − 4)/2 = 2 km/h.'},
+  {id:23,s:'A', cat:'Quantitative Aptitude',
+   q:'The simple interest on a sum for 3 years at 8% per annum is Rs.1200.\nThe compound interest on the same sum at the same rate for 2 years is:',
+   o:['Rs.800','Rs.832','Rs.840','Rs.820'], a:1,
+   exp:'SI gives P = 5000; CI for 2 yr = 5000[(1.08)² − 1] = 832.'},
+  {id:24,s:'A', cat:'Quantitative Aptitude',
+   q:'35% of a number exceeds 20% of the same number by 45.\nThe number is:',
+   o:['250','300','350','400'], a:1,
+   exp:'(35% − 20%) = 15% of the number = 45 → number = 300.'},
+  {id:25,s:'A', cat:'Quantitative Aptitude',
+   q:'The sum of four consecutive odd numbers is 80.\nThe smallest of them is:',
+   o:['15','17','19','21'], a:1,
+   exp:'Let smallest = x (odd). Then x + (x+2) + (x+4) + (x+6) = 80 → 4x+12 = 80 → x = 17.'},
+  {id:26,s:'A', cat:'Quantitative Aptitude',
+   q:'In how many ways can 4 boys and 3 girls sit in a row such that all the girls sit together?',
+   o:['720','144','5040','120'], a:0,
+   exp:'Treat the 3 girls as one block: 5! × 3! = 120 × 6 = 720.'},
+  {id:27,s:'A', cat:'Quantitative Aptitude',
+   q:'A and B can do a work in 12 days, B and C in 15 days, and A and C in 20 days.\nAll three together can do it in:',
+   o:['8 days','10 days','12 days','15 days'], a:1,
+   exp:'Adding the three pair-rates gives 2(A+B+C) = 1/5 → A+B+C = 1/10 → 10 days.'},
+  {id:28,s:'A', cat:'Quantitative Aptitude',
+   q:'A bag contains 3 white, 4 black and 5 red balls. One ball is drawn at random.\nThe probability that it is NOT red is:',
+   o:['5/12','7/12','1/2','1/3'], a:1,
+   exp:'P(not red) = (3 + 4)/12 = 7/12.'},
+  {id:29,s:'A', cat:'Quantitative Aptitude',
+   q:'The population of a town increases by 10% in the first year and decreases by 10% in the next year.\nThe net change over the two years is:',
+   o:['1% increase','1% decrease','No change','10% decrease'], a:1,
+   exp:'Net factor = 1.10 × 0.90 = 0.99, i.e. a 1% decrease.'},
+  {id:30,s:'A', cat:'Quantitative Aptitude',
+   q:'If 8 workers build a wall in 10 days working 6 hours a day, how many days will 6 workers take working 8 hours a day?',
+   o:['8 days','10 days','12 days','9 days'], a:1,
+   exp:'Total work = 8×10×6 = 480 worker-hours; 6×8 = 48 per day → 480/48 = 10 days.'},
+  {id:31,s:'A', cat:'Reasoning – Syllogism',
+   q:'Statements: All cups are plates. Some plates are spoons.\nConclusions:\n  I.  Some cups are spoons.\n  II. Some plates are cups.\nWhich conclusion(s) follow?',
+   o:['Only I follows','Only II follows','Both I and II follow','Neither follows'], a:1,
+   exp:"Cups are a subset of plates, so some plates are cups (II). 'Some cups are spoons' is not guaranteed."},
+  {id:32,s:'A', cat:'Reasoning – Syllogism',
+   q:'Statements: All metals are shiny. All shiny things are expensive.\nConclusions:\n  I.  All metals are expensive.\n  II. Some expensive things are metals.\nWhich conclusion(s) follow?',
+   o:['Only I follows','Only II follows','Both I and II follow','Neither follows'], a:2,
+   exp:'Metals ⊂ shiny ⊂ expensive → all metals are expensive (I) and some expensive things are metals (II). Both follow.'},
+  {id:33,s:'A', cat:'Reasoning – Syllogism',
+   q:'Statements: Some books are pens. No pen is a pencil.\nConclusions:\n  I.  Some books are not pencils.\n  II. No book is a pencil.\nWhich conclusion(s) follow?',
+   o:['Only I follows','Only II follows','Both I and II follow','Neither follows'], a:0,
+   exp:"The books that are pens cannot be pencils → some books are not pencils (I). II is too strong."},
+  {id:34,s:'A', cat:'Reasoning – Syllogism',
+   q:'Statements: All doctors are graduates. Some graduates are unemployed.\nConclusions:\n  I.  Some doctors are unemployed.\n  II. Some graduates are doctors.\nWhich conclusion(s) follow?',
+   o:['Only I follows','Only II follows','Both I and II follow','Neither follows'], a:1,
+   exp:"Doctors exist as a subset of graduates → some graduates are doctors (II). I is not guaranteed."},
+  {id:35,s:'A', cat:'Reasoning – Syllogism',
+   q:'Statements: All pilots are brave. No brave person is weak.\nConclusions:\n  I.  No pilot is weak.\n  II. Some brave persons are pilots.\nWhich conclusion(s) follow?',
+   o:['Only I follows','Only II follows','Both I and II follow','Neither follows'], a:2,
+   exp:'All pilots are brave; no brave person is weak → no pilot is weak (I); pilots are a subset of brave persons (II). Both follow.'},
+  {id:36,s:'A', cat:'Reasoning – Syllogism',
+   q:'Statements: All fish can swim. A whale can swim.\nConclusions:\n  I.  A whale is a fish.\n  II. Some swimmers are fish.\nWhich conclusion(s) follow?',
+   o:['Only I follows','Only II follows','Both I and II follow','Neither follows'], a:1,
+   exp:'Fish exist and can swim → some swimmers are fish (II). A whale swimming does not make it a fish; I does not follow.'},
+  {id:37,s:'A', cat:'Reasoning – Seating Arrangement',
+   q:'Six people J, K, L, M, N and O sit in a row (left to right).\nK is at the extreme left end and L at the extreme right end.\nM is immediately to the right of K.\nO is immediately to the left of J.\nN is immediately to the right of J.\n\nWho sits to the immediate left of N?',
+   o:['J','O','L','M'], a:0,
+   exp:'Order is K, M, O, J, N, L. The person immediately to the left of N is J.'},
+  {id:38,s:'A', cat:'Reasoning – Seating Arrangement',
+   q:'[Same arrangement: K, M, O, J, N, L]\n\nHow many persons sit between M and N?',
+   o:['1','2','3','4'], a:1,
+   exp:'Between M (position 2) and N (position 5) sit O and J — two persons.'},
+  {id:39,s:'A', cat:'Reasoning – Seating Arrangement',
+   q:'[Same arrangement: K, M, O, J, N, L]\n\nWho are the immediate neighbours of O?',
+   o:['M and J','K and J','M and N','J and N'], a:0,
+   exp:"O is at position 3. O's immediate neighbours are M (left) and J (right)."},
+  {id:40,s:'A', cat:'Reasoning – Seating Arrangement',
+   q:'Six people U, V, W, X, Y and Z sit around a circular table facing the centre.\nU sits exactly opposite X.\nV is to the immediate left of U.\nW is to the immediate right of X.\nY is to the immediate left of X.\n\nWho sits exactly opposite to V?',
+   o:['W','X','Y','Z'], a:2,
+   exp:'Clockwise order: U, V, W, X, Y, Z. V is 2nd, its opposite (4 seats away in a 6-seat table) is... Y is opposite V.'},
+  {id:41,s:'A', cat:'Reasoning – Seating Arrangement',
+   q:'[Same circular arrangement: U, V, W, X, Y, Z facing centre]\n\nWho is to the immediate right of W?',
+   o:['U','V','X','Y'], a:1,
+   exp:"Facing the centre, 'right' means anticlockwise. W's anticlockwise neighbour is V."},
+  {id:42,s:'A', cat:'Reasoning – Seating Arrangement',
+   q:'[Same circular arrangement: U, V, W, X, Y, Z]\n\nCounting clockwise from W, who sits between W and Y?',
+   o:['U','V','X','Z'], a:2,
+   exp:'Going clockwise: W → X → Y. So X sits between W and Y.'},
+  {id:43,s:'A', cat:'Reasoning – Coding',
+   q:'In a certain code, TIGER is written as UJHFS.\nHow is LION written in that code?',
+   o:['MJPO','MKPO','MJQO','NJPO'], a:0,
+   exp:'Each letter shifts +1: L→M, I→J, O→P, N→O → MJPO.'},
+  {id:44,s:'A', cat:'Reasoning – Number Series',
+   q:'Find the next number in the series: 5, 11, 23, 47, ?',
+   o:['95','94','96','93'], a:0,
+   exp:'Pattern is ×2 + 1: 47 × 2 + 1 = 95.'},
+  {id:45,s:'A', cat:'Reasoning – Analogy',
+   q:'Find the missing term: 3 : 11 :: 5 : ?',
+   o:['25','27','26','23'], a:1,
+   exp:'Pattern is n² + 2: 3² + 2 = 11 and 5² + 2 = 27.'},
+  {id:46,s:'A', cat:'Reasoning – Odd One Out',
+   q:'Find the odd one out: 8, 27, 64, 100.',
+   o:['8','27','64','100'], a:3,
+   exp:'8 = 2³, 27 = 3³, 64 = 4³ are perfect cubes; 100 is not.'},
+  {id:47,s:'A', cat:'Reasoning – Blood Relations',
+   q:'Q is the sister of R. R is the son of S. S is the wife of T.\nHow is Q related to T?',
+   o:['Son','Daughter','Wife','Sister'], a:1,
+   exp:"R is S's son and T is S's husband, so R is T's son. Q (R's sister) is T's daughter."},
+  {id:48,s:'A', cat:'Reasoning – Direction Sense',
+   q:'Starting from a point, Ravi walks 5 km South, turns left and walks 3 km, then turns left again and walks 5 km.\nHow far and in which direction is he from the starting point?',
+   o:['3 km East','5 km East','3 km West','8 km East'], a:0,
+   exp:'South 5 km then North 5 km cancel out. Only the 3 km East displacement remains.'},
+  {id:49,s:'A', cat:'Reasoning – Clock',
+   q:'How many times do the hands of a clock coincide in a 12-hour period?',
+   o:['12','11','24','22'], a:1,
+   exp:'The hands of a clock coincide exactly 11 times in any 12-hour period.'},
+  {id:50,s:'A', cat:'Reasoning – Number Series',
+   q:'Find the next number in the series: 1, 4, 27, 256, ?',
+   o:['3125','625','1024','2500'], a:0,
+   exp:'Pattern is nⁿ: 1¹=1, 2²=4, 3³=27, 4⁴=256, 5⁵=3125.'},
+
+  // — Section B: Computer Science —
+  {id:51,s:'B', cat:'Computer Fundamentals',
+   q:'The binary equivalent of decimal 45 is:',
+   o:['101101','101011','110101','101110'], a:0,
+   exp:'45 = 32+8+4+1 = binary 101101.'},
+  {id:52,s:'B', cat:'Computer Fundamentals',
+   q:"The 1's complement of the binary number 10110010 is:",
+   o:['01001101','01001110','10110011','01001100'], a:0,
+   exp:"1's complement inverts every bit: 10110010 → 01001101."},
+  {id:53,s:'B', cat:'Computer Fundamentals',
+   q:'How many bytes are there in 2 KB?',
+   o:['2000','2048','1024','4096'], a:1,
+   exp:'2 KB = 2 × 1024 = 2048 bytes.'},
+  {id:54,s:'B', cat:'Computer Fundamentals',
+   q:'The decimal value of the octal number 17 is:',
+   o:['15','17','23','13'], a:0,
+   exp:'Octal 17 = 1×8 + 7 = 15.'},
+  {id:55,s:'B', cat:'Computer Fundamentals',
+   q:'Which logic gate gives an output of 1 only when both inputs are 1?',
+   o:['OR','AND','NOT','XOR'], a:1,
+   exp:'An AND gate outputs 1 only when both inputs are 1.'},
+  {id:56,s:'B', cat:'Computer Fundamentals',
+   q:"The Boolean expression  A + A'.B  simplifies to:",
+   o:["A","A + B","B","A.B"], a:1,
+   exp:"By the absorption law, A + A'.B = A + B."},
+  {id:57,s:'B', cat:'C Programming',
+   q:'What is the output of the following code?\n\nint a=10, b=20;\na = a+b;\nb = a-b;\na = a-b;\nprintf("%d %d", a, b);',
+   o:['10 20','20 10','30 10','10 30'], a:1,
+   exp:'The three XOR-swap steps swap the values: a=20, b=10.'},
+  {id:58,s:'B', cat:'C Programming',
+   q:'What is the output of the following code?\n\nint x = 5;\nprintf("%d", x == 5 ? 10 : 20);',
+   o:['5','10','20','Compilation error'], a:1,
+   exp:'x == 5 is true, so the ternary expression evaluates to 10.'},
+  {id:59,s:'B', cat:'C Programming',
+   q:'What is the output of the following code?\n\nint i = 1;\nwhile(i <= 3)\n    printf("%d", i++);',
+   o:['123','1234','111','122'], a:0,
+   exp:'The loop prints i for i = 1, 2, 3 using post-increment → 123.'},
+  {id:60,s:'B', cat:'C Programming',
+   q:"What is the output of the following code?\n\nchar c = 'A';\nprintf(\"%d\", c);",
+   o:['65','97','0','A'], a:0,
+   exp:"'%d' prints the integer (ASCII) value of 'A', which is 65."},
+  {id:61,s:'B', cat:'C Programming',
+   q:'What is the output of the following code?\n\nint arr[3] = {10, 20, 30};\nprintf("%d", *arr + 1);',
+   o:['11','20','21','10'], a:0,
+   exp:'*arr dereferences the pointer to get arr[0] = 10; then +1 gives 11. (Not *(arr+1).)'},
+  {id:62,s:'B', cat:'C Programming',
+   q:'What is the output of the following code?\n\nint x = 5, y = 10;\nprintf("%d", x & y);',
+   o:['0','5','10','15'], a:0,
+   exp:'5 & 10 = bitwise AND: 0101 & 1010 = 0000 = 0.'},
+  {id:63,s:'B', cat:'C Programming',
+   q:'What is the output of the following code? (assume sizeof(int) = 4)\n\nint n = 0;\nprintf("%d %d", sizeof(n++), n);',
+   o:['4 1','4 0','8 0','4 (garbage)'], a:1,
+   exp:"sizeof does not evaluate its operand at runtime, so n remains 0. Output is '4 0'."},
+  {id:64,s:'B', cat:'C Programming',
+   q:'What is the output of the following code?\n\nint a = 1;\nif(a = 5)\n    printf("True");\nelse\n    printf("False");',
+   o:['True','False','5','Compilation error'], a:0,
+   exp:"'a = 5' is an assignment returning 5 (non-zero = true). Output: True."},
+  {id:65,s:'B', cat:'C Programming',
+   q:'Which storage class makes a local variable retain its value between function calls?',
+   o:['auto','static','register','extern'], a:1,
+   exp:'A static local variable retains its value across function calls.'},
+  {id:66,s:'B', cat:'C Programming',
+   q:'What is the output of the following code?\n\nprintf("%d", 5 + 3 % 2);',
+   o:['4','6','0','1'], a:1,
+   exp:'% has higher precedence than +: 3 % 2 = 1, then 5 + 1 = 6.'},
+  {id:67,s:'B', cat:'C Programming',
+   q:'What is the output of the following code?\n\nint x = 10;\nprintf("%d", x << 2);',
+   o:['20','40','12','80'], a:1,
+   exp:'Left-shifting by 2 multiplies by 4: 10 × 4 = 40.'},
+  {id:68,s:'B', cat:'C Programming',
+   q:'The declaration  int (*p)[5];  means p is:',
+   o:['An array of 5 pointers to int','A pointer to an array of 5 ints','A function pointer','A pointer to int'], a:1,
+   exp:'int (*p)[5] declares p as a pointer to an array of 5 ints.'},
+  {id:69,s:'B', cat:'Data Structures',
+   q:'Evaluate the prefix expression:  + * 2 3 4',
+   o:['10','14','9','20'], a:0,
+   exp:'Prefix + * 2 3 4 → (* 2 3) = 6, then (+ 6 4) = 10.'},
+  {id:70,s:'B', cat:'Data Structures',
+   q:'Approximately how many comparisons does binary search need in the worst case for 15 sorted elements?',
+   o:['4','8','15','1'], a:0,
+   exp:'Binary search worst case ≈ ⌈log₂(15+1)⌉ = ⌈log₂ 16⌉ = 4 comparisons.'},
+  {id:71,s:'B', cat:'Data Structures',
+   q:'The height of a complete binary tree with 7 nodes (root at height 0) is:',
+   o:['2','3','7','1'], a:0,
+   exp:'7 nodes fill levels 0, 1, 2 perfectly (1+2+4 = 7), so height = 2.'},
+  {id:72,s:'B', cat:'Data Structures',
+   q:'In which binary-tree traversal is the root node visited LAST?',
+   o:['Preorder','Inorder','Postorder','Level-order'], a:2,
+   exp:'In postorder (Left → Right → Root), the root is visited last.'},
+  {id:73,s:'B', cat:'Data Structures',
+   q:'Which data structure is best suited for implementing a priority queue?',
+   o:['Stack','Queue','Heap','Plain array'], a:2,
+   exp:'A heap supports O(log n) insert and O(1)/O(log n) extract-min/max — ideal for a priority queue.'},
+  {id:74,s:'B', cat:'Data Structures',
+   q:'The worst-case time complexity of Bubble Sort is:',
+   o:['O(n)','O(n log n)','O(n²)','O(log n)'], a:2,
+   exp:'Bubble Sort performs O(n²) comparisons and swaps in the worst case.'},
+  {id:75,s:'B', cat:'Data Structures',
+   q:'With a good hash function, the average-case time complexity of search in a hash table is:',
+   o:['O(1)','O(n)','O(log n)','O(n²)'], a:0,
+   exp:'A good hash function distributes keys uniformly → O(1) average search.'},
+  {id:76,s:'B', cat:'Data Structures',
+   q:'How many pointer fields does a node in a doubly linked list typically have?',
+   o:['1','2','3','0'], a:1,
+   exp:'A doubly linked list node has two pointers: prev (previous) and next.'},
+  {id:77,s:'B', cat:'Data Structures',
+   q:'The maximum number of nodes in a binary tree of height h (root at height 0) is:',
+   o:['2^h','2^(h+1) − 1','2h','h²'], a:1,
+   exp:'A perfect binary tree of height h has 2^(h+1) − 1 nodes.'},
+  {id:78,s:'B', cat:'Data Structures',
+   q:'Which binary-tree traversal uses a QUEUE in its standard implementation?',
+   o:['Inorder','Preorder','Postorder','Level-order'], a:3,
+   exp:'Level-order (breadth-first) traversal processes nodes level by level using a queue.'},
+  {id:79,s:'B', cat:'OOP Concepts',
+   q:'Which feature lets the same function call behave differently depending on the object, decided at run time?',
+   o:['Function overloading','Function overriding (runtime polymorphism)','Encapsulation','Templates'], a:1,
+   exp:'Function overriding via virtual functions gives runtime polymorphism (dynamic dispatch).'},
+  {id:80,s:'B', cat:'OOP Concepts',
+   q:"A class member declared 'protected' is accessible:",
+   o:['Only within the same class','Within the class and its derived classes','Everywhere in the program','Nowhere'], a:1,
+   exp:'Protected members are accessible within the class itself and its derived (subclass) classes.'},
+  {id:81,s:'B', cat:'OOP Concepts',
+   q:'In inheritance, the order of constructor execution is:',
+   o:['Derived class first, then base class','Base class first, then derived class','Only the derived constructor runs','Only the base constructor runs'], a:1,
+   exp:'The base-class constructor always runs before the derived-class constructor.'},
+  {id:82,s:'B', cat:'OOP Concepts',
+   q:'Which of the following operators CANNOT be overloaded in C++?',
+   o:['+ (plus)','[] (subscript)',':: (scope resolution)','() (function call)'], a:2,
+   exp:'The scope-resolution operator :: is one of the few operators that cannot be overloaded in C++.'},
+  {id:83,s:'B', cat:'OOP Concepts',
+   q:'A friend function of a class:',
+   o:['Is a member function of the class',"Can access the class's private members but is not a member",'Must be virtual','Is inherited by derived classes'], a:1,
+   exp:"A friend function can access private/protected members but is not a class member and is not inherited."},
+  {id:84,s:'B', cat:'OOP Concepts',
+   q:'Templates in C++ primarily support which concept?',
+   o:['Inheritance','Generic programming','Encapsulation','Runtime polymorphism'], a:1,
+   exp:'Templates enable generic (type-independent) programming — the same code works with any data type.'},
+  {id:85,s:'B', cat:'OOP Concepts',
+   q:'If a class declares all its constructors as private, then:',
+   o:['Objects cannot be created from outside the class','The class becomes abstract','The class cannot have data members','The class must be a template'], a:0,
+   exp:'With only private constructors, external code cannot instantiate the class directly (Singleton pattern).'},
+  {id:86,s:'B', cat:'Operating Systems',
+   q:'Which of the following is NOT an operating system?',
+   o:['Linux','Windows','Oracle','macOS'], a:2,
+   exp:'Oracle is a database management system (DBMS), not an operating system.'},
+  {id:87,s:'B', cat:'Operating Systems',
+   q:'The total time taken from the submission of a process to its completion is called:',
+   o:['Waiting time','Response time','Turnaround time','Burst time'], a:2,
+   exp:'Turnaround time = completion time − arrival time (submission to finish).'},
+  {id:88,s:'B', cat:'Operating Systems',
+   q:'Under Round Robin (time quantum = 2), processes P1 (burst 4) and P2 (burst 2) both arrive at time 0 (order: P1 then P2).\nAt what time does P2 complete?',
+   o:['4','6','2','8'], a:0,
+   exp:'P1 runs 0–2, then P2 runs 2–4 and finishes (burst=2 used up). P2 completes at time 4.'},
+  {id:89,s:'B', cat:'Operating Systems',
+   q:"The 'convoy effect', where short processes are stuck waiting behind a long one, is most associated with which scheduling algorithm?",
+   o:['FCFS','SJF','Round Robin','Priority'], a:0,
+   exp:'The convoy effect is a well-known drawback of FCFS scheduling.'},
+  {id:90,s:'B', cat:'Operating Systems',
+   q:'In a paging system, the page table maps:',
+   o:['Physical addresses to logical addresses','Logical page numbers to physical frame numbers','Files to disk blocks','Processes to CPUs'], a:1,
+   exp:'The page table maps logical page numbers (virtual) to physical frame numbers in RAM.'},
+  {id:91,s:'B', cat:'Operating Systems',
+   q:'A semaphore initialized to 1 and used to enforce mutual exclusion is called a:',
+   o:['Counting semaphore','Mutex (binary semaphore)','Monitor','Spinlock'], a:1,
+   exp:'A binary semaphore (value 0 or 1) initialized to 1 for mutual exclusion is called a mutex.'},
+  {id:92,s:'B', cat:'Operating Systems',
+   q:'If the logical address space is 2¹⁶ bytes and the page size is 2¹⁰ bytes, how many pages are there?',
+   o:['32','64','128','16'], a:1,
+   exp:'Number of pages = 2¹⁶ / 2¹⁰ = 2⁶ = 64 pages.'},
+  {id:93,s:'B', cat:'Operating Systems',
+   q:'Which necessary condition for deadlock means a resource cannot be forcibly removed from a process holding it?',
+   o:['Mutual exclusion','Hold and wait','No preemption','Circular wait'], a:2,
+   exp:"'No preemption' condition: a resource can only be released voluntarily by the process holding it."},
+  {id:94,s:'B', cat:'Operating Systems',
+   q:'First-fit, best-fit, and worst-fit are strategies used in:',
+   o:['CPU scheduling','Page replacement','Memory allocation','Disk scheduling'], a:2,
+   exp:'These are contiguous memory allocation (placement) strategies for partitioning main memory.'},
+  {id:95,s:'B', cat:'Operating Systems',
+   q:'Which disk-scheduling algorithm services the request CLOSEST to the current head position first?',
+   o:['FCFS','SSTF','SCAN','C-SCAN'], a:1,
+   exp:'SSTF (Shortest Seek Time First) always picks the request nearest the current head position.'},
+  {id:96,s:'B', cat:'Operating Systems',
+   q:'A process that has completed execution but still has an entry in the process table is called a:',
+   o:['Orphan process','Zombie process','Daemon process','Suspended process'], a:1,
+   exp:"A 'zombie' process has finished but its entry remains in the process table until the parent reads its exit status."},
+  {id:97,s:'B', cat:'Networking',
+   q:'Which OSI layer is responsible for end-to-end reliable delivery and flow control?',
+   o:['Network layer','Transport layer','Session layer','Data Link layer'], a:1,
+   exp:'The Transport layer (Layer 4) provides end-to-end reliable delivery, error recovery, and flow control.'},
+  {id:98,s:'B', cat:'Networking',
+   q:'Which protocol is used to transfer email between mail servers?',
+   o:['SMTP','POP3','FTP','SNMP'], a:0,
+   exp:'SMTP (Simple Mail Transfer Protocol) is used to send/transfer email between mail servers.'},
+  {id:99,s:'B', cat:'Networking',
+   q:'How many bits are there in a MAC address?',
+   o:['32','48','64','128'], a:1,
+   exp:'A MAC (hardware) address is 48 bits = 6 bytes, usually written as 6 hex pairs.'},
+  {id:100,s:'B',cat:'Networking',
+   q:'Which class of IPv4 address has the default subnet mask 255.255.0.0?',
+   o:['Class A','Class B','Class C','Class D'], a:1,
+   exp:'Class B addresses (128.x–191.x) have default subnet mask 255.255.0.0 (/16).'},
+];
+
+// ================================================================
+//  STATE
+// ================================================================
+const SK = 'ccat_s4_state';
+let S = {
+  sec: 'A',
+  cur: 0,
+  ans: new Array(100).fill(null),
+  vis: new Array(100).fill(false),
+  mrk: new Array(100).fill(false),
+  tA: CFG.secDuration,
+  tB: CFG.secDuration,
+  aDone: false,
+  done: false,
+};
+let ticker = null;
+
+// ================================================================
+//  BOOT
+// ================================================================
+window.addEventListener('load', () => {
+  loadS();
+  if (S.done)  { showResults(); return; }
+  if (S.aDone) { enterSection('B'); return; }
+
+  const t0 = CFG.startTime ? new Date(CFG.startTime) : null;
+  if (!t0 || Date.now() >= t0.getTime()) {
+    document.getElementById('start-now-btn').style.display = 'inline-block';
+    document.getElementById('countdown-display').textContent = 'READY';
+    setStartLabel(t0);
+  } else {
+    setStartLabel(t0);
+    countdownToStart(t0);
+  }
+});
+
+function setStartLabel(t0) {
+  const el = document.getElementById('start-time-label');
+  el.textContent = t0
+    ? t0.toLocaleString('en-IN', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'})
+    : 'Opens immediately when you load this page';
+}
+
+function countdownToStart(t0) {
+  const el = document.getElementById('countdown-display');
+  const tick = () => {
+    const d = t0 - Date.now();
+    if (d <= 0) { el.textContent = 'Starting…'; startExam(); return; }
+    const h = String(Math.floor(d/3600000)).padStart(2,'0');
+    const m = String(Math.floor(d%3600000/60000)).padStart(2,'0');
+    const s = String(Math.floor(d%60000/1000)).padStart(2,'0');
+    el.textContent = `${h}:${m}:${s}`;
+  };
+  tick();
+  setInterval(tick, 1000);
+}
+
+function startExam() { enterSection('A'); }
+
+function enterSection(sec) {
+  S.sec = sec;
+  S.cur = sec === 'A' ? 0 : 50;
+  S.vis[S.cur] = true;
+  document.getElementById('waiting-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display  = 'flex';
+  buildPalette();
+  renderQ();
+  runTimer();
+  saveS();
+}
+
+// ================================================================
+//  TIMER
+// ================================================================
+function runTimer() {
+  if (ticker) clearInterval(ticker);
+  updateTimerUI();
+  ticker = setInterval(() => {
+    if (S.sec === 'A') { S.tA--; if (S.tA <= 0) { S.tA=0; clearInterval(ticker); saveS(); endSectionA(true); return; } }
+    else               { S.tB--; if (S.tB <= 0) { S.tB=0; clearInterval(ticker); saveS(); submit(); return; } }
+    const left = S.sec === 'A' ? S.tA : S.tB;
+    if (left <= 300) document.getElementById('timer-display').classList.add('warning');
+    updateTimerUI();
+    saveS();
+  }, 1000);
+}
+
+function updateTimerUI() {
+  const secs = S.sec === 'A' ? S.tA : S.tB;
+  const m = String(Math.floor(secs/60)).padStart(2,'0');
+  const s = String(secs%60).padStart(2,'0');
+  document.getElementById('timer-display').textContent = `${m}:${s}`;
+  document.getElementById('section-label').textContent = S.sec === 'A'
+    ? 'Section A — English, Quantitative Aptitude & Reasoning (Q1–50)'
+    : 'Section B — Computer Fundamentals, C, DS, OOP, OS & Networking (Q51–100)';
+  const start = S.sec === 'A' ? 0 : 50;
+  const answered = S.ans.slice(start, start+50).filter(x => x !== null).length;
+  document.getElementById('progress-text').textContent = `Answered: ${answered} / 50`;
+}
+
+// ================================================================
+//  SECTION TRANSITION
+// ================================================================
+function endSectionA(auto) {
+  S.aDone = true; saveS();
+  document.getElementById('modal-title').textContent = auto ? 'Section A Time Up!' : 'Section A Submitted';
+  document.getElementById('modal-body').textContent  = auto
+    ? 'Time for Section A has expired. Your answers are saved. Click below to start Section B. A new 60-minute timer will begin.'
+    : 'You have submitted Section A early. You cannot return to Section A questions. Click below to start Section B.';
+  document.getElementById('sec-modal').classList.add('show');
+}
+
+function beginSectionB() {
+  document.getElementById('sec-modal').classList.remove('show');
+  document.getElementById('timer-display').classList.remove('warning');
+  enterSection('B');
+}
+
+function confirmSubmit() {
+  if (S.sec === 'A') {
+    if (confirm('Submit Section A and move to Section B? You cannot return.')) { clearInterval(ticker); endSectionA(false); }
+  } else {
+    if (confirm('Submit the exam? This is final.')) { clearInterval(ticker); submit(); }
+  }
+}
+
+function submit() { S.done = true; saveS(); showResults(); }
+
+// ================================================================
+//  PALETTE
+// ================================================================
+function buildPalette() {
+  const g = document.getElementById('palette-grid');
+  g.innerHTML = '';
+  const start = S.sec === 'A' ? 0 : 50;
+  for (let i = start; i < start+50; i++) {
+    const b = document.createElement('button');
+    b.className = 'palette-btn';
+    b.textContent = i+1;
+    b.dataset.i = i;
+    b.addEventListener('click', () => goTo(i));
+    g.appendChild(b);
+  }
+  refreshPalette();
+}
+
+function refreshPalette() {
+  const start = S.sec === 'A' ? 0 : 50;
+  let sa=0, sn=0, sm=0, sv=0;
+  for (let i = start; i < start+50; i++) {
+    const b = document.querySelector(`.palette-btn[data-i="${i}"]`);
+    if (!b) continue;
+    b.className = 'palette-btn';
+    const answered = S.ans[i] !== null, marked = S.mrk[i], visited = S.vis[i];
+    if (answered && marked) { b.classList.add('ans-marked'); sm++; }
+    else if (answered)       { b.classList.add('answered');  sa++; }
+    else if (marked)         { b.classList.add('marked');    sm++; }
+    else if (visited)        { b.classList.add('visited');   sn++; }
+    else                     { sv++; }
+    if (i === S.cur) b.classList.add('current');
+  }
+  document.getElementById('s-ans').textContent = sa;
+  document.getElementById('s-not').textContent = sn;
+  document.getElementById('s-mrk').textContent = sm;
+  document.getElementById('s-nv').textContent  = sv;
+}
+
+// ================================================================
+//  QUESTION RENDERING
+// ================================================================
+function renderQ() {
+  const q = Q[S.cur];
+  document.getElementById('q-number').textContent  = `Question ${q.id} of 100`;
+  document.getElementById('q-cat-tag').textContent = q.cat;
+  document.getElementById('q-text').textContent    = q.q;
+
+  const list = document.getElementById('opts-list');
+  list.innerHTML = '';
+  ['A','B','C','D'].forEach((lbl, i) => {
+    const div = document.createElement('div');
+    div.className = 'opt-item' + (S.ans[S.cur] === i ? ' selected' : '');
+    div.innerHTML = `<div class="opt-letter">${lbl}</div><span></span>`;
+    div.querySelector('span').textContent = q.o[i];
+    div.addEventListener('click', () => pick(i));
+    list.appendChild(div);
+  });
+
+  const rb = document.getElementById('btn-review');
+  rb.textContent = S.mrk[S.cur] ? '★ Marked' : 'Mark for Review';
+  rb.classList.toggle('on', S.mrk[S.cur]);
+
+  const start = S.sec === 'A' ? 0 : 50;
+  document.getElementById('btn-prev').disabled = (S.cur === start);
+
+  refreshPalette();
+  document.querySelector(`#palette-grid .palette-btn[data-i="${S.cur}"]`)?.scrollIntoView({block:'nearest'});
+}
+
+function pick(i) {
+  S.ans[S.cur] = i;
+  document.querySelectorAll('.opt-item').forEach((el, idx) => el.classList.toggle('selected', idx === i));
+  refreshPalette();
+  saveS();
+}
+
+function navigate(dir) {
+  const start = S.sec === 'A' ? 0 : 50, end = start+49;
+  const n = S.cur + dir;
+  if (n < start || n > end) return;
+  S.cur = n; S.vis[n] = true; renderQ(); saveS();
+}
+
+function goTo(i) { S.cur = i; S.vis[i] = true; renderQ(); saveS(); }
+
+function toggleReview() {
+  S.mrk[S.cur] = !S.mrk[S.cur];
+  const rb = document.getElementById('btn-review');
+  rb.textContent = S.mrk[S.cur] ? '★ Marked' : 'Mark for Review';
+  rb.classList.toggle('on', S.mrk[S.cur]);
+  refreshPalette(); saveS();
+}
+
+// ================================================================
+//  PERSISTENCE
+// ================================================================
+function saveS() { try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e){} }
+function loadS() {
+  try { const d = localStorage.getItem(SK); if (d) Object.assign(S, JSON.parse(d)); } catch(e){}
+}
+
+// ================================================================
+//  RESULTS
+// ================================================================
+function showResults() {
+  document.getElementById('waiting-screen').style.display = 'none';
+  document.getElementById('exam-screen').style.display   = 'none';
+  document.getElementById('results-screen').style.display = 'block';
+
+  let cor=0, wrg=0, una=0;
+  Q.forEach((q,i) => {
+    if (S.ans[i] === null) una++;
+    else if (S.ans[i] === q.a) cor++;
+    else wrg++;
+  });
+  const score = cor*CFG.marking.correct + wrg*CFG.marking.wrong;
+
+  document.getElementById('score-grid').innerHTML = `
+    <div class="score-tile t"><div class="s-val">${score}</div><div class="s-lbl">Score (max 300)</div></div>
+    <div class="score-tile c"><div class="s-val">${cor}</div><div class="s-lbl">Correct (+${CFG.marking.correct} each)</div></div>
+    <div class="score-tile w"><div class="s-val">${wrg}</div><div class="s-lbl">Wrong (${CFG.marking.wrong} each)</div></div>
+    <div class="score-tile u"><div class="s-val">${una}</div><div class="s-lbl">Unattempted (0)</div></div>
+  `;
+  renderSolutions('all');
+}
+
+function renderSolutions(filter) {
+  const L = ['A','B','C','D'];
+  const container = document.getElementById('sol-list');
+  container.innerHTML = '';
+  Q.forEach((q, i) => {
+    const ua = S.ans[i], isC = ua===q.a, isU = ua===null, isW = !isC && !isU;
+    if (filter==='c' && !isC) return;
+    if (filter==='w' && !isW) return;
+    if (filter==='u' && !isU) return;
+    const status = isC ? '✓ Correct' : isW ? `✗ Wrong (you chose ${L[ua]})` : '— Unattempted';
+    const optsH = q.o.map((opt,oi) => {
+      let cls = 'sol-opt';
+      if (oi===q.a)            cls += ' ca';
+      if (oi===ua && !isC)     cls += ' wa';
+      return `<span class="${cls}">${L[oi]}: ${escH(opt)}</span>`;
+    }).join('');
+    const d = document.createElement('div');
+    d.className = `sol-item ${isC?'c':isW?'w':'u'}`;
+    d.innerHTML = `
+      <div class="sol-meta">Q${q.id} &nbsp;|&nbsp; ${escH(q.cat)} &nbsp;|&nbsp; <strong>${status}</strong></div>
+      <div class="sol-q">${escH(q.q)}</div>
+      <div class="sol-opts">${optsH}</div>
+      <div class="sol-exp"><strong>Explanation:</strong> ${escH(q.exp)}</div>
+    `;
+    container.appendChild(d);
+  });
+}
+
+function escH(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function filterSol(type, btn) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderSolutions(type);
+}
+</script>
+</body>
+</html>
