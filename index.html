@@ -829,12 +829,13 @@ const Q = [
    o:['Class A','Class B','Class C','Class D'],
    exp:'Class B addresses (128.x–191.x) have default subnet mask 255.255.0.0 (/16).'},
 
+];
+
 // ================================================================
 //  ANSWER KEY  (XOR-encoded — do not modify)
 // ================================================================
 const _K=[0x4D,0x77,0x51,0x7C,0x63,0x58,0x4F,0x52,0x71,0x39];
 const AK=(()=>{const b=atob('DzUTPiEaDREzeA82ED4hGg0QMHsMNRM+IRkNEDN7DzQQPiAaDhAweg80ED0hHA0TM3gMNhM9IRoNEDB4DDYTPSEaDRAweAw0Ej8iGg0WM3sPNBM+IhsMEzB7DzUSPyEaDRMzew==');return Array.from(b).map((c,i)=>(c.charCodeAt(0)^_K[i%_K.length])-65);})();
-];
 
 // ================================================================
 //  STATE
