@@ -2,7 +2,7 @@
 
 A free, browser-based mock exam for the **CDAC C-CAT 2026** entrance test — built as a single static HTML file, hosted on GitHub Pages, no login or backend required.
 
-🔗 **Live Site:** [wamiquemohd.github.io/CCAT_Mock_Test_with_Claude](https://wamiquemohd.github.io/CCAT_Mock_Test_with_Claude/)
+🔗 **Live Site:** [wamiquemohd.github.io/cdac-ccat-practice-sets](https://wamiquemohd.github.io/cdac-ccat-practice-sets/)
 
 *Prepared by **Mohd Wamique (ex-CDACian)***
 
