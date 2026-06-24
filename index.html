@@ -307,6 +307,56 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
 .set-card.selected .sc-badge { background: #43a047; }
 #set-info-panel { text-align: center; width: 100%; max-width: 660px; }
 
+
+/* ===== SET SELECTOR ===== */
+.set-cards-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 14px; max-width: 660px; width: 100%; margin: 16px 0;
+}
+@media(max-width:540px){ .set-cards-grid { grid-template-columns: 1fr; } }
+.set-card {
+  background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 12px; padding: 16px 20px; cursor: pointer; position: relative;
+  text-align: left; transition: all 0.15s;
+}
+.set-card:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.5); transform: translateY(-2px); }
+.set-card.selected { background: rgba(255,255,255,0.25); border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
+.sc-num  { font-size: 0.73rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.sc-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.sc-meta { font-size: 0.76rem; opacity: 0.8; }
+.sc-badge {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 0.65rem; padding: 2px 9px; border-radius: 10px;
+  font-weight: 700; letter-spacing: 0.5px; background: rgba(255,255,255,0.2);
+}
+.set-card.selected .sc-badge { background: #43a047; }
+#set-info-panel { text-align: center; width: 100%; max-width: 660px; }
+
+
+/* ===== SET SELECTOR ===== */
+.set-cards-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 14px; max-width: 660px; width: 100%; margin: 16px 0;
+}
+@media(max-width:540px){ .set-cards-grid { grid-template-columns: 1fr; } }
+.set-card {
+  background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 12px; padding: 16px 20px; cursor: pointer; position: relative;
+  text-align: left; transition: all 0.15s;
+}
+.set-card:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.5); transform: translateY(-2px); }
+.set-card.selected { background: rgba(255,255,255,0.25); border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
+.sc-num  { font-size: 0.73rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.sc-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.sc-meta { font-size: 0.76rem; opacity: 0.8; }
+.sc-badge {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 0.65rem; padding: 2px 9px; border-radius: 10px;
+  font-weight: 700; letter-spacing: 0.5px; background: rgba(255,255,255,0.2);
+}
+.set-card.selected .sc-badge { background: #43a047; }
+#set-info-panel { text-align: center; width: 100%; max-width: 660px; }
+
 </style>
 </head>
 <body>
@@ -335,7 +385,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
       <div class="sc-num">Practice Set 3</div>
       <div class="sc-name">Section A + B + C</div>
       <div class="sc-meta">150 Questions &nbsp;&middot;&nbsp; 3 Hours</div>
-      <div class="sc-meta" style="font-size:0.7rem;opacity:0.65;margin-top:3px;">Includes Big Data, AI/ML, Cloud &amp; Python DS</div>
+      <div class="sc-meta" style="font-size:0.7rem;opacity:0.65;margin-top:3px;">Sec C: Digital Electronics, Microprocessors &amp; Embedded Systems</div>
     </div>
     <div class="set-card" id="card-4" onclick="selectSet('4')">
       <div class="sc-badge">Advanced</div>
@@ -355,7 +405,6 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
   </div>
   <div style="margin-top:32px;opacity:0.45;font-size:0.75rem;letter-spacing:0.5px;">Prepared by &nbsp;<strong style="opacity:1;letter-spacing:1px;">Mohd Wamique (ex-CDACian)</strong></div>
 </div>
-
 
 <!-- ============ NAME SCREEN ============ -->
 <div id="name-screen">
@@ -445,7 +494,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
   <div id="res-body">
     <div class="score-grid" id="score-grid"></div>
     <div class="filter-bar">
-      <button class="f-btn on" id="filter-all-btn" onclick="filterSol('all',this)">All 100</button>
+      <button class="f-btn on" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" onclick="filterSol('all',this)">All 100</button>
       <button class="f-btn"    onclick="filterSol('w',this)">Wrong Only</button>
       <button class="f-btn"    onclick="filterSol('c',this)">Correct Only</button>
       <button class="f-btn"    onclick="filterSol('u',this)">Unattempted</button>
@@ -474,7 +523,7 @@ const _K = [0x4D,0x77,0x51,0x7C,0x63,0x58,0x4F,0x52,0x71,0x39];
 
 const SETS = {
   '1': { name:'Practice Set 1', level:'Normal', totalQ:100, sections:['A','B'], maxScore:300,
-         ak:'DDYTPSEbDREzew80ED4gGw4QM3gPNRM/IhkMETN7DzUQPSIZDhYzeAk1ED4hGQ0QM3sPNRM+IhsNEzB7DzQTPyAaDRAweA81Ez8hGw4QM3sONBM+IBoOETJ9DzUSPyAbDBEyeA==', questions:[
+         ak:'DDYTPSEbDREzew80ED4gGw4QM3gPNRM/IhkMETN7DzUQPSIZDhYzeAk1ED4hGQ0QM3sPNRM9IBkNEDJ6DjUTPSIaDRAyeA81Ez8gGg0RM3gONBU+IRsMETJ6DjQQPSEbDBAzew==', questions:[
   {"id": 1, "s": "A", "cat": "English – Vocabulary", "q": "Choose the SYNONYM of BENEVOLENT", "o": ["Kind", "Cruel", "Indifferent", "Arrogant"], "exp": "Correct answer is A: Kind"},
     {"id": 2, "s": "A", "cat": "English – Vocabulary", "q": "Choose the ANTONYM of VERBOSE", "o": ["Concise", "Lengthy", "Wordy", "Talkative"], "exp": "Correct answer is A: Concise"},
     {"id": 3, "s": "A", "cat": "English – Vocabulary", "q": "Choose the SYNONYM of DILIGENT", "o": ["Lazy", "Hardworking", "Careless", "Reckless"], "exp": "Correct answer is B: Hardworking"},
@@ -537,93 +586,81 @@ II. All flowers are roses.", "o": ["Only I", "Only II", "Both I and II", "Neithe
     {"id": 50, "s": "A", "cat": "Reasoning", "q": "A is twice as old as B. 10 years ago A was 3 times as old as B. What is B's current age?", "o": ["15", "20", "25", "30"], "exp": "Correct answer is B: 20"},
     {"id": 51, "s": "B", "cat": "Computer Fundamentals", "q": "What is the decimal equivalent of binary 11010?", "o": ["24", "26", "28", "30"], "exp": "Correct answer is B: 26"},
     {"id": 52, "s": "B", "cat": "Computer Fundamentals", "q": "Convert hexadecimal 2F to decimal.", "o": ["45", "47", "49", "51"], "exp": "Correct answer is B: 47"},
-    {"id": 53, "s": "B", "cat": "Computer Fundamentals", "q": "What is the octal representation of decimal 64?", "o": ["80", "100", "120", "64"], "exp": "Correct answer is B: 100"},
-    {"id": 54, "s": "B", "cat": "Computer Fundamentals", "q": "Which gate outputs 1 only when all inputs are 1?", "o": ["OR", "AND", "NAND", "NOR"], "exp": "Correct answer is B: AND"},
-    {"id": 55, "s": "B", "cat": "Computer Fundamentals", "q": "Simplify the Boolean expression: A + A'B", "o": ["A + B", "AB", "A'", "A"], "exp": "Correct answer is A: A + B"},
-    {"id": 56, "s": "B", "cat": "Computer Fundamentals", "q": "Which of the following is the universal gate?", "o": ["AND", "OR", "NAND", "XOR"], "exp": "Correct answer is C: NAND"},
-    {"id": 57, "s": "B", "cat": "Computer Fundamentals", "q": "The 2's complement of 01101 is:", "o": ["10010", "10011", "11010", "10001"], "exp": "Correct answer is B: 10011"},
-    {"id": 58, "s": "B", "cat": "Computer Fundamentals", "q": "What is 0xAB in decimal?", "o": ["171", "181", "161", "191"], "exp": "Correct answer is A: 171"},
-    {"id": 59, "s": "B", "cat": "C Programming", "q": "#include<stdio.h>
+    {"id": 53, "s": "B", "cat": "Computer Fundamentals", "q": "Which gate outputs 1 only when all inputs are 1?", "o": ["OR", "AND", "NAND", "NOR"], "exp": "Correct answer is B: AND"},
+    {"id": 54, "s": "B", "cat": "Computer Fundamentals", "q": "Simplify the Boolean expression: A + A'B", "o": ["A + B", "AB", "A'", "A"], "exp": "Correct answer is A: A + B"},
+    {"id": 55, "s": "B", "cat": "Computer Fundamentals", "q": "Which of the following is the universal gate?", "o": ["AND", "OR", "NAND", "XOR"], "exp": "Correct answer is C: NAND"},
+    {"id": 56, "s": "B", "cat": "C Programming", "q": "#include<stdio.h>
 int main(){
   int x=5;
   printf(\"%d\", x++);
   return 0;
 }
 What is the output?", "o": ["5", "6", "4", "Error"], "exp": "Correct answer is A: 5"},
-    {"id": 60, "s": "B", "cat": "C Programming", "q": "#include<stdio.h>
+    {"id": 57, "s": "B", "cat": "C Programming", "q": "#include<stdio.h>
 int main(){
   int a=10, b=3;
   printf(\"%d\", a%b);
   return 0;
 }
 What is the output?", "o": ["3", "1", "0", "2"], "exp": "Correct answer is B: 1"},
-    {"id": 61, "s": "B", "cat": "C Programming", "q": "What will be the output?
+    {"id": 58, "s": "B", "cat": "C Programming", "q": "What will be the output?
 #include<stdio.h>
 #define SQ(x) x*x
 int main(){
   printf(\"%d\", SQ(3+1));
   return 0;
 }", "o": ["16", "7", "13", "10"], "exp": "Correct answer is B: 7"},
-    {"id": 62, "s": "B", "cat": "C Programming", "q": "What is the size of an int pointer on a 64-bit system?", "o": ["2 bytes", "4 bytes", "8 bytes", "16 bytes"], "exp": "Correct answer is C: 8 bytes"},
-    {"id": 63, "s": "B", "cat": "C Programming", "q": "#include<stdio.h>
-int main(){
-  char s[]=\"Hello\";
-  printf(\"%d\", sizeof(s));
-  return 0;
-}", "o": ["5", "6", "4", "8"], "exp": "Correct answer is B: 6"},
-    {"id": 64, "s": "B", "cat": "C Programming", "q": "What will be the output?
+    {"id": 59, "s": "B", "cat": "C Programming", "q": "What is the size of an int pointer on a 64-bit system?", "o": ["2 bytes", "4 bytes", "8 bytes", "16 bytes"], "exp": "Correct answer is C: 8 bytes"},
+    {"id": 60, "s": "B", "cat": "C Programming", "q": "What will be the output?
 int a[]={1,2,3,4,5};
 printf(\"%d\", *(a+2));", "o": ["1", "2", "3", "4"], "exp": "Correct answer is C: 3"},
-    {"id": 65, "s": "B", "cat": "C Programming", "q": "Which storage class has a lifetime throughout the program execution?", "o": ["auto", "register", "static", "extern"], "exp": "Correct answer is C: static"},
-    {"id": 66, "s": "B", "cat": "C Programming", "q": "What does malloc() return if memory allocation fails?", "o": ["0", "NULL", "-1", "Garbage value"], "exp": "Correct answer is B: NULL"},
-    {"id": 67, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 61, "s": "B", "cat": "C Programming", "q": "Which storage class has a lifetime throughout the program execution?", "o": ["auto", "register", "static", "extern"], "exp": "Correct answer is C: static"},
+    {"id": 62, "s": "B", "cat": "C Programming", "q": "What does malloc() return if memory allocation fails?", "o": ["0", "NULL", "-1", "Garbage value"], "exp": "Correct answer is B: NULL"},
+    {"id": 63, "s": "B", "cat": "C Programming", "q": "What is the output?
 int x=5;
 int *p=&x;
 *p=10;
 printf(\"%d\",x);", "o": ["5", "10", "Address of x", "Error"], "exp": "Correct answer is B: 10"},
-    {"id": 68, "s": "B", "cat": "C Programming", "q": "#include<stdio.h>
-int main(){
-  int i;
-  for(i=0;i<5;i++);
-  printf(\"%d\",i);
-  return 0;
-}
-Output?", "o": ["4", "5", "0", "Error"], "exp": "Correct answer is B: 5"},
-    {"id": 69, "s": "B", "cat": "C Programming", "q": "Which bitwise operator can be used to check if a number is even or odd?", "o": ["&", "|", "^", "~"], "exp": "Correct answer is A: &"},
-    {"id": 70, "s": "B", "cat": "C Programming", "q": "What is the output of: printf(\"%d\", (int)3.9);", "o": ["3", "4", "3.9", "Error"], "exp": "Correct answer is A: 3"},
-    {"id": 71, "s": "B", "cat": "Data Structures", "q": "Which data structure uses LIFO principle?", "o": ["Queue", "Stack", "Array", "Linked List"], "exp": "Correct answer is B: Stack"},
-    {"id": 72, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of binary search?", "o": ["O(n)", "O(log n)", "O(n log n)", "O(1)"], "exp": "Correct answer is B: O(log n)"},
-    {"id": 73, "s": "B", "cat": "Data Structures", "q": "A full binary tree with n leaves has how many internal nodes?", "o": ["n", "n-1", "n+1", "2n"], "exp": "Correct answer is B: n-1"},
-    {"id": 74, "s": "B", "cat": "Data Structures", "q": "Which sorting algorithm has worst-case O(n²) but best-case O(n)?", "o": ["Merge Sort", "Quick Sort", "Insertion Sort", "Heap Sort"], "exp": "Correct answer is C: Insertion Sort"},
-    {"id": 75, "s": "B", "cat": "Data Structures", "q": "What is the height of a complete binary tree with 15 nodes?", "o": ["3", "4", "5", "6"], "exp": "Correct answer is B: 4"},
-    {"id": 76, "s": "B", "cat": "Data Structures", "q": "Which traversal of a BST gives elements in sorted order?", "o": ["Preorder", "Postorder", "Inorder", "Level order"], "exp": "Correct answer is C: Inorder"},
-    {"id": 77, "s": "B", "cat": "Data Structures", "q": "Time complexity of inserting an element at the beginning of a singly linked list?", "o": ["O(1)", "O(n)", "O(log n)", "O(n²)"], "exp": "Correct answer is A: O(1)"},
-    {"id": 78, "s": "B", "cat": "Data Structures", "q": "Which data structure is used for BFS of a graph?", "o": ["Stack", "Queue", "Priority Queue", "Array"], "exp": "Correct answer is B: Queue"},
-    {"id": 79, "s": "B", "cat": "Data Structures", "q": "What is the average-case time complexity of quicksort?", "o": ["O(n²)", "O(n log n)", "O(n)", "O(log n)"], "exp": "Correct answer is B: O(n log n)"},
-    {"id": 80, "s": "B", "cat": "Data Structures", "q": "In a circular queue with size 5, if front=2 and rear=4, how many elements are present?", "o": ["2", "3", "4", "5"], "exp": "Correct answer is B: 3"},
-    {"id": 81, "s": "B", "cat": "OOP in C++", "q": "Which concept of OOP wraps data and functions together?", "o": ["Inheritance", "Polymorphism", "Encapsulation", "Abstraction"], "exp": "Correct answer is C: Encapsulation"},
-    {"id": 82, "s": "B", "cat": "OOP in C++", "q": "What is the default access specifier for members of a class in C++?", "o": ["public", "protected", "private", "none"], "exp": "Correct answer is C: private"},
-    {"id": 83, "s": "B", "cat": "OOP in C++", "q": "Which function is automatically called when an object is created?", "o": ["Destructor", "Constructor", "main()", "init()"], "exp": "Correct answer is B: Constructor"},
-    {"id": 84, "s": "B", "cat": "OOP in C++", "q": "What does the keyword \"virtual\" enable in C++?", "o": ["Compile-time polymorphism", "Runtime polymorphism", "Encapsulation", "Data hiding"], "exp": "Correct answer is B: Runtime polymorphism"},
-    {"id": 85, "s": "B", "cat": "OOP in C++", "q": "Which type of inheritance acquires features from more than one base class?", "o": ["Single", "Multi-level", "Multiple", "Hierarchical"], "exp": "Correct answer is C: Multiple"},
-    {"id": 86, "s": "B", "cat": "OOP in C++", "q": "Which operator cannot be overloaded in C++?", "o": ["+ operator", ":: (scope resolution)", "<< operator", "== operator"], "exp": "Correct answer is B: :: (scope resolution)"},
-    {"id": 87, "s": "B", "cat": "OOP in C++", "q": "What is a template in C++?", "o": ["A blueprint for creating generic classes/functions", "A type of constructor", "A virtual function", "An access specifier"], "exp": "Correct answer is A: A blueprint for creating generic classes/functions"},
-    {"id": 88, "s": "B", "cat": "OOP in C++", "q": "Destructor in C++ has which of the following features?", "o": ["Can be overloaded", "Returns a value", "Has no parameters and cannot be overloaded", "Is called explicitly only"], "exp": "Correct answer is C: Has no parameters and cannot be overloaded"},
-    {"id": 89, "s": "B", "cat": "Operating Systems", "q": "Which scheduling algorithm may cause starvation?", "o": ["Round Robin", "FCFS", "Priority Scheduling", "SJF (non-preemptive)"], "exp": "Correct answer is C: Priority Scheduling"},
-    {"id": 90, "s": "B", "cat": "Operating Systems", "q": "Deadlock cannot occur if which condition is prevented?", "o": ["Mutual Exclusion", "Hold and Wait", "No Preemption", "Any one of the above"], "exp": "Correct answer is D: Any one of the above"},
-    {"id": 91, "s": "B", "cat": "Operating Systems", "q": "In paging, internal fragmentation occurs because:", "o": ["Pages are of variable size", "The last page may not be fully used", "Segments overlap", "Page table is too large"], "exp": "Correct answer is B: The last page may not be fully used"},
-    {"id": 92, "s": "B", "cat": "Operating Systems", "q": "What does a semaphore with initial value 1 act as?", "o": ["Counting semaphore", "Binary semaphore / Mutex", "Spinlock", "Monitor"], "exp": "Correct answer is B: Binary semaphore / Mutex"},
-    {"id": 93, "s": "B", "cat": "Operating Systems", "q": "Which IPC mechanism allows processes to share memory directly?", "o": ["Pipes", "Message Queues", "Shared Memory", "Sockets"], "exp": "Correct answer is C: Shared Memory"},
-    {"id": 94, "s": "B", "cat": "Operating Systems", "q": "Which file system is natively used by Linux?", "o": ["FAT32", "NTFS", "ext4", "HFS+"], "exp": "Correct answer is C: ext4"},
-    {"id": 95, "s": "B", "cat": "Operating Systems", "q": "The process state that indicates waiting for I/O completion is:", "o": ["Running", "Ready", "Blocked/Waiting", "Terminated"], "exp": "Correct answer is C: Blocked/Waiting"},
-    {"id": 96, "s": "B", "cat": "Networking", "q": "How many layers are in the OSI model?", "o": ["4", "5", "7", "6"], "exp": "Correct answer is C: 7"},
-    {"id": 97, "s": "B", "cat": "Networking", "q": "Which protocol is used to assign IP addresses automatically?", "o": ["DNS", "FTP", "DHCP", "HTTP"], "exp": "Correct answer is C: DHCP"},
-    {"id": 98, "s": "B", "cat": "Networking", "q": "What is the default subnet mask for a Class C IP address?", "o": ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.128"], "exp": "Correct answer is C: 255.255.255.0"},
-    {"id": 99, "s": "B", "cat": "Networking", "q": "Which layer of OSI is responsible for end-to-end communication?", "o": ["Network", "Data Link", "Transport", "Session"], "exp": "Correct answer is C: Transport"},
-    {"id": 100, "s": "B", "cat": "Networking", "q": "What does DNS stand for and what does it do?", "o": ["Domain Name System – maps domain names to IP addresses", "Data Network Service – encrypts data", "Dynamic Name Server – assigns MAC addresses", "Direct Network System – routes packets"], "exp": "Correct answer is A: Domain Name System – maps domain names to IP addresses"}
+    {"id": 64, "s": "B", "cat": "C Programming", "q": "Which bitwise operator can be used to check if a number is even or odd?", "o": ["&", "|", "^", "~"], "exp": "Correct answer is A: &"},
+    {"id": 65, "s": "B", "cat": "C Programming", "q": "What is the output of: printf(\"%d\", (int)3.9);", "o": ["3", "4", "3.9", "Error"], "exp": "Correct answer is A: 3"},
+    {"id": 66, "s": "B", "cat": "Data Structures", "q": "Which data structure uses LIFO principle?", "o": ["Queue", "Stack", "Array", "Linked List"], "exp": "Correct answer is B: Stack"},
+    {"id": 67, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of binary search?", "o": ["O(n)", "O(log n)", "O(n log n)", "O(1)"], "exp": "Correct answer is B: O(log n)"},
+    {"id": 68, "s": "B", "cat": "Data Structures", "q": "A full binary tree with n leaves has how many internal nodes?", "o": ["n", "n-1", "n+1", "2n"], "exp": "Correct answer is B: n-1"},
+    {"id": 69, "s": "B", "cat": "Data Structures", "q": "Which traversal of a BST gives elements in sorted order?", "o": ["Preorder", "Postorder", "Inorder", "Level order"], "exp": "Correct answer is C: Inorder"},
+    {"id": 70, "s": "B", "cat": "Data Structures", "q": "Time complexity of inserting an element at the beginning of a singly linked list?", "o": ["O(1)", "O(n)", "O(log n)", "O(n²)"], "exp": "Correct answer is A: O(1)"},
+    {"id": 71, "s": "B", "cat": "Data Structures", "q": "Which data structure is used for BFS of a graph?", "o": ["Stack", "Queue", "Priority Queue", "Array"], "exp": "Correct answer is B: Queue"},
+    {"id": 72, "s": "B", "cat": "Data Structures", "q": "What is the average-case time complexity of quicksort?", "o": ["O(n²)", "O(n log n)", "O(n)", "O(log n)"], "exp": "Correct answer is B: O(n log n)"},
+    {"id": 73, "s": "B", "cat": "Data Structures", "q": "In a circular queue with size 5, if front=2 and rear=4, how many elements are present?", "o": ["2", "3", "4", "5"], "exp": "Correct answer is B: 3"},
+    {"id": 74, "s": "B", "cat": "OOP in C++", "q": "Which concept of OOP wraps data and functions together?", "o": ["Inheritance", "Polymorphism", "Encapsulation", "Abstraction"], "exp": "Correct answer is C: Encapsulation"},
+    {"id": 75, "s": "B", "cat": "OOP in C++", "q": "What is the default access specifier for members of a class in C++?", "o": ["public", "protected", "private", "none"], "exp": "Correct answer is C: private"},
+    {"id": 76, "s": "B", "cat": "OOP in C++", "q": "Which function is automatically called when an object is created?", "o": ["Destructor", "Constructor", "main()", "init()"], "exp": "Correct answer is B: Constructor"},
+    {"id": 77, "s": "B", "cat": "OOP in C++", "q": "What does the keyword \"virtual\" enable in C++?", "o": ["Compile-time polymorphism", "Runtime polymorphism", "Encapsulation", "Data hiding"], "exp": "Correct answer is B: Runtime polymorphism"},
+    {"id": 78, "s": "B", "cat": "OOP in C++", "q": "Which type of inheritance acquires features from more than one base class?", "o": ["Single", "Multi-level", "Multiple", "Hierarchical"], "exp": "Correct answer is C: Multiple"},
+    {"id": 79, "s": "B", "cat": "OOP in C++", "q": "Which operator cannot be overloaded in C++?", "o": ["+ operator", ":: (scope resolution)", "<< operator", "== operator"], "exp": "Correct answer is B: :: (scope resolution)"},
+    {"id": 80, "s": "B", "cat": "OOP in C++", "q": "What is a template in C++?", "o": ["A blueprint for creating generic classes/functions", "A type of constructor", "A virtual function", "An access specifier"], "exp": "Correct answer is A: A blueprint for creating generic classes/functions"},
+    {"id": 81, "s": "B", "cat": "OOP in C++", "q": "Destructor in C++ has which of the following features?", "o": ["Can be overloaded", "Returns a value", "Has no parameters and cannot be overloaded", "Is called explicitly only"], "exp": "Correct answer is C: Has no parameters and cannot be overloaded"},
+    {"id": 82, "s": "B", "cat": "Operating Systems", "q": "Which scheduling algorithm may cause starvation?", "o": ["Round Robin", "FCFS", "Priority Scheduling", "SJF (non-preemptive)"], "exp": "Correct answer is C: Priority Scheduling"},
+    {"id": 83, "s": "B", "cat": "Operating Systems", "q": "Deadlock cannot occur if which condition is prevented?", "o": ["Mutual Exclusion", "Hold and Wait", "No Preemption", "Any one of the above"], "exp": "Correct answer is D: Any one of the above"},
+    {"id": 84, "s": "B", "cat": "Operating Systems", "q": "In paging, internal fragmentation occurs because:", "o": ["Pages are of variable size", "The last page may not be fully used", "Segments overlap", "Page table is too large"], "exp": "Correct answer is B: The last page may not be fully used"},
+    {"id": 85, "s": "B", "cat": "Operating Systems", "q": "What does a semaphore with initial value 1 act as?", "o": ["Counting semaphore", "Binary semaphore / Mutex", "Spinlock", "Monitor"], "exp": "Correct answer is B: Binary semaphore / Mutex"},
+    {"id": 86, "s": "B", "cat": "Operating Systems", "q": "Which IPC mechanism allows processes to share memory directly?", "o": ["Pipes", "Message Queues", "Shared Memory", "Sockets"], "exp": "Correct answer is C: Shared Memory"},
+    {"id": 87, "s": "B", "cat": "Operating Systems", "q": "Which file system is natively used by Linux?", "o": ["FAT32", "NTFS", "ext4", "HFS+"], "exp": "Correct answer is C: ext4"},
+    {"id": 88, "s": "B", "cat": "Operating Systems", "q": "The process state that indicates waiting for I/O completion is:", "o": ["Running", "Ready", "Blocked/Waiting", "Terminated"], "exp": "Correct answer is C: Blocked/Waiting"},
+    {"id": 89, "s": "B", "cat": "Networking", "q": "How many layers are in the OSI model?", "o": ["4", "5", "7", "6"], "exp": "Correct answer is C: 7"},
+    {"id": 90, "s": "B", "cat": "Networking", "q": "Which protocol is used to assign IP addresses automatically?", "o": ["DNS", "FTP", "DHCP", "HTTP"], "exp": "Correct answer is C: DHCP"},
+    {"id": 91, "s": "B", "cat": "Networking", "q": "What is the default subnet mask for a Class C IP address?", "o": ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.128"], "exp": "Correct answer is C: 255.255.255.0"},
+    {"id": 92, "s": "B", "cat": "Networking", "q": "Which layer of OSI is responsible for end-to-end communication?", "o": ["Network", "Data Link", "Transport", "Session"], "exp": "Correct answer is C: Transport"},
+    {"id": 93, "s": "B", "cat": "Networking", "q": "What does DNS stand for and what does it do?", "o": ["Domain Name System – maps domain names to IP addresses", "Data Network Service – encrypts data", "Dynamic Name Server – assigns MAC addresses", "Direct Network System – routes packets"], "exp": "Correct answer is A: Domain Name System – maps domain names to IP addresses"},
+    {"id": 94, "s": "B", "cat": "Big Data & AI Basics", "q": "What does Hadoop HDFS stand for?", "o": ["Hadoop Distributed File System", "High Definition File Storage", "Hierarchical Data Filing System", "Hadoop Data Formatting Standard"], "exp": "Correct answer is A: Hadoop Distributed File System"},
+    {"id": 95, "s": "B", "cat": "Big Data & AI Basics", "q": "MapReduce is a programming model used for:", "o": ["Web development", "Processing large datasets in parallel across a cluster", "Real-time database transactions", "Mobile app development"], "exp": "Correct answer is B: Processing large datasets in parallel across a cluster"},
+    {"id": 96, "s": "B", "cat": "Big Data & AI Basics", "q": "Which of the following is a NoSQL database?", "o": ["MySQL", "Oracle", "MongoDB", "PostgreSQL"], "exp": "Correct answer is C: MongoDB"},
+    {"id": 97, "s": "B", "cat": "Big Data & AI Basics", "q": "Which type of machine learning uses labelled training data?", "o": ["Unsupervised Learning", "Reinforcement Learning", "Supervised Learning", "Self-supervised Learning"], "exp": "Correct answer is C: Supervised Learning"},
+    {"id": 98, "s": "B", "cat": "Big Data & AI Basics", "q": "Artificial Intelligence (AI) can best be described as:", "o": ["A database management system", "The simulation of human intelligence processes by machines", "A programming language", "A type of computer hardware"], "exp": "Correct answer is B: The simulation of human intelligence processes by machines"},
+    {"id": 99, "s": "B", "cat": "Big Data & AI Basics", "q": "Which of the following is an example of a Big Data processing framework?", "o": ["MS Excel", "Apache Hadoop", "Oracle Forms", "Adobe Photoshop"], "exp": "Correct answer is B: Apache Hadoop"},
+    {"id": 100, "s": "B", "cat": "Big Data & AI Basics", "q": "A neural network is inspired by:", "o": ["A social network", "The structure of the human brain", "A relational database", "A computer motherboard"], "exp": "Correct answer is B: The structure of the human brain"}
   ]},
   '2': { name:'Practice Set 2', level:'Advanced', totalQ:100, sections:['A','B'], maxScore:300,
-         ak:'DzUTPyEaDBAzeg80Ez8hGw4QMngMNhI+IRsOEDJ4DzYSPiIaDhAzewwzED4hGQ0QMH0ONhA4IRoMEzN7CTUTPyEaDhAyeg81Ej8gHAwRMHoONRI9IBsMEDJ6DzUSPSIaDBAyeg==', questions:[
+         ak:'DzUTPyEaDBAzeg80Ez8hGw4QMngMNhI+IRsOEDJ4DzYSPiIaDhAzewwzED4hGQ0QMH0ONhA+IhoNEDN6DzUQPiAaDREyfQ42Ej8hGw4RMnoPNBI+IBoOEzN6DzQSPyEZDRAzew==', questions:[
   {"id": 1, "s": "A", "cat": "English – Vocabulary", "q": "Choose the SYNONYM of LACONIC", "o": ["Verbose", "Brief", "Eloquent", "Detailed"], "exp": "Correct answer is B: Brief"},
     {"id": 2, "s": "A", "cat": "English – Vocabulary", "q": "Choose the ANTONYM of FRUGAL", "o": ["Thrifty", "Wasteful", "Economical", "Careful"], "exp": "Correct answer is B: Wasteful"},
     {"id": 3, "s": "A", "cat": "English – Vocabulary", "q": "Choose the SYNONYM of TACITURN", "o": ["Talkative", "Reserved", "Cheerful", "Angry"], "exp": "Correct answer is B: Reserved"},
@@ -689,12 +726,9 @@ S: She started researching the topic.", "o": ["SQPR", "PQSR", "RSPQ", "SQRP"], "
     {"id": 51, "s": "B", "cat": "Computer Fundamentals", "q": "Convert decimal 255 to hexadecimal.", "o": ["EF", "FE", "FF", "F0"], "exp": "Correct answer is C: FF"},
     {"id": 52, "s": "B", "cat": "Computer Fundamentals", "q": "What is the output of XOR gate when inputs are A=1, B=1?", "o": ["0", "1", "Undefined", "Both 0 and 1"], "exp": "Correct answer is A: 0"},
     {"id": 53, "s": "B", "cat": "Computer Fundamentals", "q": "The 1's complement of 10110011 is:", "o": ["01001100", "01001101", "10110011", "11001100"], "exp": "Correct answer is A: 01001100"},
-    {"id": 54, "s": "B", "cat": "Computer Fundamentals", "q": "Which number system has a base of 16?", "o": ["Binary", "Octal", "Decimal", "Hexadecimal"], "exp": "Correct answer is D: Hexadecimal"},
-    {"id": 55, "s": "B", "cat": "Computer Fundamentals", "q": "Convert octal 57 to decimal.", "o": ["45", "47", "55", "63"], "exp": "Correct answer is B: 47"},
-    {"id": 56, "s": "B", "cat": "Computer Fundamentals", "q": "The Boolean expression A.(A+B) simplifies to:", "o": ["A+B", "A", "B", "AB"], "exp": "Correct answer is B: A"},
-    {"id": 57, "s": "B", "cat": "Computer Fundamentals", "q": "Which gate is the complement of AND gate?", "o": ["OR", "NOR", "NAND", "XOR"], "exp": "Correct answer is C: NAND"},
-    {"id": 58, "s": "B", "cat": "Computer Fundamentals", "q": "Minimum number of NAND gates needed to implement NOT gate:", "o": ["1", "2", "3", "4"], "exp": "Correct answer is A: 1"},
-    {"id": 59, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 54, "s": "B", "cat": "Computer Fundamentals", "q": "The Boolean expression A.(A+B) simplifies to:", "o": ["A+B", "A", "B", "AB"], "exp": "Correct answer is B: A"},
+    {"id": 55, "s": "B", "cat": "Computer Fundamentals", "q": "Minimum number of NAND gates needed to implement NOT gate:", "o": ["1", "2", "3", "4"], "exp": "Correct answer is A: 1"},
+    {"id": 56, "s": "B", "cat": "C Programming", "q": "What is the output?
 #include<stdio.h>
 int main(){
   int x=10;
@@ -702,76 +736,75 @@ int main(){
   printf(\"%d\", *p+2);
   return 0;
 }", "o": ["10", "12", "2", "Address"], "exp": "Correct answer is B: 12"},
-    {"id": 60, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 57, "s": "B", "cat": "C Programming", "q": "What is the output?
 #define MAX(a,b) ((a)>(b)?(a):(b))
 int main(){
   int x=5,y=10;
   printf(\"%d\",MAX(x++,y++));
   return 0;
 }", "o": ["10", "11", "5", "6"], "exp": "Correct answer is B: 11"},
-    {"id": 61, "s": "B", "cat": "C Programming", "q": "What is the output?
-int a=5,b=6;
-printf(\"%d\", a&b);", "o": ["1", "2", "3", "4"], "exp": "Correct answer is D: 4"},
-    {"id": 62, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 58, "s": "B", "cat": "C Programming", "q": "What is the output?
 int i=0;
 while(i++<3)
   printf(\"%d \",i);
 ", "o": ["0 1 2 ", "1 2 3 ", "0 1 2 3 ", "1 2 3 4"], "exp": "Correct answer is B: 1 2 3 "},
-    {"id": 63, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 59, "s": "B", "cat": "C Programming", "q": "What is the output?
 int a[]={10,20,30};
 int *p=a;
 p++;
 printf(\"%d\",*p);", "o": ["10", "20", "30", "Garbage"], "exp": "Correct answer is B: 20"},
-    {"id": 64, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 60, "s": "B", "cat": "C Programming", "q": "What is the output?
 void f(int *x){ *x=*x+10; }
 main(){ int a=5; f(&a); printf(\"%d\",a); }", "o": ["5", "10", "15", "Error"], "exp": "Correct answer is C: 15"},
-    {"id": 65, "s": "B", "cat": "C Programming", "q": "What is undefined behaviour in C?", "o": ["Accessing array within bounds", "Dereferencing a NULL pointer", "Using printf with %d for int", "Declaring a variable"], "exp": "Correct answer is B: Dereferencing a NULL pointer"},
-    {"id": 66, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 61, "s": "B", "cat": "C Programming", "q": "What is undefined behaviour in C?", "o": ["Accessing array within bounds", "Dereferencing a NULL pointer", "Using printf with %d for int", "Declaring a variable"], "exp": "Correct answer is B: Dereferencing a NULL pointer"},
+    {"id": 62, "s": "B", "cat": "C Programming", "q": "What is the output?
 printf(\"%d\", sizeof(\"hello\"));", "o": ["5", "6", "4", "8"], "exp": "Correct answer is B: 6"},
-    {"id": 67, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 63, "s": "B", "cat": "C Programming", "q": "What is the output?
 int x=7;
 printf(\"%d %d\", x>>1, x<<1);", "o": ["3 14", "4 14", "3 16", "4 16"], "exp": "Correct answer is A: 3 14"},
-    {"id": 68, "s": "B", "cat": "C Programming", "q": "Which of the following correctly declares a pointer to a function returning int?", "o": ["int *f()", "int (*f)()", "int &f()", "*int f()"], "exp": "Correct answer is B: int (*f)()"},
-    {"id": 69, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 64, "s": "B", "cat": "C Programming", "q": "Which of the following correctly declares a pointer to a function returning int?", "o": ["int *f()", "int (*f)()", "int &f()", "*int f()"], "exp": "Correct answer is B: int (*f)()"},
+    {"id": 65, "s": "B", "cat": "C Programming", "q": "What is the output?
 static int x=5;
 void f(){x++;}
 main(){f();f();printf(\"%d\",x);}", "o": ["5", "6", "7", "Error"], "exp": "Correct answer is C: 7"},
-    {"id": 70, "s": "B", "cat": "C Programming", "q": "What is the output?
-char s[]=\"ABCDE\";
-printf(\"%c\", s[2]);", "o": ["A", "B", "C", "D"], "exp": "Correct answer is C: C"},
-    {"id": 71, "s": "B", "cat": "Data Structures", "q": "What is the worst-case time complexity of AVL tree insertion?", "o": ["O(n)", "O(log n)", "O(n log n)", "O(1)"], "exp": "Correct answer is B: O(log n)"},
-    {"id": 72, "s": "B", "cat": "Data Structures", "q": "In a B-tree of order m, each internal node has at most how many children?", "o": ["m-1", "m", "m+1", "2m"], "exp": "Correct answer is B: m"},
-    {"id": 73, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of DFS on a graph with V vertices and E edges?", "o": ["O(V)", "O(E)", "O(V+E)", "O(V*E)"], "exp": "Correct answer is C: O(V+E)"},
-    {"id": 74, "s": "B", "cat": "Data Structures", "q": "Which data structure is used in Dijkstra's shortest path algorithm for efficiency?", "o": ["Stack", "Queue", "Priority Queue (Min-Heap)", "Deque"], "exp": "Correct answer is C: Priority Queue (Min-Heap)"},
-    {"id": 75, "s": "B", "cat": "Data Structures", "q": "Which dynamic programming algorithm finds shortest paths between all pairs of vertices?", "o": ["Dijkstra", "Bellman-Ford", "Floyd-Warshall", "Prim's"], "exp": "Correct answer is C: Floyd-Warshall"},
-    {"id": 76, "s": "B", "cat": "Data Structures", "q": "In hashing, the technique of using a second hash function to resolve collision is called:", "o": ["Linear Probing", "Chaining", "Quadratic Probing", "Double Hashing"], "exp": "Correct answer is D: Double Hashing"},
-    {"id": 77, "s": "B", "cat": "Data Structures", "q": "A deque supports insertion and deletion from:", "o": ["Front only", "Rear only", "Both front and rear", "Middle only"], "exp": "Correct answer is C: Both front and rear"},
-    {"id": 78, "s": "B", "cat": "Data Structures", "q": "What is the space complexity of merge sort?", "o": ["O(1)", "O(log n)", "O(n)", "O(n log n)"], "exp": "Correct answer is C: O(n)"},
-    {"id": 79, "s": "B", "cat": "Data Structures", "q": "Postfix expression for A+B*C-D is:", "o": ["ABC*+D-", "AB+C*D-", "ABCD*+-", "ABC+*D-"], "exp": "Correct answer is A: ABC*+D-"},
-    {"id": 80, "s": "B", "cat": "Data Structures", "q": "Which of the following sorting algorithms is stable?", "o": ["Quick Sort", "Heap Sort", "Merge Sort", "Shell Sort"], "exp": "Correct answer is C: Merge Sort"},
-    {"id": 81, "s": "B", "cat": "OOP in C++", "q": "Which feature of C++ allows the same function name with different parameters?", "o": ["Inheritance", "Encapsulation", "Function Overloading", "Abstraction"], "exp": "Correct answer is C: Function Overloading"},
-    {"id": 82, "s": "B", "cat": "OOP in C++", "q": "What is a pure virtual function in C++?", "o": ["A function with no body", "Declared as virtual int f() = 0;", "A static member function", "A friend function"], "exp": "Correct answer is B: Declared as virtual int f() = 0;"},
-    {"id": 83, "s": "B", "cat": "OOP in C++", "q": "In which inheritance type does the diamond problem occur?", "o": ["Single", "Multi-level", "Multiple", "Hierarchical"], "exp": "Correct answer is C: Multiple"},
-    {"id": 84, "s": "B", "cat": "OOP in C++", "q": "What is a copy constructor used for?", "o": ["Creating object from another object of same class", "Destroying an object", "Overloading operators", "Accessing private members"], "exp": "Correct answer is A: Creating object from another object of same class"},
-    {"id": 85, "s": "B", "cat": "OOP in C++", "q": "Which keyword is used to prevent a class from being inherited in modern C++?", "o": ["static", "const", "final", "sealed"], "exp": "Correct answer is C: final"},
-    {"id": 86, "s": "B", "cat": "OOP in C++", "q": "What does \"this\" pointer refer to in C++?", "o": ["Base class", "Derived class", "Current object", "Parent function"], "exp": "Correct answer is C: Current object"},
-    {"id": 87, "s": "B", "cat": "OOP in C++", "q": "Which of the following cannot be virtual in C++?", "o": ["Member function", "Destructor", "Constructor", "Friend function"], "exp": "Correct answer is C: Constructor"},
-    {"id": 88, "s": "B", "cat": "OOP in C++", "q": "What is the difference between struct and class in C++?", "o": ["No difference", "struct members are public by default; class members are private", "class supports inheritance, struct does not", "struct has no constructors"], "exp": "Correct answer is B: struct members are public by default; class members are private"},
-    {"id": 89, "s": "B", "cat": "Operating Systems", "q": "In Banker's algorithm, a state is safe if:", "o": ["All processes can get their maximum resources", "No deadlock exists currently", "There exists a sequence in which all processes can finish", "Resources are equally distributed"], "exp": "Correct answer is C: There exists a sequence in which all processes can finish"},
-    {"id": 90, "s": "B", "cat": "Operating Systems", "q": "Which page replacement algorithm suffers from Belady's anomaly?", "o": ["LRU", "Optimal", "FIFO", "Clock"], "exp": "Correct answer is C: FIFO"},
-    {"id": 91, "s": "B", "cat": "Operating Systems", "q": "Thrashing occurs when:", "o": ["CPU utilization is very high", "Processes spend more time paging than executing", "There is too much free memory", "The disk is full"], "exp": "Correct answer is B: Processes spend more time paging than executing"},
-    {"id": 92, "s": "B", "cat": "Operating Systems", "q": "The optimal page replacement algorithm replaces:", "o": ["The least recently used page", "The page that will not be used for the longest time", "A random page", "The most recently used page"], "exp": "Correct answer is B: The page that will not be used for the longest time"},
-    {"id": 93, "s": "B", "cat": "Operating Systems", "q": "Which scheduling algorithm gives minimum average waiting time for a given set of processes?", "o": ["FCFS", "Round Robin", "SJF", "Priority"], "exp": "Correct answer is C: SJF"},
-    {"id": 94, "s": "B", "cat": "Operating Systems", "q": "In the Banker's algorithm, the Need matrix is computed as:", "o": ["Max – Allocated", "Allocated – Max", "Max + Allocated", "Available – Allocated"], "exp": "Correct answer is A: Max – Allocated"},
-    {"id": 95, "s": "B", "cat": "Operating Systems", "q": "What is a critical section?", "o": ["A section of code accessing shared resources", "A section causing deadlock", "The kernel space of memory", "A CPU register"], "exp": "Correct answer is A: A section of code accessing shared resources"},
-    {"id": 96, "s": "B", "cat": "Networking", "q": "What is the purpose of the ARP protocol?", "o": ["Assign IP addresses dynamically", "Map IP addresses to MAC addresses", "Encrypt network traffic", "Route packets between networks"], "exp": "Correct answer is B: Map IP addresses to MAC addresses"},
-    {"id": 97, "s": "B", "cat": "Networking", "q": "Which layer of OSI model does IP operate at?", "o": ["Transport", "Data Link", "Network", "Session"], "exp": "Correct answer is C: Network"},
-    {"id": 98, "s": "B", "cat": "Networking", "q": "The maximum number of usable hosts in a /26 subnet is:", "o": ["30", "62", "126", "254"], "exp": "Correct answer is B: 62"},
-    {"id": 99, "s": "B", "cat": "Networking", "q": "Which protocol provides reliable, connection-oriented communication?", "o": ["UDP", "IP", "TCP", "ICMP"], "exp": "Correct answer is C: TCP"},
-    {"id": 100, "s": "B", "cat": "Networking", "q": "The HTTP status code 404 means:", "o": ["Server Error", "Unauthorized", "Not Found", "Redirect"], "exp": "Correct answer is C: Not Found"}
+    {"id": 66, "s": "B", "cat": "Data Structures", "q": "What is the worst-case time complexity of AVL tree insertion?", "o": ["O(n)", "O(log n)", "O(n log n)", "O(1)"], "exp": "Correct answer is B: O(log n)"},
+    {"id": 67, "s": "B", "cat": "Data Structures", "q": "In a B-tree of order m, each internal node has at most how many children?", "o": ["m-1", "m", "m+1", "2m"], "exp": "Correct answer is B: m"},
+    {"id": 68, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of DFS on a graph with V vertices and E edges?", "o": ["O(V)", "O(E)", "O(V+E)", "O(V*E)"], "exp": "Correct answer is C: O(V+E)"},
+    {"id": 69, "s": "B", "cat": "Data Structures", "q": "Which dynamic programming algorithm finds shortest paths between all pairs of vertices?", "o": ["Dijkstra", "Bellman-Ford", "Floyd-Warshall", "Prim's"], "exp": "Correct answer is C: Floyd-Warshall"},
+    {"id": 70, "s": "B", "cat": "Data Structures", "q": "In hashing, the technique of using a second hash function to resolve collision is called:", "o": ["Linear Probing", "Chaining", "Quadratic Probing", "Double Hashing"], "exp": "Correct answer is D: Double Hashing"},
+    {"id": 71, "s": "B", "cat": "Data Structures", "q": "What is the space complexity of merge sort?", "o": ["O(1)", "O(log n)", "O(n)", "O(n log n)"], "exp": "Correct answer is C: O(n)"},
+    {"id": 72, "s": "B", "cat": "Data Structures", "q": "Postfix expression for A+B*C-D is:", "o": ["ABC*+D-", "AB+C*D-", "ABCD*+-", "ABC+*D-"], "exp": "Correct answer is A: ABC*+D-"},
+    {"id": 73, "s": "B", "cat": "Data Structures", "q": "Which of the following sorting algorithms is stable?", "o": ["Quick Sort", "Heap Sort", "Merge Sort", "Shell Sort"], "exp": "Correct answer is C: Merge Sort"},
+    {"id": 74, "s": "B", "cat": "OOP in C++", "q": "Which feature of C++ allows the same function name with different parameters?", "o": ["Inheritance", "Encapsulation", "Function Overloading", "Abstraction"], "exp": "Correct answer is C: Function Overloading"},
+    {"id": 75, "s": "B", "cat": "OOP in C++", "q": "What is a pure virtual function in C++?", "o": ["A function with no body", "Declared as virtual int f() = 0;", "A static member function", "A friend function"], "exp": "Correct answer is B: Declared as virtual int f() = 0;"},
+    {"id": 76, "s": "B", "cat": "OOP in C++", "q": "In which inheritance type does the diamond problem occur?", "o": ["Single", "Multi-level", "Multiple", "Hierarchical"], "exp": "Correct answer is C: Multiple"},
+    {"id": 77, "s": "B", "cat": "OOP in C++", "q": "What is a copy constructor used for?", "o": ["Creating object from another object of same class", "Destroying an object", "Overloading operators", "Accessing private members"], "exp": "Correct answer is A: Creating object from another object of same class"},
+    {"id": 78, "s": "B", "cat": "OOP in C++", "q": "Which keyword is used to prevent a class from being inherited in modern C++?", "o": ["static", "const", "final", "sealed"], "exp": "Correct answer is C: final"},
+    {"id": 79, "s": "B", "cat": "OOP in C++", "q": "What does \"this\" pointer refer to in C++?", "o": ["Base class", "Derived class", "Current object", "Parent function"], "exp": "Correct answer is C: Current object"},
+    {"id": 80, "s": "B", "cat": "OOP in C++", "q": "Which of the following cannot be virtual in C++?", "o": ["Member function", "Destructor", "Constructor", "Friend function"], "exp": "Correct answer is C: Constructor"},
+    {"id": 81, "s": "B", "cat": "OOP in C++", "q": "What is the difference between struct and class in C++?", "o": ["No difference", "struct members are public by default; class members are private", "class supports inheritance, struct does not", "struct has no constructors"], "exp": "Correct answer is B: struct members are public by default; class members are private"},
+    {"id": 82, "s": "B", "cat": "Operating Systems", "q": "In Banker's algorithm, a state is safe if:", "o": ["All processes can get their maximum resources", "No deadlock exists currently", "There exists a sequence in which all processes can finish", "Resources are equally distributed"], "exp": "Correct answer is C: There exists a sequence in which all processes can finish"},
+    {"id": 83, "s": "B", "cat": "Operating Systems", "q": "Which page replacement algorithm suffers from Belady's anomaly?", "o": ["LRU", "Optimal", "FIFO", "Clock"], "exp": "Correct answer is C: FIFO"},
+    {"id": 84, "s": "B", "cat": "Operating Systems", "q": "Thrashing occurs when:", "o": ["CPU utilization is very high", "Processes spend more time paging than executing", "There is too much free memory", "The disk is full"], "exp": "Correct answer is B: Processes spend more time paging than executing"},
+    {"id": 85, "s": "B", "cat": "Operating Systems", "q": "Which scheduling algorithm gives minimum average waiting time for a given set of processes?", "o": ["FCFS", "Round Robin", "SJF", "Priority"], "exp": "Correct answer is C: SJF"},
+    {"id": 86, "s": "B", "cat": "Operating Systems", "q": "The optimal page replacement algorithm replaces:", "o": ["The least recently used page", "The page that will not be used for the longest time in future", "A random page", "The most recently used page"], "exp": "Correct answer is B: The page that will not be used for the longest time in future"},
+    {"id": 87, "s": "B", "cat": "Operating Systems", "q": "In the Banker's algorithm, the Need matrix is computed as:", "o": ["Max – Allocated", "Allocated – Max", "Max + Allocated", "Available – Allocated"], "exp": "Correct answer is A: Max – Allocated"},
+    {"id": 88, "s": "B", "cat": "Operating Systems", "q": "What is a critical section?", "o": ["A section of code accessing shared resources", "A section causing deadlock", "The kernel space of memory", "A CPU register"], "exp": "Correct answer is A: A section of code accessing shared resources"},
+    {"id": 89, "s": "B", "cat": "Networking", "q": "What is the purpose of the ARP protocol?", "o": ["Assign IP addresses dynamically", "Map IP addresses to MAC addresses", "Encrypt network traffic", "Route packets between networks"], "exp": "Correct answer is B: Map IP addresses to MAC addresses"},
+    {"id": 90, "s": "B", "cat": "Networking", "q": "Which layer of OSI model does IP operate at?", "o": ["Transport", "Data Link", "Network", "Session"], "exp": "Correct answer is C: Network"},
+    {"id": 91, "s": "B", "cat": "Networking", "q": "The maximum number of usable hosts in a /26 subnet is:", "o": ["30", "62", "126", "254"], "exp": "Correct answer is B: 62"},
+    {"id": 92, "s": "B", "cat": "Networking", "q": "Which protocol provides reliable, connection-oriented communication?", "o": ["UDP", "IP", "TCP", "ICMP"], "exp": "Correct answer is C: TCP"},
+    {"id": 93, "s": "B", "cat": "Networking", "q": "The HTTP status code 404 means:", "o": ["Server Error", "Unauthorized", "Not Found", "Redirect"], "exp": "Correct answer is C: Not Found"},
+    {"id": 94, "s": "B", "cat": "Big Data & AI Basics", "q": "What is the default block size in HDFS (Hadoop 2.x and later)?", "o": ["32 MB", "64 MB", "128 MB", "256 MB"], "exp": "Correct answer is C: 128 MB"},
+    {"id": 95, "s": "B", "cat": "Big Data & AI Basics", "q": "Apache Spark's main advantage over Hadoop MapReduce is:", "o": ["Better security", "In-memory processing, making it significantly faster", "Cheaper hardware requirements", "Better SQL support only"], "exp": "Correct answer is B: In-memory processing, making it significantly faster"},
+    {"id": 96, "s": "B", "cat": "Big Data & AI Basics", "q": "What does the term \"3 Vs of Big Data\" refer to?", "o": ["Volume, Velocity, Variety", "Vision, Value, Velocity", "Volume, Value, Validity", "Variety, Validity, Velocity"], "exp": "Correct answer is A: Volume, Velocity, Variety"},
+    {"id": 97, "s": "B", "cat": "Big Data & AI Basics", "q": "Which of the following best describes Machine Learning?", "o": ["Manually coding rules for every decision", "A system that explicitly learns patterns from data to make predictions", "A type of database query language", "A computer network protocol"], "exp": "Correct answer is B: A system that explicitly learns patterns from data to make predictions"},
+    {"id": 98, "s": "B", "cat": "Big Data & AI Basics", "q": "Overfitting in a machine learning model means:", "o": ["The model performs poorly on training data", "The model performs well on training but poorly on unseen data", "The model has too few parameters", "The training data is too large"], "exp": "Correct answer is B: The model performs well on training but poorly on unseen data"},
+    {"id": 99, "s": "B", "cat": "Big Data & AI Basics", "q": "Which algorithm is commonly used for classification and regression in ML?", "o": ["PageRank", "Decision Tree", "SHA-256", "Bubble Sort"], "exp": "Correct answer is B: Decision Tree"},
+    {"id": 100, "s": "B", "cat": "Big Data & AI Basics", "q": "What is a neural network inspired by?", "o": ["Computer circuits", "The structure of the human brain", "Social networks", "Database tables"], "exp": "Correct answer is B: The structure of the human brain"}
   ]},
   '3': { name:'Practice Set 3', level:'Advanced + Section C', totalQ:150, sections:['A','B','C'], maxScore:450,
-         ak:'DzUTPyAbDBAzeg80Ez4gGgwQMHgPNhM+IhkOEzB4DDQTPyEbDRMweA40ED8iGQ4TM3gMNhA9IhkOEzJ7DDQSPyAZDRAweg81FT4hGg0RM3sONBM+IRkNEDN4DjUTPyEaDBEwegw2Ej8hGgwRM3gONhA/IRoNFjN7DzYSPiAaDBAzew80Ej8hGw0RMHsPNRM+IRoNEDN7', questions:[
+         ak:'DzUTPyAbDBAzeg80Ez4gGgwQMHgPNhM+IhkOEzB4DDQTPyEbDRMweA40ED8iGQ4TM3gMNhA9IhsNEzJ6DjQQPiEaDRYzew81Ej8gGg0QMHsPNRA/IRoMEDN6DjYSPyEbDRAyeA41Ez4hGg0WMnsPNRI+IRsNEDJ7DjQTPiIbDRAweg82Ez4hGg0QM3sPNRI9IRsNEDB6', questions:[
   {"id": 1, "s": "A", "cat": "English – Vocabulary", "q": "Choose the SYNONYM of AUSPICIOUS", "o": ["Unfavorable", "Promising", "Gloomy", "Harsh"], "exp": "Correct answer is B: Promising"},
     {"id": 2, "s": "A", "cat": "English – Vocabulary", "q": "Choose the ANTONYM of CANDID", "o": ["Frank", "Secretive", "Open", "Direct"], "exp": "Correct answer is B: Secretive"},
     {"id": 3, "s": "A", "cat": "English – Vocabulary", "q": "Choose the SYNONYM of TENACIOUS", "o": ["Yielding", "Persistent", "Flexible", "Fragile"], "exp": "Correct answer is B: Persistent"},
@@ -833,19 +866,16 @@ S: It would change medicine forever.", "o": ["QPRS", "PQSR", "RSPQ", "SQRP"], "e
     {"id": 51, "s": "B", "cat": "Computer Fundamentals", "q": "What is the decimal equivalent of binary 111111?", "o": ["63", "64", "62", "127"], "exp": "Correct answer is A: 63"},
     {"id": 52, "s": "B", "cat": "Computer Fundamentals", "q": "Convert hexadecimal 1A3 to decimal.", "o": ["419", "421", "423", "415"], "exp": "Correct answer is A: 419"},
     {"id": 53, "s": "B", "cat": "Computer Fundamentals", "q": "The minimum number of NOR gates to implement a NOT gate is:", "o": ["1", "2", "3", "4"], "exp": "Correct answer is A: 1"},
-    {"id": 54, "s": "B", "cat": "Computer Fundamentals", "q": "Which expression equals A XOR B?", "o": ["A'B + AB'", "A+B", "AB", "A'B'"], "exp": "Correct answer is A: A'B + AB'"},
-    {"id": 55, "s": "B", "cat": "Computer Fundamentals", "q": "Convert decimal 100 to octal.", "o": ["144", "143", "154", "160"], "exp": "Correct answer is A: 144"},
-    {"id": 56, "s": "B", "cat": "Computer Fundamentals", "q": "The result of 1011 AND 1101 in binary is:", "o": ["1001", "1010", "1111", "0110"], "exp": "Correct answer is A: 1001"},
-    {"id": 57, "s": "B", "cat": "Computer Fundamentals", "q": "De Morgan's theorem states that (AB)' = ?", "o": ["A' + B'", "A'B'", "A + B", "AB"], "exp": "Correct answer is A: A' + B'"},
-    {"id": 58, "s": "B", "cat": "Computer Fundamentals", "q": "A half adder produces which outputs?", "o": ["Sum and Carry", "Sum only", "Carry only", "Sum, Carry and Borrow"], "exp": "Correct answer is A: Sum and Carry"},
-    {"id": 59, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 54, "s": "B", "cat": "Computer Fundamentals", "q": "The result of 1011 AND 1101 in binary is:", "o": ["1001", "1010", "1111", "0110"], "exp": "Correct answer is A: 1001"},
+    {"id": 55, "s": "B", "cat": "Computer Fundamentals", "q": "De Morgan's theorem states that (AB)' = ?", "o": ["A' + B'", "A'B'", "A + B", "AB"], "exp": "Correct answer is A: A' + B'"},
+    {"id": 56, "s": "B", "cat": "C Programming", "q": "What is the output?
 #include<stdio.h>
 int main(){
   int i=1;
   printf(\"%d %d %d\", i, i++, ++i);
   return 0;
 }", "o": ["1 1 3", "3 2 3", "Undefined Behaviour", "1 2 3"], "exp": "Correct answer is C: Undefined Behaviour"},
-    {"id": 60, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 57, "s": "B", "cat": "C Programming", "q": "What is the output?
 void f(int a[]){
   a[0]=100;
 }
@@ -854,20 +884,20 @@ main(){
   f(arr);
   printf(\"%d\",arr[0]);
 }", "o": ["1", "100", "Error", "Garbage"], "exp": "Correct answer is B: 100"},
-    {"id": 61, "s": "B", "cat": "C Programming", "q": "What does the following macro do?
+    {"id": 58, "s": "B", "cat": "C Programming", "q": "What does the following macro do?
 #define SWAP(a,b) {int t=a; a=b; b=t;}", "o": ["Swaps two variables using a macro", "Swaps two pointers", "Causes undefined behaviour", "Fails to compile"], "exp": "Correct answer is A: Swaps two variables using a macro"},
-    {"id": 62, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 59, "s": "B", "cat": "C Programming", "q": "What is the output?
 int x=5;
 printf(\"%d\", x<<2);", "o": ["10", "15", "20", "25"], "exp": "Correct answer is C: 20"},
-    {"id": 63, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 60, "s": "B", "cat": "C Programming", "q": "What is the output?
 char *p=\"Hello\";
 p[0]='h';
 printf(\"%s\",p);", "o": ["Hello", "hello", "Undefined Behaviour / Segfault", "Error"], "exp": "Correct answer is C: Undefined Behaviour / Segfault"},
-    {"id": 64, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 61, "s": "B", "cat": "C Programming", "q": "What is the output?
 int a=10,b=5;
 printf(\"%d\",a^b);", "o": ["5", "10", "15", "3"], "exp": "Correct answer is C: 15"},
-    {"id": 65, "s": "B", "cat": "C Programming", "q": "How many bytes does int arr[5] occupy on a 32-bit system?", "o": ["5", "10", "20", "40"], "exp": "Correct answer is C: 20"},
-    {"id": 66, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 62, "s": "B", "cat": "C Programming", "q": "How many bytes does int arr[5] occupy on a 32-bit system?", "o": ["5", "10", "20", "40"], "exp": "Correct answer is C: 20"},
+    {"id": 63, "s": "B", "cat": "C Programming", "q": "What is the output?
 void fun(int *ptr){
   ptr=ptr+1;
 }
@@ -876,34 +906,22 @@ main(){
   fun(&a);
   printf(\"%d\",a);
 }", "o": ["10", "11", "Garbage", "Error"], "exp": "Correct answer is A: 10"},
-    {"id": 67, "s": "B", "cat": "C Programming", "q": "Which function is used to dynamically allocate memory and initialize it to zero?", "o": ["malloc", "calloc", "realloc", "alloc"], "exp": "Correct answer is B: calloc"},
-    {"id": 68, "s": "B", "cat": "C Programming", "q": "What is the output?
+    {"id": 64, "s": "B", "cat": "C Programming", "q": "Which function is used to dynamically allocate memory and initialize it to zero?", "o": ["malloc", "calloc", "realloc", "alloc"], "exp": "Correct answer is B: calloc"},
+    {"id": 65, "s": "B", "cat": "C Programming", "q": "What is the output?
 int x=10;
 if(x=0)
   printf(\"Zero\");
 else
   printf(\"Non-zero\");", "o": ["Zero", "Non-zero", "Error", "Undefined"], "exp": "Correct answer is B: Non-zero"},
-    {"id": 69, "s": "B", "cat": "C Programming", "q": "What is the output?
-char arr[]={\"A\",\"B\",\"C\"};
-printf(\"%d\",sizeof(arr));", "o": ["3", "4", "6", "2"], "exp": "Correct answer is A: 3"},
-    {"id": 70, "s": "B", "cat": "C Programming", "q": "What is the output?
-#include<stdio.h>
-int main(){
-  int a=5;
-  printf(\"%d %d\", a, a=10);
-  return 0;
-}", "o": ["5 10", "10 10", "Undefined Behaviour", "Error"], "exp": "Correct answer is C: Undefined Behaviour"},
-    {"id": 71, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of finding the kth smallest element in a balanced BST?", "o": ["O(1)", "O(k)", "O(log n)", "O(n)"], "exp": "Correct answer is B: O(k)"},
-    {"id": 72, "s": "B", "cat": "Data Structures", "q": "In an AVL tree, the balance factor of a node can be:", "o": ["−2, −1, 0, 1, 2", "−1, 0, 1", "0, 1", "−1, 0"], "exp": "Correct answer is B: −1, 0, 1"},
-    {"id": 73, "s": "B", "cat": "Data Structures", "q": "Which of the following is NOT a property of a B+ tree?", "o": ["All data is stored in leaf nodes", "Leaf nodes are linked", "Internal nodes store only keys", "Root can have only one child"], "exp": "Correct answer is D: Root can have only one child"},
-    {"id": 74, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of Bellman-Ford algorithm?", "o": ["O(V+E)", "O(V*E)", "O(V^2)", "O(E log V)"], "exp": "Correct answer is B: O(V*E)"},
-    {"id": 75, "s": "B", "cat": "Data Structures", "q": "In dynamic programming, overlapping subproblems means:", "o": ["Subproblems share no solutions", "Same subproblems are solved multiple times", "Each subproblem is unique", "Problems cannot be divided"], "exp": "Correct answer is B: Same subproblems are solved multiple times"},
-    {"id": 76, "s": "B", "cat": "Data Structures", "q": "What is the worst-case time complexity of heapsort?", "o": ["O(n^2)", "O(n log n)", "O(n)", "O(log n)"], "exp": "Correct answer is B: O(n log n)"},
-    {"id": 77, "s": "B", "cat": "Data Structures", "q": "The number of edges in a complete graph of n vertices is:", "o": ["n(n-1)", "n(n-1)/2", "n^2", "n(n+1)/2"], "exp": "Correct answer is B: n(n-1)/2"},
-    {"id": 78, "s": "B", "cat": "Data Structures", "q": "Which of the following sorting algorithms is NOT comparison-based?", "o": ["Merge Sort", "Quick Sort", "Counting Sort", "Heap Sort"], "exp": "Correct answer is C: Counting Sort"},
-    {"id": 79, "s": "B", "cat": "Data Structures", "q": "In a min-heap, the root element is:", "o": ["The largest element", "The smallest element", "A random element", "The median"], "exp": "Correct answer is B: The smallest element"},
-    {"id": 80, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of Prim's MST algorithm using a min-heap?", "o": ["O(V^2)", "O(E log V)", "O(V+E)", "O(E^2)"], "exp": "Correct answer is B: O(E log V)"},
-    {"id": 81, "s": "B", "cat": "OOP in C++", "q": "What is the output?
+    {"id": 66, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of finding the kth smallest element in a balanced BST?", "o": ["O(1)", "O(k)", "O(log n)", "O(n)"], "exp": "Correct answer is B: O(k)"},
+    {"id": 67, "s": "B", "cat": "Data Structures", "q": "In an AVL tree, the balance factor of a node can be:", "o": ["−2, −1, 0, 1, 2", "−1, 0, 1", "0, 1", "−1, 0"], "exp": "Correct answer is B: −1, 0, 1"},
+    {"id": 68, "s": "B", "cat": "Data Structures", "q": "Which of the following is NOT a property of a B+ tree?", "o": ["All data is stored in leaf nodes", "Leaf nodes are linked", "Internal nodes store only keys", "Root can have only one child"], "exp": "Correct answer is D: Root can have only one child"},
+    {"id": 69, "s": "B", "cat": "Data Structures", "q": "What is the time complexity of Bellman-Ford algorithm?", "o": ["O(V+E)", "O(V*E)", "O(V^2)", "O(E log V)"], "exp": "Correct answer is B: O(V*E)"},
+    {"id": 70, "s": "B", "cat": "Data Structures", "q": "In dynamic programming, overlapping subproblems means:", "o": ["Subproblems share no solutions", "Same subproblems are solved multiple times", "Each subproblem is unique", "Problems cannot be divided"], "exp": "Correct answer is B: Same subproblems are solved multiple times"},
+    {"id": 71, "s": "B", "cat": "Data Structures", "q": "What is the worst-case time complexity of heapsort?", "o": ["O(n^2)", "O(n log n)", "O(n)", "O(log n)"], "exp": "Correct answer is B: O(n log n)"},
+    {"id": 72, "s": "B", "cat": "Data Structures", "q": "The number of edges in a complete graph of n vertices is:", "o": ["n(n-1)", "n(n-1)/2", "n^2", "n(n+1)/2"], "exp": "Correct answer is B: n(n-1)/2"},
+    {"id": 73, "s": "B", "cat": "Data Structures", "q": "Which of the following sorting algorithms is NOT comparison-based?", "o": ["Merge Sort", "Quick Sort", "Counting Sort", "Heap Sort"], "exp": "Correct answer is C: Counting Sort"},
+    {"id": 74, "s": "B", "cat": "OOP in C++", "q": "What is the output?
 class A{
 public:
   A(){cout<<\"A\";}
@@ -913,76 +931,83 @@ int main(){
   A obj;
   return 0;
 }", "o": ["A", "~A", "A~A", "Error"], "exp": "Correct answer is C: A~A"},
-    {"id": 82, "s": "B", "cat": "OOP in C++", "q": "Which type of polymorphism is resolved at compile time?", "o": ["Runtime polymorphism", "Dynamic binding", "Compile-time polymorphism", "Late binding"], "exp": "Correct answer is C: Compile-time polymorphism"},
-    {"id": 83, "s": "B", "cat": "OOP in C++", "q": "What is the purpose of a virtual destructor?", "o": ["To prevent object creation", "To ensure derived class destructor is called via base pointer", "To overload destructors", "To make class abstract"], "exp": "Correct answer is B: To ensure derived class destructor is called via base pointer"},
-    {"id": 84, "s": "B", "cat": "OOP in C++", "q": "Can constructors be virtual in C++?", "o": ["Yes", "No", "Only in abstract classes", "Only with inheritance"], "exp": "Correct answer is B: No"},
-    {"id": 85, "s": "B", "cat": "OOP in C++", "q": "What does the \"friend\" keyword do in C++?", "o": ["Makes a class inherit another", "Grants external function access to private members", "Creates a virtual function", "Overloads operators"], "exp": "Correct answer is B: Grants external function access to private members"},
-    {"id": 86, "s": "B", "cat": "OOP in C++", "q": "STL stands for:", "o": ["Standard Template Library", "Static Type Library", "System Template Library", "Structured Type Library"], "exp": "Correct answer is A: Standard Template Library"},
-    {"id": 87, "s": "B", "cat": "OOP in C++", "q": "Which concept does the following demonstrate?
+    {"id": 75, "s": "B", "cat": "OOP in C++", "q": "Which type of polymorphism is resolved at compile time?", "o": ["Runtime polymorphism", "Dynamic binding", "Compile-time polymorphism", "Late binding"], "exp": "Correct answer is C: Compile-time polymorphism"},
+    {"id": 76, "s": "B", "cat": "OOP in C++", "q": "What is the purpose of a virtual destructor?", "o": ["To prevent object creation", "To ensure derived class destructor is called via base pointer", "To overload destructors", "To make class abstract"], "exp": "Correct answer is B: To ensure derived class destructor is called via base pointer"},
+    {"id": 77, "s": "B", "cat": "OOP in C++", "q": "Can constructors be virtual in C++?", "o": ["Yes", "No", "Only in abstract classes", "Only with inheritance"], "exp": "Correct answer is B: No"},
+    {"id": 78, "s": "B", "cat": "OOP in C++", "q": "What does the \"friend\" keyword do in C++?", "o": ["Makes a class inherit another", "Grants external function access to private members", "Creates a virtual function", "Overloads operators"], "exp": "Correct answer is B: Grants external function access to private members"},
+    {"id": 79, "s": "B", "cat": "OOP in C++", "q": "STL stands for:", "o": ["Standard Template Library", "Static Type Library", "System Template Library", "Structured Type Library"], "exp": "Correct answer is A: Standard Template Library"},
+    {"id": 80, "s": "B", "cat": "OOP in C++", "q": "Which concept does the following demonstrate?
 void draw(Shape *s) { s->render(); }", "o": ["Encapsulation", "Runtime polymorphism", "Compile-time polymorphism", "Abstraction"], "exp": "Correct answer is B: Runtime polymorphism"},
-    {"id": 88, "s": "B", "cat": "OOP in C++", "q": "What is the output of sizeof on a class with no data members?", "o": ["0", "1", "4", "Compiler dependent"], "exp": "Correct answer is B: 1"},
-    {"id": 89, "s": "B", "cat": "Operating Systems", "q": "What is the purpose of the Translation Lookaside Buffer (TLB)?", "o": ["Store page tables", "Speed up virtual-to-physical address translation", "Cache disk data", "Handle interrupts"], "exp": "Correct answer is B: Speed up virtual-to-physical address translation"},
-    {"id": 90, "s": "B", "cat": "Operating Systems", "q": "What is the difference between paging and segmentation?", "o": ["Paging divides into fixed-size pages; segmentation into variable-size logical segments", "Paging uses variable-size blocks; segmentation uses fixed", "Both are the same", "Segmentation is for virtual memory only"], "exp": "Correct answer is A: Paging divides into fixed-size pages; segmentation into variable-size logical segments"},
-    {"id": 91, "s": "B", "cat": "Operating Systems", "q": "Which of the following conditions is NOT one of the four Coffman conditions for deadlock?", "o": ["Mutual Exclusion", "Hold and Wait", "Starvation", "Circular Wait"], "exp": "Correct answer is C: Starvation"},
-    {"id": 92, "s": "B", "cat": "Operating Systems", "q": "In round-robin scheduling, what happens if a process needs burst time less than the time quantum?", "o": ["It waits for the full quantum", "It releases CPU voluntarily when done", "It is preempted after q time", "It is sent to blocked state"], "exp": "Correct answer is B: It releases CPU voluntarily when done"},
-    {"id": 93, "s": "B", "cat": "Operating Systems", "q": "What is the role of the page table in an OS?", "o": ["Store actual data pages", "Map virtual addresses to physical addresses", "Schedule processes", "Manage disk I/O"], "exp": "Correct answer is B: Map virtual addresses to physical addresses"},
-    {"id": 94, "s": "B", "cat": "Operating Systems", "q": "Which system call is used to create a new process in UNIX/Linux?", "o": ["exec()", "spawn()", "fork()", "create()"], "exp": "Correct answer is C: fork()"},
-    {"id": 95, "s": "B", "cat": "Operating Systems", "q": "What is a race condition?", "o": ["Two processes running at same speed", "Outcome depends on timing of concurrent operations", "A process running faster than expected", "An OS scheduling error"], "exp": "Correct answer is B: Outcome depends on timing of concurrent operations"},
-    {"id": 96, "s": "B", "cat": "Networking", "q": "What is the difference between TCP and UDP?", "o": ["TCP is connectionless, UDP is connection-oriented", "TCP provides reliable delivery; UDP does not guarantee delivery", "UDP is slower than TCP", "TCP is used for streaming, UDP for web browsing"], "exp": "Correct answer is B: TCP provides reliable delivery; UDP does not guarantee delivery"},
-    {"id": 97, "s": "B", "cat": "Networking", "q": "Which protocol is used for secure web communication?", "o": ["HTTP", "FTP", "HTTPS/TLS", "SMTP"], "exp": "Correct answer is C: HTTPS/TLS"},
-    {"id": 98, "s": "B", "cat": "Networking", "q": "What is the size of an IPv6 address?", "o": ["32 bits", "64 bits", "128 bits", "256 bits"], "exp": "Correct answer is C: 128 bits"},
-    {"id": 99, "s": "B", "cat": "Networking", "q": "In a /28 subnet, how many usable host addresses are available?", "o": ["14", "16", "30", "12"], "exp": "Correct answer is A: 14"},
-    {"id": 100, "s": "B", "cat": "Networking", "q": "Which device operates at the Network layer of OSI?", "o": ["Hub", "Switch", "Router", "Bridge"], "exp": "Correct answer is C: Router"},
-    {"id": 101, "s": "C", "cat": "Big Data / Hadoop", "q": "What does HDFS stand for?", "o": ["Hadoop Distributed File System", "High Definition File Storage", "Hierarchical Data Filing System", "Hadoop Data Formatting Standard"], "exp": "Correct answer is A: Hadoop Distributed File System"},
-    {"id": 102, "s": "C", "cat": "Big Data / Hadoop", "q": "In MapReduce, what does the Map phase output?", "o": ["Key-value pairs", "Sorted lists", "Binary files", "XML documents"], "exp": "Correct answer is A: Key-value pairs"},
-    {"id": 103, "s": "C", "cat": "Big Data / Hadoop", "q": "What is the role of YARN in Hadoop?", "o": ["Store data", "Process SQL queries", "Resource management and job scheduling", "Provide data replication"], "exp": "Correct answer is C: Resource management and job scheduling"},
-    {"id": 104, "s": "C", "cat": "Big Data / Hadoop", "q": "What is the default block size in HDFS (Hadoop 2.x and later)?", "o": ["32 MB", "64 MB", "128 MB", "256 MB"], "exp": "Correct answer is C: 128 MB"},
-    {"id": 105, "s": "C", "cat": "Big Data / Hadoop", "q": "Apache Hive is best described as:", "o": ["A NoSQL database", "A data warehouse infrastructure built on Hadoop using HQL", "A stream processing engine", "A graph database"], "exp": "Correct answer is B: A data warehouse infrastructure built on Hadoop using HQL"},
-    {"id": 106, "s": "C", "cat": "Big Data / Hadoop", "q": "HBase is a:", "o": ["Relational database on Hadoop", "Column-family NoSQL database running on HDFS", "Key-value store for stream data", "SQL engine for HDFS"], "exp": "Correct answer is B: Column-family NoSQL database running on HDFS"},
-    {"id": 107, "s": "C", "cat": "Big Data / Hadoop", "q": "What is Apache Pig used for?", "o": ["Real-time processing", "Machine learning", "High-level data flow scripting for MapReduce jobs", "Database management"], "exp": "Correct answer is C: High-level data flow scripting for MapReduce jobs"},
-    {"id": 108, "s": "C", "cat": "Big Data / Hadoop", "q": "Which component of Hadoop handles distributed storage?", "o": ["YARN", "MapReduce", "HDFS", "Hive"], "exp": "Correct answer is C: HDFS"},
-    {"id": 109, "s": "C", "cat": "Big Data / Hadoop", "q": "Spark RDD stands for:", "o": ["Reliable Distributed Dataset", "Resilient Distributed Dataset", "Replicated Data Directory", "Remote Data Descriptor"], "exp": "Correct answer is B: Resilient Distributed Dataset"},
-    {"id": 110, "s": "C", "cat": "Big Data / Hadoop", "q": "What is data partitioning in Hadoop?", "o": ["Splitting data into smaller chunks across nodes for parallel processing", "Encrypting data", "Compressing HDFS files", "Indexing data in HBase"], "exp": "Correct answer is A: Splitting data into smaller chunks across nodes for parallel processing"},
-    {"id": 111, "s": "C", "cat": "Apache Spark", "q": "Which of the following is a Spark transformation (not an action)?", "o": ["collect()", "count()", "map()", "save()"], "exp": "Correct answer is C: map()"},
-    {"id": 112, "s": "C", "cat": "Apache Spark", "q": "Spark's lazy evaluation means:", "o": ["Spark avoids computing transformations until an action is called", "Spark is slower than MapReduce", "Spark delays cluster startup", "Spark skips failed tasks"], "exp": "Correct answer is A: Spark avoids computing transformations until an action is called"},
-    {"id": 113, "s": "C", "cat": "Apache Spark", "q": "What is a DAG in Apache Spark?", "o": ["Directed Acyclic Graph representing the sequence of computations", "Data Aggregation Grid", "Distributed Asynchronous Gateway", "Dynamic Allocation Group"], "exp": "Correct answer is A: Directed Acyclic Graph representing the sequence of computations"},
-    {"id": 114, "s": "C", "cat": "Apache Spark", "q": "Which of the following is an action in Spark?", "o": ["filter()", "flatMap()", "reduce()", "map()"], "exp": "Correct answer is C: reduce()"},
-    {"id": 115, "s": "C", "cat": "Apache Spark", "q": "Spark DataFrames differ from RDDs in that they:", "o": ["Are untyped and schema-less", "Have a named columnar structure and support SQL operations", "Cannot be cached", "Run only on Python"], "exp": "Correct answer is B: Have a named columnar structure and support SQL operations"},
-    {"id": 116, "s": "C", "cat": "Apache Spark", "q": "What does PySpark refer to?", "o": ["Python-based Hadoop interface", "Python API for Apache Spark", "A Python database driver", "A cloud storage library"], "exp": "Correct answer is B: Python API for Apache Spark"},
-    {"id": 117, "s": "C", "cat": "Apache Spark", "q": "Which transformation removes duplicate rows in an RDD?", "o": ["filter()", "distinct()", "map()", "reduce()"], "exp": "Correct answer is B: distinct()"},
-    {"id": 118, "s": "C", "cat": "Apache Spark", "q": "In Spark, which method is used to cache an RDD in memory?", "o": ["save()", "persist()", "cache()", "Both persist() and cache()"], "exp": "Correct answer is D: Both persist() and cache()"},
-    {"id": 119, "s": "C", "cat": "Machine Learning", "q": "Overfitting in a machine learning model means:", "o": ["The model performs poorly on training data", "The model performs well on training but poorly on unseen data", "The model has too few parameters", "The training data is too large"], "exp": "Correct answer is B: The model performs well on training but poorly on unseen data"},
-    {"id": 120, "s": "C", "cat": "Machine Learning", "q": "Which technique is used to prevent overfitting?", "o": ["Increasing model complexity", "Cross-validation and regularization", "Using more features", "Reducing training data"], "exp": "Correct answer is B: Cross-validation and regularization"},
-    {"id": 121, "s": "C", "cat": "Machine Learning", "q": "In k-fold cross-validation, the dataset is split into:", "o": ["k random samples", "k equal folds, using each as test set once", "k training sets", "k test sets"], "exp": "Correct answer is B: k equal folds, using each as test set once"},
-    {"id": 122, "s": "C", "cat": "Machine Learning", "q": "Bias-variance tradeoff refers to:", "o": ["The balance between underfitting (high bias) and overfitting (high variance)", "A tradeoff between number of features and samples", "A CPU vs memory optimization", "A tradeoff between accuracy and speed"], "exp": "Correct answer is A: The balance between underfitting (high bias) and overfitting (high variance)"},
-    {"id": 123, "s": "C", "cat": "Machine Learning", "q": "Which type of learning uses labelled data?", "o": ["Unsupervised", "Reinforcement", "Supervised", "Semi-supervised"], "exp": "Correct answer is C: Supervised"},
-    {"id": 124, "s": "C", "cat": "Machine Learning", "q": "Feature engineering involves:", "o": ["Training neural networks", "Creating or transforming input variables to improve model performance", "Selecting the best algorithm", "Evaluating model accuracy"], "exp": "Correct answer is B: Creating or transforming input variables to improve model performance"},
-    {"id": 125, "s": "C", "cat": "Machine Learning", "q": "Which metric is best for evaluating classification on imbalanced datasets?", "o": ["Accuracy", "Mean Squared Error", "F1-Score", "R-squared"], "exp": "Correct answer is C: F1-Score"},
-    {"id": 126, "s": "C", "cat": "Machine Learning", "q": "What is the purpose of a train-test split?", "o": ["To train multiple models", "To evaluate model performance on unseen data", "To increase data size", "To reduce model complexity"], "exp": "Correct answer is B: To evaluate model performance on unseen data"},
-    {"id": 127, "s": "C", "cat": "ML Algorithms", "q": "Which algorithm draws a hyperplane to separate classes with maximum margin?", "o": ["Decision Tree", "K-Means", "SVM (Support Vector Machine)", "Naive Bayes"], "exp": "Correct answer is C: SVM (Support Vector Machine)"},
-    {"id": 128, "s": "C", "cat": "ML Algorithms", "q": "K-Means is an example of:", "o": ["Supervised learning", "Unsupervised learning", "Reinforcement learning", "Semi-supervised learning"], "exp": "Correct answer is B: Unsupervised learning"},
-    {"id": 129, "s": "C", "cat": "ML Algorithms", "q": "Random Forest is an ensemble of:", "o": ["SVMs", "Decision Trees", "Neural Networks", "Logistic Regression models"], "exp": "Correct answer is B: Decision Trees"},
-    {"id": 130, "s": "C", "cat": "ML Algorithms", "q": "In KNN, what does K represent?", "o": ["Number of features", "Number of nearest neighbours considered", "Number of iterations", "Number of clusters"], "exp": "Correct answer is B: Number of nearest neighbours considered"},
-    {"id": 131, "s": "C", "cat": "ML Algorithms", "q": "Logistic regression outputs:", "o": ["A continuous value", "A probability between 0 and 1", "A cluster label", "A tree structure"], "exp": "Correct answer is B: A probability between 0 and 1"},
-    {"id": 132, "s": "C", "cat": "ML Algorithms", "q": "Which algorithm is based on Bayes' theorem and assumes feature independence?", "o": ["Decision Tree", "K-Means", "Naive Bayes", "Linear Regression"], "exp": "Correct answer is C: Naive Bayes"},
-    {"id": 133, "s": "C", "cat": "Deep Learning", "q": "The activation function that outputs max(0, x) is called:", "o": ["Sigmoid", "Tanh", "ReLU", "Softmax"], "exp": "Correct answer is C: ReLU"},
-    {"id": 134, "s": "C", "cat": "Deep Learning", "q": "Softmax activation function is typically used in:", "o": ["Hidden layers", "Input layers", "Output layer for multi-class classification", "Convolutional layers"], "exp": "Correct answer is C: Output layer for multi-class classification"},
-    {"id": 135, "s": "C", "cat": "Deep Learning", "q": "Vanishing gradient problem occurs when:", "o": ["Gradients become very large", "Gradients become very small, slowing learning in early layers", "The learning rate is too high", "Too much data is used"], "exp": "Correct answer is B: Gradients become very small, slowing learning in early layers"},
-    {"id": 136, "s": "C", "cat": "Deep Learning", "q": "CNNs are primarily used for:", "o": ["Sequence modeling", "Time series analysis", "Image recognition and visual tasks", "Text generation"], "exp": "Correct answer is C: Image recognition and visual tasks"},
-    {"id": 137, "s": "C", "cat": "Deep Learning", "q": "What does backpropagation compute?", "o": ["Forward pass predictions", "Gradients of loss with respect to weights", "Data normalization", "Cluster assignments"], "exp": "Correct answer is B: Gradients of loss with respect to weights"},
-    {"id": 138, "s": "C", "cat": "Deep Learning", "q": "RNNs are designed to handle:", "o": ["Tabular data", "Image data", "Sequential data such as text and time series", "Graph data"], "exp": "Correct answer is C: Sequential data such as text and time series"},
-    {"id": 139, "s": "C", "cat": "NLP Basics", "q": "TF-IDF stands for:", "o": ["Term Frequency-Inverse Document Frequency", "Total Features-Inverse Distance Function", "Text Filter-Integrated Data Format", "Token Frequency-Index Density Function"], "exp": "Correct answer is A: Term Frequency-Inverse Document Frequency"},
-    {"id": 140, "s": "C", "cat": "NLP Basics", "q": "Word embeddings represent words as:", "o": ["One-hot encoded vectors", "Dense low-dimensional vectors capturing semantic meaning", "Integer indices", "Boolean feature vectors"], "exp": "Correct answer is B: Dense low-dimensional vectors capturing semantic meaning"},
-    {"id": 141, "s": "C", "cat": "NLP Basics", "q": "BERT is described as:", "o": ["A rule-based NLP system", "A bidirectional transformer model pre-trained on large text corpora", "A recurrent neural network", "A word embedding model like Word2Vec"], "exp": "Correct answer is B: A bidirectional transformer model pre-trained on large text corpora"},
-    {"id": 142, "s": "C", "cat": "NLP Basics", "q": "Tokenization in NLP refers to:", "o": ["Encrypting text", "Splitting text into words, subwords, or characters", "Translating text", "Summarizing documents"], "exp": "Correct answer is B: Splitting text into words, subwords, or characters"},
-    {"id": 143, "s": "C", "cat": "NLP Basics", "q": "Sentiment analysis is the task of:", "o": ["Translating sentences", "Identifying the emotional tone of text", "Counting word frequencies", "Parsing grammar trees"], "exp": "Correct answer is B: Identifying the emotional tone of text"},
-    {"id": 144, "s": "C", "cat": "Python for DS", "q": "What does numpy.reshape(-1, 1) do to a 1D array?", "o": ["Flattens the array", "Converts 1D array to a 2D column vector", "Reverses the array", "Transposes the array"], "exp": "Correct answer is B: Converts 1D array to a 2D column vector"},
-    {"id": 145, "s": "C", "cat": "Python for DS", "q": "In Pandas, df.groupby(\"col\").mean() does what?", "o": ["Filters rows by column value", "Groups rows by column and computes mean of each group", "Sorts the DataFrame by column", "Removes duplicate values"], "exp": "Correct answer is B: Groups rows by column and computes mean of each group"},
-    {"id": 146, "s": "C", "cat": "Python for DS", "q": "In Scikit-learn, a Pipeline allows you to:", "o": ["Train multiple models in parallel", "Chain preprocessing and modelling steps into one estimator", "Visualize model performance", "Download datasets automatically"], "exp": "Correct answer is B: Chain preprocessing and modelling steps into one estimator"},
-    {"id": 147, "s": "C", "cat": "Python for DS", "q": "What does Matplotlib's plt.show() do?", "o": ["Save the figure to disk", "Render and display the current plot", "Clear the figure", "Open a GUI window for editing"], "exp": "Correct answer is B: Render and display the current plot"},
-    {"id": 148, "s": "C", "cat": "Cloud Computing", "q": "IaaS in cloud computing provides:", "o": ["Ready-to-use software applications", "Virtualized computing resources like VMs, storage, and networking", "Development platforms with middleware", "Only database services"], "exp": "Correct answer is B: Virtualized computing resources like VMs, storage, and networking"},
-    {"id": 149, "s": "C", "cat": "Cloud Computing", "q": "AWS S3 is primarily a:", "o": ["Compute service", "Object storage service", "Relational database service", "Content delivery network"], "exp": "Correct answer is B: Object storage service"},
-    {"id": 150, "s": "C", "cat": "Cloud Computing", "q": "Serverless computing means:", "o": ["No servers are used anywhere", "Developers run code without managing server infrastructure", "Applications run only on client machines", "Code runs on local hardware"], "exp": "Correct answer is B: Developers run code without managing server infrastructure"}
+    {"id": 81, "s": "B", "cat": "OOP in C++", "q": "What is the output of sizeof on a class with no data members?", "o": ["0", "1", "4", "Compiler dependent"], "exp": "Correct answer is B: 1"},
+    {"id": 82, "s": "B", "cat": "Operating Systems", "q": "What is the purpose of the Translation Lookaside Buffer (TLB)?", "o": ["Store page tables", "Speed up virtual-to-physical address translation", "Cache disk data", "Handle interrupts"], "exp": "Correct answer is B: Speed up virtual-to-physical address translation"},
+    {"id": 83, "s": "B", "cat": "Operating Systems", "q": "What is the difference between paging and segmentation?", "o": ["Paging divides into fixed-size pages; segmentation into variable-size logical segments", "Paging uses variable-size blocks; segmentation uses fixed", "Both are the same", "Segmentation is for virtual memory only"], "exp": "Correct answer is A: Paging divides into fixed-size pages; segmentation into variable-size logical segments"},
+    {"id": 84, "s": "B", "cat": "Operating Systems", "q": "Which of the following conditions is NOT one of the four Coffman conditions for deadlock?", "o": ["Mutual Exclusion", "Hold and Wait", "Starvation", "Circular Wait"], "exp": "Correct answer is C: Starvation"},
+    {"id": 85, "s": "B", "cat": "Operating Systems", "q": "In round-robin scheduling, what happens if a process needs burst time less than the time quantum?", "o": ["It waits for the full quantum", "It releases CPU voluntarily when done", "It is preempted after q time", "It is sent to blocked state"], "exp": "Correct answer is B: It releases CPU voluntarily when done"},
+    {"id": 86, "s": "B", "cat": "Operating Systems", "q": "What is the role of the page table in an OS?", "o": ["Store actual data pages", "Map virtual addresses to physical addresses", "Schedule processes", "Manage disk I/O"], "exp": "Correct answer is B: Map virtual addresses to physical addresses"},
+    {"id": 87, "s": "B", "cat": "Operating Systems", "q": "Which system call is used to create a new process in UNIX/Linux?", "o": ["exec()", "spawn()", "fork()", "create()"], "exp": "Correct answer is C: fork()"},
+    {"id": 88, "s": "B", "cat": "Operating Systems", "q": "What is a race condition?", "o": ["Two processes running at same speed", "Outcome depends on timing of concurrent operations", "A process running faster than expected", "An OS scheduling error"], "exp": "Correct answer is B: Outcome depends on timing of concurrent operations"},
+    {"id": 89, "s": "B", "cat": "Networking", "q": "What is the difference between TCP and UDP?", "o": ["TCP is connectionless, UDP is connection-oriented", "TCP provides reliable delivery; UDP does not guarantee delivery", "UDP is slower than TCP", "TCP is used for streaming, UDP for web browsing"], "exp": "Correct answer is B: TCP provides reliable delivery; UDP does not guarantee delivery"},
+    {"id": 90, "s": "B", "cat": "Networking", "q": "Which protocol is used for secure web communication?", "o": ["HTTP", "FTP", "HTTPS/TLS", "SMTP"], "exp": "Correct answer is C: HTTPS/TLS"},
+    {"id": 91, "s": "B", "cat": "Networking", "q": "What is the size of an IPv6 address?", "o": ["32 bits", "64 bits", "128 bits", "256 bits"], "exp": "Correct answer is C: 128 bits"},
+    {"id": 92, "s": "B", "cat": "Networking", "q": "In a /28 subnet, how many usable host addresses are available?", "o": ["14", "16", "30", "12"], "exp": "Correct answer is A: 14"},
+    {"id": 93, "s": "B", "cat": "Networking", "q": "Which device operates at the Network layer of OSI?", "o": ["Hub", "Switch", "Router", "Bridge"], "exp": "Correct answer is C: Router"},
+    {"id": 94, "s": "B", "cat": "Big Data & AI Basics", "q": "In Hadoop, what is the role of YARN?", "o": ["Store data in HDFS", "Provide SQL queries over Hadoop", "Cluster resource management and job scheduling", "Data replication across nodes"], "exp": "Correct answer is C: Cluster resource management and job scheduling"},
+    {"id": 95, "s": "B", "cat": "Big Data & AI Basics", "q": "Spark RDD stands for:", "o": ["Reliable Distributed Dataset", "Resilient Distributed Dataset", "Replicated Data Directory", "Remote Data Descriptor"], "exp": "Correct answer is B: Resilient Distributed Dataset"},
+    {"id": 96, "s": "B", "cat": "Big Data & AI Basics", "q": "Which of the following is a Spark transformation (not an action)?", "o": ["collect()", "count()", "map()", "save()"], "exp": "Correct answer is C: map()"},
+    {"id": 97, "s": "B", "cat": "Big Data & AI Basics", "q": "The \"bias-variance tradeoff\" in machine learning refers to:", "o": ["A tradeoff between number of features and dataset size", "The balance between underfitting (high bias) and overfitting (high variance)", "A CPU vs memory optimization", "A tradeoff between accuracy and training speed"], "exp": "Correct answer is B: The balance between underfitting (high bias) and overfitting (high variance)"},
+    {"id": 98, "s": "B", "cat": "Big Data & AI Basics", "q": "K-Means clustering is an example of which type of learning?", "o": ["Supervised Learning", "Unsupervised Learning", "Reinforcement Learning", "Semi-supervised Learning"], "exp": "Correct answer is B: Unsupervised Learning"},
+    {"id": 99, "s": "B", "cat": "Big Data & AI Basics", "q": "Which metric is most appropriate for evaluating a classifier on an imbalanced dataset?", "o": ["Accuracy", "Mean Squared Error", "F1-Score", "R-squared"], "exp": "Correct answer is C: F1-Score"},
+    {"id": 100, "s": "B", "cat": "Big Data & AI Basics", "q": "TF-IDF in NLP stands for:", "o": ["Term Frequency-Inverse Document Frequency", "Total Features-Integrated Data Format", "Token Filter-Index Distance Function", "Text Frequency-Inverse Density Factor"], "exp": "Correct answer is A: Term Frequency-Inverse Document Frequency"},
+    {"id": 101, "s": "C", "cat": "Digital Electronics", "q": "The output of a NAND gate is LOW only when:", "o": ["All inputs are LOW", "Any input is HIGH", "All inputs are HIGH", "Any input is LOW"], "exp": "Correct answer is C: All inputs are HIGH"},
+    {"id": 102, "s": "C", "cat": "Digital Electronics", "q": "Minimum number of 2-input NAND gates required to implement a 2-input AND gate:", "o": ["1", "2", "3", "4"], "exp": "Correct answer is B: 2"},
+    {"id": 103, "s": "C", "cat": "Digital Electronics", "q": "The K-map of F = AB + A'B simplifies to:", "o": ["A", "B", "A+B", "AB"], "exp": "Correct answer is B: B"},
+    {"id": 104, "s": "C", "cat": "Digital Electronics", "q": "A D flip-flop is used to:", "o": ["Amplify digital signals", "Store 1 bit of data", "Add two binary numbers", "Multiply binary values"], "exp": "Correct answer is B: Store 1 bit of data"},
+    {"id": 105, "s": "C", "cat": "Digital Electronics", "q": "A 4-to-1 multiplexer requires how many select lines?", "o": ["1", "2", "3", "4"], "exp": "Correct answer is B: 2"},
+    {"id": 106, "s": "C", "cat": "Digital Electronics", "q": "XOR of any variable A with 1 gives:", "o": ["A", "A'", "0", "1"], "exp": "Correct answer is B: A'"},
+    {"id": 107, "s": "C", "cat": "Digital Electronics", "q": "The Gray code representation of decimal 5 is:", "o": ["0101", "0111", "0110", "1000"], "exp": "Correct answer is B: 0111"},
+    {"id": 108, "s": "C", "cat": "Digital Electronics", "q": "An SR latch with S=1, R=1 results in:", "o": ["Set state", "Reset state", "No change", "Forbidden/Invalid state"], "exp": "Correct answer is D: Forbidden/Invalid state"},
+    {"id": 109, "s": "C", "cat": "Digital Electronics", "q": "A full adder accepts how many inputs?", "o": ["1", "2", "3", "4"], "exp": "Correct answer is C: 3"},
+    {"id": 110, "s": "C", "cat": "Digital Electronics", "q": "Propagation delay in a logic gate refers to:", "o": ["Power consumed by the gate", "Time for output to respond after input changes", "Voltage level at output", "Number of gates in series"], "exp": "Correct answer is B: Time for output to respond after input changes"},
+    {"id": 111, "s": "C", "cat": "8085 Microprocessor", "q": "The 8085 microprocessor has a data bus width of:", "o": ["4 bits", "8 bits", "16 bits", "32 bits"], "exp": "Correct answer is B: 8 bits"},
+    {"id": 112, "s": "C", "cat": "8085 Microprocessor", "q": "Which instruction loads the accumulator directly from a memory address in 8085?", "o": ["MOV A,M", "LDA addr", "MVI A,data", "IN port"], "exp": "Correct answer is B: LDA addr"},
+    {"id": 113, "s": "C", "cat": "8085 Microprocessor", "q": "The program counter (PC) in 8085 is:", "o": ["8-bit register", "12-bit register", "16-bit register", "32-bit register"], "exp": "Correct answer is C: 16-bit register"},
+    {"id": 114, "s": "C", "cat": "8085 Microprocessor", "q": "In 8085, the TRAP interrupt is:", "o": ["Maskable and edge-triggered", "Non-maskable and highest priority vectored interrupt", "Software interrupt only", "Maskable and level-triggered"], "exp": "Correct answer is B: Non-maskable and highest priority vectored interrupt"},
+    {"id": 115, "s": "C", "cat": "8085 Microprocessor", "q": "The SID and SOD pins of 8085 are used for:", "o": ["Interrupt acknowledge", "Serial data input/output", "Status signals", "Power supply"], "exp": "Correct answer is B: Serial data input/output"},
+    {"id": 116, "s": "C", "cat": "8085 Microprocessor", "q": "8085 has how many general-purpose 8-bit registers?", "o": ["4", "5", "6", "8"], "exp": "Correct answer is C: 6"},
+    {"id": 117, "s": "C", "cat": "8085 Microprocessor", "q": "In 8085, the instruction RNZ stands for:", "o": ["Return if Zero", "Return if Not Zero", "Reset if Non-Zero", "Read Non-Zero"], "exp": "Correct answer is B: Return if Not Zero"},
+    {"id": 118, "s": "C", "cat": "8085 Microprocessor", "q": "The stack pointer (SP) in 8085 always points to:", "o": ["Bottom of the stack", "Top of the stack (last pushed byte)", "Next empty location in stack", "Middle of the stack"], "exp": "Correct answer is B: Top of the stack (last pushed byte)"},
+    {"id": 119, "s": "C", "cat": "8086 Microprocessor", "q": "The 8086 microprocessor has an internal data bus width of:", "o": ["8 bits", "12 bits", "16 bits", "32 bits"], "exp": "Correct answer is C: 16 bits"},
+    {"id": 120, "s": "C", "cat": "8086 Microprocessor", "q": "Physical address in 8086 is calculated as:", "o": ["Segment + Offset", "Segment × 16 + Offset", "Segment × 8 + Offset", "Segment × 4 + Offset"], "exp": "Correct answer is B: Segment × 16 + Offset"},
+    {"id": 121, "s": "C", "cat": "8086 Microprocessor", "q": "How many segment registers does the 8086 have?", "o": ["2", "3", "4", "6"], "exp": "Correct answer is C: 4"},
+    {"id": 122, "s": "C", "cat": "8086 Microprocessor", "q": "Which addressing mode in 8086 uses a base register plus a displacement?", "o": ["Immediate", "Register", "Based (Register Indirect with displacement)", "Indexed"], "exp": "Correct answer is C: Based (Register Indirect with displacement)"},
+    {"id": 123, "s": "C", "cat": "8086 Microprocessor", "q": "The 8086 instruction set follows which architecture?", "o": ["RISC", "CISC", "VLIW", "Harvard"], "exp": "Correct answer is B: CISC"},
+    {"id": 124, "s": "C", "cat": "Embedded C", "q": "The \"volatile\" keyword in embedded C tells the compiler:", "o": ["The variable is a constant", "Do not optimize reads/writes; variable may change outside program control", "The variable is in ROM", "The variable is shared between functions"], "exp": "Correct answer is B: Do not optimize reads/writes; variable may change outside program control"},
+    {"id": 125, "s": "C", "cat": "Embedded C", "q": "GPIO stands for:", "o": ["General Purpose Input/Output", "Global Process I/O", "Graphical Processing Interface Output", "Generic Peripheral I/O"], "exp": "Correct answer is A: General Purpose Input/Output"},
+    {"id": 126, "s": "C", "cat": "Embedded C", "q": "A watchdog timer in an embedded system is primarily used to:", "o": ["Measure elapsed time", "Generate PWM signals", "Reset the system if software hangs or enters an infinite loop", "Synchronize serial communication"], "exp": "Correct answer is C: Reset the system if software hangs or enters an infinite loop"},
+    {"id": 127, "s": "C", "cat": "Embedded C", "q": "PWM (Pulse Width Modulation) is commonly used to:", "o": ["Measure temperature", "Control motor speed and LED brightness by varying duty cycle", "Store data in EEPROM", "Communicate over I2C"], "exp": "Correct answer is B: Control motor speed and LED brightness by varying duty cycle"},
+    {"id": 128, "s": "C", "cat": "Embedded C", "q": "To set bit 3 of variable x without affecting other bits, the correct C expression is:", "o": ["x = x | 3", "x = x | (1 << 3)", "x = x & (1 << 3)", "x = x ^ 3"], "exp": "Correct answer is B: x = x | (1 << 3)"},
+    {"id": 129, "s": "C", "cat": "Embedded C", "q": "To clear bit 5 of variable x without affecting other bits, use:", "o": ["x = x & ~(1 << 5)", "x = x | (1 << 5)", "x = x ^ (1 << 5)", "x = x – (1 << 5)"], "exp": "Correct answer is A: x = x & ~(1 << 5)"},
+    {"id": 130, "s": "C", "cat": "Embedded C", "q": "In embedded C, a memory-mapped register is typically declared as:", "o": ["int reg = 0x40020000;", "#define REG 0x40020000", "volatile uint32_t *reg = (volatile uint32_t*)0x40020000;", "static int *reg;"], "exp": "Correct answer is C: volatile uint32_t *reg = (volatile uint32_t*)0x40020000;"},
+    {"id": 131, "s": "C", "cat": "Embedded C", "q": "An ISR (Interrupt Service Routine) should generally:", "o": ["Perform lengthy computations", "Be as short and fast as possible", "Call blocking functions", "Disable all interrupts permanently"], "exp": "Correct answer is B: Be as short and fast as possible"},
+    {"id": 132, "s": "C", "cat": "RTOS", "q": "RTOS stands for:", "o": ["Real-Time Operating System", "Remote Terminal Operating System", "Rapid Task Operating System", "Run-Time Object System"], "exp": "Correct answer is A: Real-Time Operating System"},
+    {"id": 133, "s": "C", "cat": "RTOS", "q": "In an RTOS, a task with higher priority:", "o": ["Always waits for lower-priority tasks", "Preempts lower-priority tasks when it becomes ready", "Shares equal time with all tasks", "Cannot access shared resources"], "exp": "Correct answer is B: Preempts lower-priority tasks when it becomes ready"},
+    {"id": 134, "s": "C", "cat": "RTOS", "q": "A mutex in RTOS is used to:", "o": ["Send messages between tasks", "Provide mutual exclusion to protect shared resources", "Create new tasks", "Measure task execution time"], "exp": "Correct answer is B: Provide mutual exclusion to protect shared resources"},
+    {"id": 135, "s": "C", "cat": "RTOS", "q": "Context switching in an RTOS refers to:", "o": ["Switching between different CPUs", "Saving the state of the current task and restoring the state of the next task", "Switching communication protocols", "Changing the clock frequency"], "exp": "Correct answer is B: Saving the state of the current task and restoring the state of the next task"},
+    {"id": 136, "s": "C", "cat": "RTOS", "q": "Which of the following is a symptom of priority inversion?", "o": ["High-priority task runs faster", "High-priority task is blocked by a low-priority task holding a shared resource", "All tasks run at equal priority", "CPU becomes idle"], "exp": "Correct answer is B: High-priority task is blocked by a low-priority task holding a shared resource"},
+    {"id": 137, "s": "C", "cat": "ARM Architecture", "q": "ARM stands for:", "o": ["Automatic Register Machine", "Advanced RISC Machine", "Asynchronous RAM Module", "Application Runtime Memory"], "exp": "Correct answer is B: Advanced RISC Machine"},
+    {"id": 138, "s": "C", "cat": "ARM Architecture", "q": "ARM processors are based on which ISA?", "o": ["CISC", "RISC", "VLIW", "EPIC"], "exp": "Correct answer is B: RISC"},
+    {"id": 139, "s": "C", "cat": "ARM Architecture", "q": "The Thumb instruction set on ARM uses:", "o": ["32-bit instructions only", "16-bit compressed instructions for smaller code size", "64-bit instructions", "Variable-length instructions"], "exp": "Correct answer is B: 16-bit compressed instructions for smaller code size"},
+    {"id": 140, "s": "C", "cat": "ARM Architecture", "q": "ARM Cortex-M series is primarily targeted for:", "o": ["Server computing", "Microcontrollers and embedded systems", "Desktop processors", "GPU processing"], "exp": "Correct answer is B: Microcontrollers and embedded systems"},
+    {"id": 141, "s": "C", "cat": "ARM Architecture", "q": "The LDR instruction in ARM assembly is used to:", "o": ["Store a register value to memory", "Load a value from memory into a register", "Perform logical AND", "Branch to a subroutine"], "exp": "Correct answer is B: Load a value from memory into a register"},
+    {"id": 142, "s": "C", "cat": "Serial Interfaces", "q": "The I2C protocol uses how many signal wires (excluding power)?", "o": ["1", "2", "3", "4"], "exp": "Correct answer is B: 2"},
+    {"id": 143, "s": "C", "cat": "Serial Interfaces", "q": "SPI (Serial Peripheral Interface) supports which communication mode?", "o": ["Half-duplex only", "Asynchronous only", "Full-duplex synchronous", "Asynchronous serial"], "exp": "Correct answer is C: Full-duplex synchronous"},
+    {"id": 144, "s": "C", "cat": "Serial Interfaces", "q": "UART stands for:", "o": ["Universal Asynchronous Receiver-Transmitter", "Unified Addressable Register Transfer", "Universal Address Routing Table", "Unified Asynchronous RAM Transfer"], "exp": "Correct answer is A: Universal Asynchronous Receiver-Transmitter"},
+    {"id": 145, "s": "C", "cat": "Serial Interfaces", "q": "The CAN (Controller Area Network) bus is primarily used in:", "o": ["Consumer electronics", "Automotive and industrial embedded systems", "Wireless sensor networks", "Cloud computing infrastructure"], "exp": "Correct answer is B: Automotive and industrial embedded systems"},
+    {"id": 146, "s": "C", "cat": "Serial Interfaces", "q": "Which serial protocol uses a Master-Slave architecture with chip-select (CS) lines for each slave?", "o": ["I2C", "UART", "SPI", "RS-232"], "exp": "Correct answer is C: SPI"},
+    {"id": 147, "s": "C", "cat": "IoT Basics", "q": "An actuator in an IoT system is a device that:", "o": ["Senses physical parameters", "Converts electrical signals into physical actions (motion, heat, light)", "Stores sensor data", "Provides wireless connectivity"], "exp": "Correct answer is B: Converts electrical signals into physical actions (motion, heat, light)"},
+    {"id": 148, "s": "C", "cat": "IoT Basics", "q": "MQTT protocol is best described as:", "o": ["A file transfer protocol", "A lightweight publish-subscribe messaging protocol designed for IoT", "A video streaming protocol", "A database query language"], "exp": "Correct answer is B: A lightweight publish-subscribe messaging protocol designed for IoT"},
+    {"id": 149, "s": "C", "cat": "IoT Basics", "q": "OTA (Over-The-Air) update in embedded/IoT systems means:", "o": ["Updating firmware/software wirelessly without physical access to the device", "Sending data over the air", "Connecting sensors via Bluetooth", "Broadcasting sensor data"], "exp": "Correct answer is A: Updating firmware/software wirelessly without physical access to the device"},
+    {"id": 150, "s": "C", "cat": "IoT Basics", "q": "Which of the following wireless protocols is most commonly used for short-range, low-power IoT communication?", "o": ["Wi-Fi 6", "4G LTE", "Zigbee / Bluetooth Low Energy (BLE)", "Ethernet"], "exp": "Correct answer is C: Zigbee / Bluetooth Low Energy (BLE)"}
   ]},
   '4': { name:'Practice Set 4', level:'Advanced', totalQ:100, sections:['A','B'], maxScore:300,
          ak:'DzUTPiEaDREzeA82ED4hGg0QMHsMNRM+IRkNEDN7DzQQPiAaDhAweg80ED0hHA0TM3gMNhM9IRoNEDB4DDYTPSEaDRAweAw0Ej8iGg0WM3sPNBM+IhsMEzB7DzUSPyEaDRMzew==', questions:[
@@ -1501,6 +1526,26 @@ function initCurrentSet() {
   const set = SETS[S.selectedSet];
   CQ = set.questions;
   const b = atob(set.ak);
+  CAK = Array.from(b).map((c,i) => (c.charCodeAt(0) ^ _K[i % _K.length
+  ]}
+};
+
+let CQ = [], CAK = [];
+
+function initCurrentSet() {
+  const set = SETS[S.selectedSet];
+  CQ = set.questions;
+  const b = atob(set.ak);
+  CAK = Array.from(b).map((c,i) => (c.charCodeAt(0) ^ _K[i % _K.length
+  ]}
+};
+
+let CQ = [], CAK = [];
+
+function initCurrentSet() {
+  const set = SETS[S.selectedSet];
+  CQ = set.questions;
+  const b = atob(set.ak);
   CAK = Array.from(b).map((c,i) => (c.charCodeAt(0) ^ _K[i % _K.length]) - 65);
 }
 
@@ -1687,7 +1732,7 @@ function updateTimerUI() {
   const labels = {
     'A':'Section A — English, Quantitative Aptitude & Reasoning (Q1–50)',
     'B':'Section B — Computer Fundamentals, C, DS, OOP, OS & Networking (Q51–100)',
-    'C':'Section C — Big Data, AI/ML, Cloud & Python DS (Q101–150)'
+    'C':'Section C — Digital Electronics, Microprocessors & Embedded Systems (Q101–150)'
   };
   document.getElementById('section-label').textContent = labels[S.sec]||'';
   const [start] = getSectionRange(S.sec);
