@@ -386,6 +386,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
     <h2>Exam Completed — Your Results</h2>
     <p>CDAC C-CAT Practice Set 4 (Advanced) &nbsp;|&nbsp; Marking: +3 correct, −1 wrong</p>
     <button id="pdf-btn" onclick="savePDF()">⬇ Save Results as PDF</button>
+    <button id="restart-btn" onclick="restartExam()" style="display:inline-flex;align-items:center;gap:8px;margin-top:12px;margin-left:10px;padding:11px 28px;background:#e65100;color:white;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;">↩ Finish &amp; Go to Start</button>
   </div>
   <div id="res-body">
     <div class="score-grid" id="score-grid"></div>
@@ -1187,6 +1188,13 @@ function renderSolutions(filter) {
     `;
     container.appendChild(d);
   });
+}
+
+function restartExam() {
+  if (confirm('This will clear your exam and return to the start. Are you sure?')) {
+    localStorage.removeItem(SK);
+    window.location.reload();
+  }
 }
 
 function savePDF() {
