@@ -435,11 +435,27 @@ if not ak4_match:
     sys.exit(1)
 s4_ak = ak4_match.group(1)
 
-# Extract Set 4 questions
+# Extract Set 4 questions using bracket depth counting to find the exact closing ]
 if set4_marker in html:
     q_start = html.index('questions:[', html.index(set4_marker)) + len('questions:[')
-    after_q = html[q_start:html.index('const SK', q_start)]
-    q4_content = after_q[:after_q.rindex(']')]
+    depth, i, in_str, esc, str_char = 1, q_start, False, False, None
+    while i < len(html) and depth > 0:
+        ch = html[i]
+        if esc:
+            esc = False
+        elif ch == '\\' and in_str:
+            esc = True
+        elif in_str:
+            if ch == str_char:
+                in_str = False
+        elif ch in ('"', "'"):
+            in_str, str_char = True, ch
+        elif ch == '[':
+            depth += 1
+        elif ch == ']':
+            depth -= 1
+        i += 1
+    q4_content = html[q_start:i-1]  # content between the outer [ and ]
 else:
     q4_match = re.search(r'const Q = \[(.*?)\n\];', html, re.DOTALL)
     if not q4_match:
@@ -447,6 +463,28 @@ else:
         sys.exit(1)
     q4_content = q4_match.group(1)
 print(f"Set 4 extracted: Q array chars={len(q4_content)}, AK={s4_ak[:20]}...")
+
+# Sanitize q4_content: replace any literal newlines inside JSON strings
+# (these can be introduced if a previous generate run had the re.sub escaping bug)
+def sanitize_js_strings(text):
+    """Fix literal newlines inside JS string literals (both ' and " quoted)."""
+    out, quote, esc = [], None, False
+    for ch in text:
+        if esc:
+            out.append(ch); esc = False; continue
+        if ch == '\\':
+            out.append(ch); esc = True; continue
+        if quote is None and ch in ('"', "'"):
+            quote = ch; out.append(ch); continue
+        if quote and ch == quote:
+            quote = None; out.append(ch); continue
+        if quote and ch == '\n':
+            out.append('\\n'); continue
+        if quote and ch == '\r':
+            out.append('\\r'); continue
+        out.append(ch)
+    return ''.join(out)
+q4_content = sanitize_js_strings(q4_content)
 
 # ================================================================
 #  BUILD QUESTION JS
@@ -1098,7 +1136,8 @@ final_js = final_js.replace('  __S2_Q__\n', '  ' + s2_qs.replace('\n', '\n  ') +
 final_js = final_js.replace('  __S3_Q__\n', '  ' + s3_qs.replace('\n', '\n  ') + '\n')
 final_js = final_js.replace('__S4_Q__', q4_content)
 
-html = script_pat.sub('<script>\n' + final_js + '\n</script>', html)
+script_replacement = '<script>\n' + final_js + '\n</script>'
+html = script_pat.sub(lambda m: script_replacement, html)
 
 # ================================================================
 #  WRITE OUTPUT
