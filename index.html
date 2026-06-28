@@ -1854,12 +1854,13 @@ function filterSol(type,btn) {
     if (bad){e.preventDefault();e.stopPropagation();}
   },true);
   const THRESH=160; let dtOpen=false;
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth <= 768;
   const overlay=document.createElement('div');
   overlay.id='dt-overlay';
   overlay.innerHTML='<div style="background:white;padding:40px 32px;border-radius:12px;text-align:center;max-width:380px;box-shadow:0 8px 32px rgba(0,0,0,0.3)"><div style="font-size:2rem;margin-bottom:12px;">⚠️</div><h2 style="color:#b71c1c;margin-bottom:10px;">Developer Tools Detected</h2><p style="color:#444;line-height:1.6">Close Developer Tools to continue the exam.<br>The timer is still running.</p></div>';
   Object.assign(overlay.style,{display:'none',position:'fixed',inset:'0',background:'rgba(0,0,0,0.85)',zIndex:'9999',alignItems:'center',justifyContent:'center'});
   document.body.appendChild(overlay);
-  setInterval(()=>{
+  if (!isMobile) setInterval(()=>{
     const exam=document.getElementById('exam-screen').style.display!=='none';
     if (!exam) return;
     const open=(window.outerWidth-window.innerWidth>THRESH)||(window.outerHeight-window.innerHeight>THRESH);
