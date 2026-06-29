@@ -808,15 +808,26 @@ window.addEventListener('load', () => {
   loadS();
   if (S.selectedSet) initCurrentSet();
 
-  if (S.done && S.selectedSet)  { showResults(); return; }
-  if (S.bDone && S.selectedSet && SETS[S.selectedSet].sections.includes('C')) { enterSection('C'); return; }
-  if (S.aDone && S.selectedSet) { enterSection('B'); return; }
+  // Only resume a session that was actively in progress (timer had started)
+  const inProgress = S.tStamp !== null;
+  if (inProgress) {
+    if (S.done && S.selectedSet)  { showResults(); return; }
+    if (S.bDone && S.selectedSet && SETS[S.selectedSet].sections.includes('C')) { enterSection('C'); return; }
+    if (S.aDone && S.selectedSet) { enterSection('B'); return; }
+    // Mid section A — resume
+    if (S.selectedSet) { enterSection('A'); return; }
+  }
 
-  if (S.selectedSet) {
+  // No active session — show home screen clean; remember which set was last picked
+  const lastSet = S.selectedSet;
+  S = { selectedSet: lastSet || null, cur: 0, ans: [], marked: [], aDone: false, bDone: false, done: false, tLeft: CFG.secDuration, tStamp: null, nick: '' };
+  if (lastSet) saveS();
+
+  if (lastSet) {
     document.querySelectorAll('.set-card').forEach(c => c.classList.remove('selected'));
-    const card = document.getElementById('card-' + S.selectedSet);
+    const card = document.getElementById('card-' + lastSet);
     if (card) card.classList.add('selected');
-    showSetInfoPanel(S.selectedSet);
+    showSetInfoPanel(lastSet);
     document.getElementById('start-now-btn').style.display = 'inline-block';
   }
 });
