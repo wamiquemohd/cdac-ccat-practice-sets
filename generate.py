@@ -689,11 +689,7 @@ NEW_WAITING = """<div id="waiting-screen">
   </div>
   <div id="set-info-panel" style="display:none">
     <div class="info-grid" id="set-info-grid"></div>
-    <div style="font-size:0.85rem;opacity:0.7;margin-bottom:6px;">Exam begins at</div>
-    <div id="start-time-label"></div>
-    <div id="countdown-display">--:--:--</div>
-    <div class="hint">Select a set above, then wait for the scheduled time or click Start</div>
-    <button id="start-now-btn" onclick="startExam()" style="display:none;">Start Exam Now &#x25B6;</button>
+    <button id="start-now-btn" onclick="startExam()" style="display:none;margin-top:18px;">Start Exam Now &#x25B6;</button>
   </div>
   <div style="margin-top:32px;opacity:0.45;font-size:0.75rem;letter-spacing:0.5px;">Prepared by &nbsp;<strong style="opacity:1;letter-spacing:1px;">Mohd Wamique (ex-CDACian)</strong></div>
 </div>"""
@@ -705,7 +701,7 @@ NEW_JS = r"""// ================================================================
 //  CONFIG
 // ================================================================
 const CFG = {
-  startTime: '2026-06-22T10:15:00+05:30',
+  startTime: null,
   secDuration: 3600,
   marking: { correct: 3, wrong: -1 },
   submitEndpoint: 'https://formspree.io/f/xvzjgery'
@@ -791,15 +787,7 @@ function selectSet(id) {
   initCurrentSet();
   saveS();
   showSetInfoPanel(id);
-  const t0 = CFG.startTime ? new Date(CFG.startTime) : null;
-  setStartLabel(t0);
-  if (!t0 || Date.now() >= t0.getTime()) {
-    document.getElementById('start-now-btn').style.display = 'inline-block';
-    document.getElementById('countdown-display').textContent = 'READY';
-  } else {
-    document.getElementById('countdown-display').textContent = '--:--:--';
-    countdownToStart(t0);
-  }
+  document.getElementById('start-now-btn').style.display = 'inline-block';
 }
 
 function showSetInfoPanel(id) {
@@ -828,37 +816,9 @@ window.addEventListener('load', () => {
     const card = document.getElementById('card-' + S.selectedSet);
     if (card) card.classList.add('selected');
     showSetInfoPanel(S.selectedSet);
-    const t0 = CFG.startTime ? new Date(CFG.startTime) : null;
-    setStartLabel(t0);
-    if (!t0 || Date.now() >= t0.getTime()) {
-      document.getElementById('start-now-btn').style.display = 'inline-block';
-      document.getElementById('countdown-display').textContent = 'READY';
-    } else {
-      countdownToStart(t0);
-    }
+    document.getElementById('start-now-btn').style.display = 'inline-block';
   }
 });
-
-function setStartLabel(t0) {
-  const el = document.getElementById('start-time-label');
-  if (!el) return;
-  el.textContent = t0
-    ? t0.toLocaleString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'})
-    : 'Opens immediately when you load this page';
-}
-
-function countdownToStart(t0) {
-  const el = document.getElementById('countdown-display');
-  const tick = () => {
-    const d = t0 - Date.now();
-    if (d <= 0) { el.textContent = 'Starting…'; if (S.selectedSet) startExam(); return; }
-    const h = String(Math.floor(d/3600000)).padStart(2,'0');
-    const m = String(Math.floor(d%3600000/60000)).padStart(2,'0');
-    const s = String(Math.floor(d%60000/1000)).padStart(2,'0');
-    el.textContent = h+':'+m+':'+s;
-  };
-  tick(); setInterval(tick, 1000);
-}
 
 function startExam() {
   if (!S.selectedSet) { alert('Please select a practice set first.'); return; }

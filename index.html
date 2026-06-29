@@ -520,6 +520,31 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
 .set-card.selected .sc-badge { background: #43a047; }
 #set-info-panel { text-align: center; width: 100%; max-width: 660px; }
 
+
+/* ===== SET SELECTOR ===== */
+.set-cards-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 14px; max-width: 660px; width: 100%; margin: 16px 0;
+}
+@media(max-width:540px){ .set-cards-grid { grid-template-columns: 1fr; } }
+.set-card {
+  background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 12px; padding: 16px 20px; cursor: pointer; position: relative;
+  text-align: left; transition: all 0.15s;
+}
+.set-card:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.5); transform: translateY(-2px); }
+.set-card.selected { background: rgba(255,255,255,0.25); border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
+.sc-num  { font-size: 0.73rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.sc-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.sc-meta { font-size: 0.76rem; opacity: 0.8; }
+.sc-badge {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 0.65rem; padding: 2px 9px; border-radius: 10px;
+  font-weight: 700; letter-spacing: 0.5px; background: rgba(255,255,255,0.2);
+}
+.set-card.selected .sc-badge { background: #43a047; }
+#set-info-panel { text-align: center; width: 100%; max-width: 660px; }
+
 </style>
 </head>
 <body>
@@ -567,11 +592,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
   </div>
   <div id="set-info-panel" style="display:none">
     <div class="info-grid" id="set-info-grid"></div>
-    <div style="font-size:0.85rem;opacity:0.7;margin-bottom:6px;">Exam begins at</div>
-    <div id="start-time-label"></div>
-    <div id="countdown-display">--:--:--</div>
-    <div class="hint">Select a set above, then wait for the scheduled time or click Start</div>
-    <button id="start-now-btn" onclick="startExam()" style="display:none;">Start Exam Now &#x25B6;</button>
+    <button id="start-now-btn" onclick="startExam()" style="display:none;margin-top:18px;">Start Exam Now &#x25B6;</button>
   </div>
   <div style="margin-top:32px;opacity:0.45;font-size:0.75rem;letter-spacing:0.5px;">Prepared by &nbsp;<strong style="opacity:1;letter-spacing:1px;">Mohd Wamique (ex-CDACian)</strong></div>
 </div>
@@ -664,7 +685,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
   <div id="res-body">
     <div class="score-grid" id="score-grid"></div>
     <div class="filter-bar">
-      <button class="f-btn on" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" onclick="filterSol('all',this)">All 100</button>
+      <button class="f-btn on" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" onclick="filterSol('all',this)">All 100</button>
       <button class="f-btn"    onclick="filterSol('w',this)">Wrong Only</button>
       <button class="f-btn"    onclick="filterSol('c',this)">Correct Only</button>
       <button class="f-btn"    onclick="filterSol('u',this)">Unattempted</button>
@@ -680,7 +701,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
 //  CONFIG
 // ================================================================
 const CFG = {
-  startTime: '2026-06-22T10:15:00+05:30',
+  startTime: null,
   secDuration: 3600,
   marking: { correct: 3, wrong: -1 },
   submitEndpoint: 'https://formspree.io/f/xvzjgery'
@@ -1459,6 +1480,7 @@ const SETS = {
 
   
   
+  
   ]},
   '5': { name:'Practice Set 5', level:'Advanced', totalQ:100, sections:['A','B'], maxScore:300,
          ak:'DzUQPiccCxM1ewk2ED4hGg4RM3gMNhA+IhwNEDJ7DzUQOCcZCxMyfQwzED0hGQwQNXsMNhM9JxkNEzJ7DzQTPSEcDRYzegk0ED8gHA4WMnoPNhU/IRkOEzN7DjYTPyAcDRMyew==', questions:[
@@ -1618,15 +1640,7 @@ function selectSet(id) {
   initCurrentSet();
   saveS();
   showSetInfoPanel(id);
-  const t0 = CFG.startTime ? new Date(CFG.startTime) : null;
-  setStartLabel(t0);
-  if (!t0 || Date.now() >= t0.getTime()) {
-    document.getElementById('start-now-btn').style.display = 'inline-block';
-    document.getElementById('countdown-display').textContent = 'READY';
-  } else {
-    document.getElementById('countdown-display').textContent = '--:--:--';
-    countdownToStart(t0);
-  }
+  document.getElementById('start-now-btn').style.display = 'inline-block';
 }
 
 function showSetInfoPanel(id) {
@@ -1655,37 +1669,9 @@ window.addEventListener('load', () => {
     const card = document.getElementById('card-' + S.selectedSet);
     if (card) card.classList.add('selected');
     showSetInfoPanel(S.selectedSet);
-    const t0 = CFG.startTime ? new Date(CFG.startTime) : null;
-    setStartLabel(t0);
-    if (!t0 || Date.now() >= t0.getTime()) {
-      document.getElementById('start-now-btn').style.display = 'inline-block';
-      document.getElementById('countdown-display').textContent = 'READY';
-    } else {
-      countdownToStart(t0);
-    }
+    document.getElementById('start-now-btn').style.display = 'inline-block';
   }
 });
-
-function setStartLabel(t0) {
-  const el = document.getElementById('start-time-label');
-  if (!el) return;
-  el.textContent = t0
-    ? t0.toLocaleString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'})
-    : 'Opens immediately when you load this page';
-}
-
-function countdownToStart(t0) {
-  const el = document.getElementById('countdown-display');
-  const tick = () => {
-    const d = t0 - Date.now();
-    if (d <= 0) { el.textContent = 'Starting…'; if (S.selectedSet) startExam(); return; }
-    const h = String(Math.floor(d/3600000)).padStart(2,'0');
-    const m = String(Math.floor(d%3600000/60000)).padStart(2,'0');
-    const s = String(Math.floor(d%60000/1000)).padStart(2,'0');
-    el.textContent = h+':'+m+':'+s;
-  };
-  tick(); setInterval(tick, 1000);
-}
 
 function startExam() {
   if (!S.selectedSet) { alert('Please select a practice set first.'); return; }
