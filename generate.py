@@ -784,7 +784,10 @@ function selectSet(id) {
   const card = document.getElementById('card-' + id);
   if (card) card.classList.add('selected');
   // Always reset state when user picks a set from the home screen
-  S = { selectedSet: id, cur: 0, ans: [], marked: [], aDone: false, bDone: false, done: false, tLeft: CFG.secDuration, tStamp: null, nick: S.nick || '' };
+  S = { selectedSet: id, sec: 'A', cur: 0,
+        ans: new Array(150).fill(null), vis: new Array(150).fill(false), mrk: new Array(150).fill(false),
+        tA: CFG.secDuration, tB: CFG.secDuration, tC: CFG.secDuration,
+        aDone: false, bDone: false, done: false, nickname: '', startedAt: null };
   initCurrentSet();
   saveS();
   showSetInfoPanel(id);
@@ -820,7 +823,10 @@ window.addEventListener('load', () => {
 
   // No active session — show home screen clean; remember which set was last picked
   const lastSet = S.selectedSet;
-  S = { selectedSet: lastSet || null, cur: 0, ans: [], marked: [], aDone: false, bDone: false, done: false, tLeft: CFG.secDuration, tStamp: null, nick: '' };
+  S = { selectedSet: lastSet || null, sec: 'A', cur: 0,
+        ans: new Array(150).fill(null), vis: new Array(150).fill(false), mrk: new Array(150).fill(false),
+        tA: CFG.secDuration, tB: CFG.secDuration, tC: CFG.secDuration,
+        aDone: false, bDone: false, done: false, nickname: '', startedAt: null };
   if (lastSet) saveS();
 
   if (lastSet) {

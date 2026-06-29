@@ -620,6 +620,31 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
 .set-card.selected .sc-badge { background: #43a047; }
 #set-info-panel { text-align: center; width: 100%; max-width: 660px; }
 
+
+/* ===== SET SELECTOR ===== */
+.set-cards-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 14px; max-width: 660px; width: 100%; margin: 16px 0;
+}
+@media(max-width:540px){ .set-cards-grid { grid-template-columns: 1fr; } }
+.set-card {
+  background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 12px; padding: 16px 20px; cursor: pointer; position: relative;
+  text-align: left; transition: all 0.15s;
+}
+.set-card:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.5); transform: translateY(-2px); }
+.set-card.selected { background: rgba(255,255,255,0.25); border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
+.sc-num  { font-size: 0.73rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+.sc-name { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+.sc-meta { font-size: 0.76rem; opacity: 0.8; }
+.sc-badge {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 0.65rem; padding: 2px 9px; border-radius: 10px;
+  font-weight: 700; letter-spacing: 0.5px; background: rgba(255,255,255,0.2);
+}
+.set-card.selected .sc-badge { background: #43a047; }
+#set-info-panel { text-align: center; width: 100%; max-width: 660px; }
+
 </style>
 </head>
 <body>
@@ -760,7 +785,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #
   <div id="res-body">
     <div class="score-grid" id="score-grid"></div>
     <div class="filter-bar">
-      <button class="f-btn on" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" onclick="filterSol('all',this)">All 100</button>
+      <button class="f-btn on" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" id="filter-all-btn" onclick="filterSol('all',this)">All 100</button>
       <button class="f-btn"    onclick="filterSol('w',this)">Wrong Only</button>
       <button class="f-btn"    onclick="filterSol('c',this)">Correct Only</button>
       <button class="f-btn"    onclick="filterSol('u',this)">Unattempted</button>
@@ -1559,6 +1584,7 @@ const SETS = {
   
   
   
+  
   ]},
   '5': { name:'Practice Set 5', level:'Advanced', totalQ:100, sections:['A','B'], maxScore:300,
          ak:'DzUQPiccCxM1ewk2ED4hGg4RM3gMNhA+IhwNEDJ7DzUQOCcZCxMyfQwzED0hGQwQNXsMNhM9JxkNEzJ7DzQTPSEcDRYzegk0ED8gHA4WMnoPNhU/IRkOEzN7DjYTPyAcDRMyew==', questions:[
@@ -1715,7 +1741,10 @@ function selectSet(id) {
   const card = document.getElementById('card-' + id);
   if (card) card.classList.add('selected');
   // Always reset state when user picks a set from the home screen
-  S = { selectedSet: id, cur: 0, ans: [], marked: [], aDone: false, bDone: false, done: false, tLeft: CFG.secDuration, tStamp: null, nick: S.nick || '' };
+  S = { selectedSet: id, sec: 'A', cur: 0,
+        ans: new Array(150).fill(null), vis: new Array(150).fill(false), mrk: new Array(150).fill(false),
+        tA: CFG.secDuration, tB: CFG.secDuration, tC: CFG.secDuration,
+        aDone: false, bDone: false, done: false, nickname: '', startedAt: null };
   initCurrentSet();
   saveS();
   showSetInfoPanel(id);
@@ -1751,7 +1780,10 @@ window.addEventListener('load', () => {
 
   // No active session — show home screen clean; remember which set was last picked
   const lastSet = S.selectedSet;
-  S = { selectedSet: lastSet || null, cur: 0, ans: [], marked: [], aDone: false, bDone: false, done: false, tLeft: CFG.secDuration, tStamp: null, nick: '' };
+  S = { selectedSet: lastSet || null, sec: 'A', cur: 0,
+        ans: new Array(150).fill(null), vis: new Array(150).fill(false), mrk: new Array(150).fill(false),
+        tA: CFG.secDuration, tB: CFG.secDuration, tC: CFG.secDuration,
+        aDone: false, bDone: false, done: false, nickname: '', startedAt: null };
   if (lastSet) saveS();
 
   if (lastSet) {
