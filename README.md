@@ -36,7 +36,7 @@ Seven sets, progressively harder — start at your level and push up.
 | 4 | Practice Set 4 | 🟡 Advanced | A + B | 100 | 2 hrs |
 | 5 | Practice Set 5 | 🟡 Advanced | A + B | 100 | 2 hrs |
 | 6 | Practice Set 6 | 🔴 Advanced Pro | A + B | 100 | 2 hrs |
-| 7 | Practice Set 7 | 🔥 Hardest | A + B | 100 | 2 hrs |
+| 7 | Practice Set 7 | 🔥 Advanced Pro Max | A + B | 100 | 2 hrs |
 
 All sets include:
 - Reading Comprehension passages (Cloud, Neural Networks, AI Ethics)
