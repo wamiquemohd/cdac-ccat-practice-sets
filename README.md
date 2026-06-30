@@ -1,98 +1,91 @@
-# CDAC C-CAT Mock Test
+# CDAC C-CAT Mock Test 🎯
 
-A free, browser-based mock exam for the **CDAC C-CAT 2026** entrance test — built as a single static HTML file, hosted on GitHub Pages, no login or backend required.
+> **Free, browser-based mock exams for C-CAT 2026 — no login, no install, just practice.**
 
-🔗 **Live Site:** [wamiquemohd.github.io/cdac-ccat-practice-sets](https://wamiquemohd.github.io/cdac-ccat-practice-sets/)
+[![Live Site](https://img.shields.io/badge/🔗_Live_Site-wamiquemohd.github.io-4CAF50?style=for-the-badge)](https://wamiquemohd.github.io/cdac-ccat-practice-sets/)
+[![Sets Available](https://img.shields.io/badge/Practice_Sets-7_Available-2196F3?style=for-the-badge)](#practice-sets)
+[![No Login](https://img.shields.io/badge/Access-No_Login_Required-FF9800?style=for-the-badge)](#how-to-use)
 
-*Prepared by **Mohd Wamique (ex-CDACian)***
+*Built and maintained by **Mohd Wamique (ex-CDACian)*** — someone who's been through the exam and wants to make your prep easier.
 
 ---
 
-## About CDAC & C-CAT
+## What is C-CAT?
 
-**C-DAC (Centre for Development of Advanced Computing)** is a premier R&D organisation under India's Ministry of Electronics and Information Technology (MeitY). It is known for developing India's supercomputing infrastructure and running some of the country's top postgraduate programmes in computing and technology.
+The **C-CAT (C-DAC Common Admission Test)** is a national-level entrance exam for admission to C-DAC's PG Diploma programmes — **PG-DAC**, **PG-DBDA**, **PG-DITISS**, **PG-DESD**, **PG-DVLSI**, **PG-DIoT**, and more.
 
-The **C-CAT (C-DAC Common Admission Test)** is a national-level entrance examination conducted by C-DAC for admission to its PG Diploma / PG Certificate programmes such as:
+| Section | Topics | Time |
+|---------|--------|------|
+| **A** | English, Quant, Reasoning | 1 hr |
+| **B** | C, Data Structures, OOP, OS, Networking, Big Data & AI | 1 hr |
+| **C** | Digital Electronics, Microprocessors, Embedded Systems *(DESD/DVLSI/DIoT only)* | 1 hr |
 
-- **PG-DITISS** — IT Infrastructure Systems & Security
-- **PG-DAC** — Advanced Computing
-- **PG-DBDA** — Big Data Analytics
-- **PG-DESD** — Embedded Systems Design
-- **PG-DVLSI** — VLSI Design
-- **PG-DIoT** — Internet of Things
-
-The exam consists of **multiple-choice questions** with **+3 / −1 marking** and is divided into sections:
-
-| Section | Topics | Duration |
-|---------|--------|----------|
-| **Section A** | English, Quantitative Aptitude, Reasoning | 1 Hour |
-| **Section B** | C Programming, Data Structures, OOP (C++), OS & Networking, Big Data & AI Basics | 1 Hour |
-| **Section C** | Digital Electronics, Microprocessors (8085/8086), Embedded Systems *(PG-DESD/DVLSI/DIoT only)* | 1 Hour |
+**Marking:** +3 for correct, −1 for wrong, 0 for skipped.
 
 ---
 
 ## Practice Sets
 
-| Set | Level | Sections | Questions | Duration |
-|-----|-------|----------|-----------|----------|
-| **Practice Set 1** | Normal | A + B | 100 | 2 Hours |
-| **Practice Set 2** | Advanced | A + B | 100 | 2 Hours |
-| **Practice Set 3** | Advanced + Section C | A + B + C | 150 | 3 Hours |
-| **Practice Set 4** | Advanced (Original Sample Paper) | A + B | 100 | 2 Hours |
+Seven sets, progressively harder — start at your level and push up.
 
-**What's included:**
-- Reading Comprehension passages in all sets (Cloud Computing, Neural Networks, AI Ethics)
-- Big Data & AI Basics questions in every Section B (Hadoop, MapReduce, Spark, ML concepts)
-- Section C (Set 3) covers: Digital Electronics, 8085/8086 Microprocessors, Embedded C, RTOS, ARM Architecture, Serial Interfaces (I2C/SPI/UART/CAN), IoT Basics
-- **+3 / −1 marking** throughout
+| # | Set | Difficulty | Sections | Questions | Time |
+|---|-----|-----------|----------|-----------|------|
+| 1 | Practice Set 1 | 🟢 Normal | A + B | 100 | 2 hrs |
+| 2 | Practice Set 2 | 🟡 Advanced | A + B | 100 | 2 hrs |
+| 3 | Practice Set 3 | 🟠 Advanced + C | A + B + C | 150 | 3 hrs |
+| 4 | Practice Set 4 | 🟡 Advanced | A + B | 100 | 2 hrs |
+| 5 | Practice Set 5 | 🟡 Advanced | A + B | 100 | 2 hrs |
+| 6 | Practice Set 6 | 🔴 Advanced Pro | A + B | 100 | 2 hrs |
+| 7 | Practice Set 7 | 🔥 Hardest | A + B | 100 | 2 hrs |
+
+All sets include:
+- Reading Comprehension passages (Cloud, Neural Networks, AI Ethics)
+- Big Data & AI questions (Hadoop, MapReduce, Spark, ML)
+- Section C (Set 3) covers: Digital Electronics, 8085/8086, Embedded C, RTOS, ARM, I2C/SPI/UART/CAN, IoT
 
 ---
 
 ## Features
 
-- **Set selector** on the home screen — choose your practice set before starting
-- **Timed sections** — each section has its own 60-minute countdown timer
-- **Question palette** — colour-coded (Not Visited / Not Answered / Answered / Marked for Review)
-- **Section transitions** — confirms before moving to the next section
-- **Nickname entry** — personalises the exam and result
-- **Auto-submit** — exam submits automatically when the timer runs out
-- **Results page** — score, section breakdown, time spent, and full solutions with explanations
-- **PDF export** — save results as a printable PDF
-- **Admin snapshot** — results are submitted to admin via Formspree (includes practice set name)
-- **Answer key protection** — XOR + Base64 encoded; DevTools detection during exam
+| Feature | Details |
+|---------|---------|
+| ⏱ **Timed sections** | 60-minute countdown per section, auto-submit on timeout |
+| 🎨 **Question palette** | Colour-coded: Not Visited / Not Answered / Answered / Marked |
+| 📊 **Results breakdown** | Score, section-wise analysis, time spent, full solutions |
+| 📄 **PDF export** | Save your results as a printable report |
+| 🔒 **Answer protection** | XOR + Base64 encoded keys; DevTools detection during exam |
+| 📱 **Mobile friendly** | Works on phones and tablets — no app needed |
+| 💾 **Mid-exam save** | Refreshing won't lose your progress |
+| 🏷️ **Nickname** | Personalise your exam session and result card |
 
 ---
 
 ## How to Use
 
-1. Open the [live link](https://wamiquemohd.github.io/CCAT_Mock_Test_with_Claude/)
-2. Select a Practice Set from the home screen
-3. Enter your nickname and agree to data sharing
-4. Complete Section A → Section B (→ Section C for Set 3)
-5. Review your results and download as PDF
+1. Go to **[wamiquemohd.github.io/cdac-ccat-practice-sets](https://wamiquemohd.github.io/cdac-ccat-practice-sets/)**
+2. Pick a Practice Set (start with Set 1 if you're new, jump to Set 6–7 to stress-test yourself)
+3. Enter your nickname
+4. Attempt Section A → Section B (→ Section C for Set 3)
+5. View your detailed results and download the PDF
 
-No installation, no login, no ads — works entirely in your browser.
+No signup. No ads. Works entirely offline after the page loads.
 
 ---
 
 ## Tech Stack
 
-- Pure **HTML / CSS / JavaScript** — single file, no frameworks
-- Hosted on **GitHub Pages**
+- **Single-file** HTML/CSS/JS — no frameworks, no build tools, no dependencies
+- Hosted on **GitHub Pages** (free, forever)
 - Results submitted via **Formspree**
-- Questions generated and encoded via a **Python script** (`generate.py`)
-
----
-
-## Repository Structure
+- Questions encoded and bundled by `generate.py` (Python 3)
 
 ```
-├── index.html       # The complete exam (all sets, all logic)
-├── generate.py      # Python script to rebuild index.html with updated questions
+├── index.html      ← The complete exam (all 7 sets, all logic, ~274 KB)
+├── generate.py     ← Rebuilds index.html from question data + templates
 └── README.md
 ```
 
-To regenerate `index.html` after editing questions in `generate.py`:
+To rebuild after editing questions:
 
 ```bash
 python3 generate.py
@@ -102,4 +95,4 @@ python3 generate.py
 
 ## Disclaimer
 
-This is an **unofficial** practice resource created for educational purposes. Questions are based on the publicly available C-CAT syllabus and are not sourced from any official C-DAC question papers. Always refer to the [official C-DAC website](https://www.cdac.in) for the latest syllabus and exam dates.
+Unofficial practice resource for educational purposes. Questions are based on the publicly known C-CAT syllabus — not sourced from official C-DAC papers. For official info, visit [cdac.in](https://www.cdac.in).
