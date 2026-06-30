@@ -645,7 +645,128 @@ assert len(s2_data) == 100, f"Set 2 count wrong: {len(s2_data)}"
 assert len(s3_data) == 150, f"Set 3 count wrong: {len(s3_data)}"
 assert len(s5_data) == 100, f"Set 5 count wrong: {len(s5_data)}"
 assert len(s6_data) == 100, f"Set 6 count wrong: {len(s6_data)}"
-print(f"Question counts: Set1={len(s1_data)}, Set2={len(s2_data)}, Set3={len(s3_data)}, Set5={len(s5_data)}, Set6={len(s6_data)}")
+
+# ================================================================
+#  SET 7 — Hardest (100 questions, Sections A+B)
+#  Maximum difficulty within C-CAT boundaries
+# ================================================================
+s7_data = [
+  # ---- SECTION A : Quantitative Aptitude (Q1-Q18) ----
+  ['A','Quantitative Aptitude','A sum of money doubles itself at compound interest in 3 years. In how many years will it become 8 times?',['6 years','9 years','12 years','27 years'],1],
+  ['A','Quantitative Aptitude','A can do 1/3 of a work in 5 days; B can do 2/5 of the same work in 6 days. In how many days will both together finish it?',['6 days','7.5 days','8 days','9 days'],1],
+  ['A','Quantitative Aptitude','Find the difference between the compound interest and simple interest on Rs.20,000 at 10% p.a. for 2 years.',['Rs.100','Rs.200','Rs.400','Rs.500'],1],
+  ['A','Quantitative Aptitude','A cistern has a leak that can empty it in 8 hours. A tap fills it in 6 hours. The cistern is 3/4 full and both are open simultaneously. After how many hours will it be full?',['4 hours','5 hours','6 hours','8 hours'],2],
+  ['A','Quantitative Aptitude','A merchant mixes tea costing Rs.40/kg and Rs.70/kg in the ratio 2:1 and sells the mixture at Rs.65/kg. Find his profit percent.',['20%','25%','30%','35%'],2],
+  ['A','Quantitative Aptitude','In an examination 60% passed in English, 70% passed in Maths, and 10% failed in both subjects. What percent passed in both?',['30%','35%','40%','45%'],2],
+  ['A','Quantitative Aptitude','A and B run around a circular track of 600 m. A runs at 10 m/s and B at 15 m/s in the same direction from the same point. After how many seconds do they first meet?',['60 s','90 s','120 s','150 s'],2],
+  ['A','Quantitative Aptitude','The sum of three consecutive multiples of 7 is 630. Find the largest of the three.',['203','210','217','224'],2],
+  ['A','Quantitative Aptitude','How many 4-digit numbers divisible by 5 can be formed using the digits 0, 1, 2, 3, 4, 5 without repetition?',['96','100','108','120'],2],
+  ['A','Quantitative Aptitude','A hemispherical bowl of radius 9 cm is full of liquid. It is poured into cylindrical bottles of radius 3 cm and height 4 cm. How many complete bottles are filled?',['13','14','15','27'],1],
+  ['A','Quantitative Aptitude','Find the number of trailing zeros in 100!',['20','22','24','25'],2],
+  ['A','Quantitative Aptitude','A boat\'s speed in still water is 12 km/h. It covers 36 km downstream in the same time as 24 km upstream. Find the speed of the stream.',['2 km/h','2.4 km/h','3 km/h','4 km/h'],1],
+  ['A','Quantitative Aptitude','Two numbers are in ratio 3:4. If 6 is subtracted from each, the ratio becomes 2:3. Find the larger number.',['18','20','24','28'],2],
+  ['A','Quantitative Aptitude','A conical tent has a height of 8 m and a slant height of 10 m. Find its curved surface area.',['48π m²','60π m²','80π m²','96π m²'],1],
+  ['A','Quantitative Aptitude','A and B together complete a work in 12 days, B and C in 15 days, C and A in 20 days. How many days will A alone take?',['20 days','24 days','30 days','40 days'],2],
+  ['A','Quantitative Aptitude','A bag contains Rs.1, Rs.2, and Rs.5 coins in the ratio 5:3:2. The total value is Rs.252. Find the total number of coins.',['84','96','108','120'],3],
+  ['A','Quantitative Aptitude','Find the value of log₂8 + log₄16 + log₈64.',['5','6','7','8'],2],
+  ['A','Quantitative Aptitude','A person covers 160 km: first 80 km at 40 km/h and the next 80 km at 60 km/h. Find the average speed for the entire journey.',['48 km/h','50 km/h','52 km/h','54 km/h'],0],
+  # ---- SECTION A : Reasoning (Q19-Q34) ----
+  ['A','Reasoning','Find the next term in the series: 2, 6, 12, 20, 30, 42, ?',['54','56','58','60'],1],
+  ['A','Reasoning','A is the only son of B\'s mother\'s only sister. C is A\'s father\'s brother\'s only daughter. How is C related to A?',['Sister','Cousin','Niece','Aunt'],1],
+  ['A','Reasoning','How many squares of all sizes (1×1, 2×2, … 5×5) are there in a 5×5 grid?',['25','50','55','60'],2],
+  ['A','Reasoning','Find the smallest number that, when divided by 3, 4, and 5, leaves remainders 1, 2, and 3 respectively.',['54','57','58','59'],2],
+  ['A','Reasoning','If A=1, B=2, …, Z=26, and a word\'s score = Σ(position × letter value), what is the score of "CAT"?\n(C is the 1st letter, A the 2nd, T the 3rd.)',['24','44','65','86'],2],
+  ['A','Reasoning','Find the missing value in the pattern:\n2  4  8\n3  9  27\n4  ?  64',['12','16','32','48'],1],
+  ['A','Reasoning','A father is three times as old as his son. Five years ago the father was four times as old as the son. What is the son\'s present age?',['10','12','15','20'],2],
+  ['A','Reasoning','Six people E, C, D, A, B, F are ranked by height: A is taller than B but shorter than C; D is shorter than E but taller than A; F is shortest; E is tallest; C is taller than D. Who is the 3rd tallest?',['C','D','A','E'],1],
+  ['A','Reasoning','Three unbiased dice are thrown simultaneously. What is the probability that the sum is NOT equal to 18?',['1/216','35/36','215/216','5/6'],2],
+  ['A','Reasoning','In a code language, CLOCK is coded by reversing the word. What is the code for INDIA?',['AIDNI','NIDIA','ADNII','AIDAI'],0],
+  ['A','Reasoning','In a code: 15 → 6, 36 → 9, 45 → 9, 22 → 4 (digits are summed repeatedly until a single digit). What is the code for 76?',['4','11','13','76'],0],
+  ['A','Reasoning','Statements: Some professors are doctors. All doctors are scientists. No scientist is a poet.\nConclusions: I. Some professors are scientists. II. No doctor is a poet. III. Some scientists are professors.\nHow many conclusions follow?',['Only I','I and II only','II and III only','All three (I, II, and III)'],3],
+  ['A','Reasoning','Find the next letter pair in the series: AZ, BY, CX, DW, EV, ?',['FU','GU','FV','GT'],0],
+  ['A','Reasoning','In a 3-row × 4-column grid of lines (4 horizontal lines and 5 vertical lines), how many rectangles of all sizes are there?',['36','48','60','72'],2],
+  ['A','Reasoning','What is the magic constant of a 3×3 magic square using numbers 1–9 (each row, column, and diagonal sums to the same value)?',['12','15','18','45'],1],
+  ['A','Reasoning','The 10th term of an AP is 31 and the 20th term is 71. Find the sum of the first 30 terms.',['1485','1530','1590','1650'],2],
+  # ---- SECTION A : Reading Comprehension — Passage 1 (Q35-Q38): Machine Learning ----
+  ['A','English – Reading Comprehension','Read the following passage:\n\nMachine learning is a branch of artificial intelligence in which systems learn from data to improve performance without being explicitly programmed. The key categories are supervised learning (trained on labelled data), unsupervised learning (finds patterns in unlabelled data), and reinforcement learning (learns via reward signals). Neural networks — inspired by the brain — have shown remarkable success in image recognition, natural language processing, and game playing. However, training large neural networks demands substantial computational power, often requiring GPUs running for days or weeks. Interpretability remains a significant challenge: deep networks are called "black boxes" because their internal decision-making is opaque, raising concerns about their use in high-stakes domains such as healthcare and criminal justice.\n\n(RC-1) Which of the following best describes unsupervised learning?',['Learning from labelled training data','Finding patterns in data without any labels','Using reward signals to guide learning','Copying the structure of the human brain directly'],1],
+  ['A','English – Reading Comprehension','(RC-1) Why are deep neural networks sometimes called "black boxes"?',['They are painted black','They run only on proprietary hardware','Their internal decision-making process is difficult to understand','They are too expensive to share openly'],2],
+  ['A','English – Reading Comprehension','(RC-1) What resource challenge does the passage mention for training large neural networks?',['Shortage of labelled data','High computational power requirements (GPUs for days or weeks)','Lack of programming languages C) Insufficient RAM in personal computers','Regulatory barriers'],1],
+  ['A','English – Reading Comprehension','(RC-1) In which domains is the lack of interpretability of deep networks particularly concerning, according to the passage?',['Gaming and entertainment','Weather forecasting only','High-stakes domains such as healthcare and criminal justice','Basic arithmetic and sorting tasks'],2],
+  # ---- SECTION A : Reading Comprehension — Passage 2 (Q39-Q41): Cloud vs Edge Computing ----
+  ['A','English – Reading Comprehension','Read the following passage:\n\nCloud computing centralises processing in remote data centres, giving organisations virtually unlimited capacity on demand. However, sending data from devices to the cloud introduces latency — unacceptable for applications requiring real-time responses, such as autonomous vehicles, industrial robots, and augmented reality. Edge computing addresses this by moving computation to devices at the network edge, close to the data source. This slashes latency and also reduces bandwidth usage, since raw data need not travel to the cloud. The two approaches are increasingly viewed as complementary: edge handles time-sensitive processing locally while the cloud aggregates data for large-scale analytics and model training.\n\n(RC-2) What is the main limitation of cloud computing highlighted in the passage?',['High cost','Limited storage capacity','Latency caused by sending data to remote data centres','Frequent security breaches'],2],
+  ['A','English – Reading Comprehension','(RC-2) Which of the following is NOT cited as a real-time application in the passage?',['Autonomous vehicles','Industrial robots','Email processing','Augmented reality'],2],
+  ['A','English – Reading Comprehension','(RC-2) How does the passage describe the relationship between cloud and edge computing?',['Edge computing is replacing cloud computing','They are competing technologies with no overlap','They are complementary — edge for real-time, cloud for large-scale analytics','Cloud computing is a subset of edge computing'],2],
+  # ---- SECTION A : English – Vocabulary & Grammar (Q42-Q50) ----
+  ['A','English – Vocabulary','Choose the meaning of RECALCITRANT.',['Enthusiastic','Obedient','Stubbornly resistant to authority','Forgetful'],2],
+  ['A','English – Vocabulary','Choose the word most OPPOSITE in meaning to LOQUACIOUS.',['Talkative','Verbose','Taciturn','Eloquent'],2],
+  ['A','English – Grammar','Fill in the blank: "Each of the students ______ required to submit an assignment."',['are','were','is','have been'],2],
+  ['A','English – Idioms','What does "the ball is in your court" mean?',['You are playing tennis','It is now your responsibility to take action','You have won the game','The situation is hopeless'],1],
+  ['A','English – Spelling','Pick the correctly spelled word.',['Recieve','Reseive','Receive','Recievve'],2],
+  ['A','English – One-word Substitution','One who studies the origin and history of words.',['Philatelist','Lexicologist','Etymologist','Bibliophile'],2],
+  ['A','English – Grammar','Which of the following sentences is grammatically correct?',['Either of the two routes lead to the station','The jury have reached their verdict','Everyone must carry their own luggage','The crowd is dispersing slowly'],3],
+  ['A','English – Figures of Speech','Identify the figure of speech in: "The wind whispered through the trees."',['Simile','Metaphor','Personification','Hyperbole'],2],
+  ['A','Computer Fundamentals','What does BIOS stand for?',['Basic Input/Output System','Binary Input/Output Storage','Base Internal Operating Software','Basic Integrated Operating System'],0],
+  # ---- SECTION B : C Programming (Q1-Q16) ----
+  ['B','C Programming','What is the output?\n#include <stdio.h>\n#define SQUARE(x) x*x\nint main() {\n    int a = 3;\n    printf("%d\\n", SQUARE(a+1));\n    return 0;\n}',['16','7','8','4'],1],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\nint add(int a, int b) { return a+b; }\nint mul(int a, int b) { return a*b; }\nint main() {\n    int (*op)(int,int) = mul;\n    printf("%d\\n", op(3,4) + add(2,3));\n    return 0;\n}',['12','17','20','14'],1],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\nstruct Point { int x, y; };\nint main() {\n    struct Point p = {3,4};\n    struct Point *q = &p;\n    q->x = q->x + q->y;\n    printf("%d %d\\n", p.x, p.y);\n    return 0;\n}',['3 4','7 7','7 4','4 7'],2],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\nint main() {\n    unsigned int x = 0xFF;\n    x = x >> 4;\n    printf("%d\\n", x);\n    return 0;\n}',['255','240','16','15'],3],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\nint main() {\n    char *arr[] = {"cat","bat","mat"};\n    printf("%c\\n", *(arr[1]+1));\n    return 0;\n}',['b','a','t','m'],1],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\nint hanoi(int n) {\n    if (n == 1) return 1;\n    return 2 * hanoi(n-1) + 1;\n}\nint main() {\n    printf("%d\\n", hanoi(4));\n    return 0;\n}',['7','8','15','16'],2],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\ntypedef struct { int x; int y; } Point;\nint area(Point p) { return p.x * p.y; }\nint main() {\n    Point p = {5,6};\n    printf("%d\\n", area(p));\n    return 0;\n}',['11','25','30','36'],2],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\nenum Day { SUN=0, MON, TUE, WED=10, THU, FRI, SAT };\nint main() {\n    printf("%d %d\\n", TUE, THU);\n    return 0;\n}',['2 10','2 11','3 11','2 12'],1],
+  ['B','C Programming','For which scenario is the volatile qualifier MOST appropriate in C?',['Variables that should be optimised for maximum speed','Hardware-mapped registers or variables modified by external processes that the compiler must not cache or optimise away','Compile-time constants','Variables shared by threads protected by a mutex'],1],
+  ['B','C Programming','Consider: int arr[5] = {0}; int *p = arr + 6; — what does the C standard say about this?',['arr[5] can be safely accessed','Accessing arr + 6 is well-defined because pointers can go anywhere','Accessing arr + 6 is undefined behaviour — only one-past-the-end (arr+5) is valid','The compiler silently ignores out-of-bounds pointer arithmetic'],2],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\n#include <string.h>\nint main() {\n    char s[] = "abcdef";\n    printf("%d\\n", (int)(strrchr(s,\'c\') - s));\n    return 0;\n}',['1','2','3','4'],1],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\n#define MAX(a,b) ((a)>(b)?(a):(b))\nint main() {\n    int x=5, y=3;\n    printf("%d\\n", MAX(x++,y));\n    return 0;\n}',['5','6','7','3'],1],
+  ['B','C Programming','In which memory segment are global and static variables stored in a C program?',['Stack','Heap','Code (text) segment','Data segment'],3],
+  ['B','C Programming','What is the output?\n#include <stdio.h>\nint main() {\n    int x = 1;\n    printf("%d\\n", x<<3 | x<<1);\n    return 0;\n}',['6','9','10','16'],2],
+  ['B','C Programming','What is the result of the expression int a=10, b=20; a^=b^=a^=b; in C?',['a=20, b=10 (XOR swap)','a=10, b=20 (no change)','a=0, b=0','This expression has undefined behaviour in C'],3],
+  ['B','C Programming','Given the structure below (no packing, 4-byte int, 1-byte char), what is sizeof(s)?\nstruct s { char a; int b; char c; };',['6 bytes','9 bytes','12 bytes','8 bytes'],2],
+  # ---- SECTION B : Data Structures (Q17-Q27) ----
+  ['B','Data Structures','What is the worst-case time complexity of searching for a key in a balanced Binary Search Tree with n nodes?',['O(1)','O(log n)','O(n)','O(n log n)'],1],
+  ['B','Data Structures','What is the time complexity of the Floyd-Warshall all-pairs shortest paths algorithm on a graph with V vertices?',['O(V²)','O(V² log V)','O(V³)','O(VE)'],2],
+  ['B','Data Structures','The principle of "optimal substructure" in dynamic programming means:',['The problem can be divided into equal-sized halves','The optimal solution to the whole problem contains optimal solutions to its subproblems','All subproblems must be solved before any result is used','The problem always has exactly two subproblems'],1],
+  ['B','Data Structures','Which algorithm finds the Minimum Spanning Tree of a weighted undirected graph by greedily adding the smallest edge that does not form a cycle?',['Dijkstra\'s algorithm','Prim\'s algorithm','Kruskal\'s algorithm','Bellman-Ford algorithm'],2],
+  ['B','Data Structures','Which of the following properties must hold in a Red-Black tree?',['Every root-to-null path has the same number of red nodes','No two consecutive red nodes exist on any path, and every root-to-null path has the same number of black nodes','The tree is always a perfect binary tree','Red nodes may have at most one child'],1],
+  ['B','Data Structures','The amortized time complexity per operation for push/pop on a dynamic array that doubles when full is:',['O(n) per operation','O(log n) per operation','O(1) per operation','O(n²) total'],2],
+  ['B','Data Structures','How does hash chaining handle collisions?',['It probes the next available slot in the array','It stores multiple values at the same hash index in a linked list','It uses double hashing to find the next slot','It rehashes all existing keys whenever a collision occurs'],1],
+  ['B','Data Structures','In which order does Post-order traversal visit nodes?',['Root → Left → Right','Left → Root → Right','Left → Right → Root','Right → Root → Left'],2],
+  ['B','Data Structures','A connected undirected graph with exactly n vertices and n−1 edges is called a:',['Complete graph','Tree','Bipartite graph','Planar graph'],1],
+  ['B','Data Structures','What is the space complexity of Depth-First Search on a graph with V vertices?',['O(V+E)','O(V²)','O(V)','O(E)'],2],
+  ['B','Data Structures','The 0/1 Knapsack problem cannot be solved optimally by a greedy approach; the correct technique is:',['Greedy selection by value-to-weight ratio','Dynamic Programming','Divide and Conquer with merge','Linear programming'],1],
+  # ---- SECTION B : OOP in C++ (Q28-Q34) ----
+  ['B','OOP in C++','What is the output?\n#include <iostream>\nusing namespace std;\nclass A {\npublic:\n    A() { cout<<"A"; }\n    virtual ~A() { cout<<"~A"; }\n};\nclass B : public A {\npublic:\n    B() { cout<<"B"; }\n    ~B() { cout<<"~B"; }\n};\nint main() { A *p=new B(); delete p; return 0; }',['AB~A','AB~B~A','AB~A~B','B~B'],1],
+  ['B','OOP in C++','A virtual function declared as "virtual void f() = 0;" is called a pure virtual function. What does this make the containing class?',['A static class','An abstract class that cannot be instantiated directly','A final class that cannot be inherited','A singleton class'],1],
+  ['B','OOP in C++','What does the "explicit" keyword on a single-argument constructor prevent?',['Function overloading','Implicit (automatic) type conversion of a single argument to the class type','Inheritance from the class','Calling the constructor from a derived class'],1],
+  ['B','OOP in C++','Class C inherits from both A and B, which both define a method foo(). C does not override foo(). What happens when you call c.foo()?',['C uses A\'s foo() by default','C uses B\'s foo() by default','The call is ambiguous and causes a compilation error','C gets no foo() at all'],2],
+  ['B','OOP in C++','What is the output?\n#include <iostream>\nusing namespace std;\ntemplate<typename T>\nT square(T x) { return x*x; }\nint main() {\n    cout << square(3) << " " << square(2.5);\n    return 0;\n}',['9 6','9 6.25','3 2.5','9.0 6.25'],1],
+  ['B','OOP in C++','Which of the following correctly catches ALL exceptions in C++?',['catch(Exception e)','catch(error)','catch(...)','catch(all)'],2],
+  ['B','OOP in C++','What is the output of the Singleton pattern code below?\nclass Singleton {\n    static Singleton* inst; Singleton(){}\npublic:\n    static Singleton* getInstance(){\n        if(!inst) inst=new Singleton(); return inst; }\n    void show(){ cout<<"Singleton"; }\n};\nSingleton* Singleton::inst=nullptr;\nint main(){ Singleton::getInstance()->show(); }',['NULL','Singleton','Compilation error','Runtime error'],1],
+  # ---- SECTION B : Operating Systems (Q35-Q40) ----
+  ['B','Operating Systems','What is internal fragmentation in memory management?',['Wasted memory outside allocated blocks (gaps between allocations)','Wasted memory inside allocated blocks due to fixed-size allocation being larger than needed','Memory shared between processes','Memory that is allocated but never freed'],1],
+  ['B','Operating Systems','Which page is replaced by the LRU (Least Recently Used) page replacement algorithm?',['The page used most recently','The page in memory the longest','The page not used for the longest time in the future','The page that was used least recently'],3],
+  ['B','Operating Systems','In the semaphore-based producer-consumer solution with a buffer of size N, which semaphore tracks the number of FULL buffer slots?',['mutex','full','empty','block'],1],
+  ['B','Operating Systems','Which of the following is a defining characteristic of a Real-Time Operating System (RTOS)?',['Maximises throughput for batch jobs','Provides a GUI for user interaction','Guarantees a response to events within a predetermined bounded time','Runs only on single-core processors'],2],
+  ['B','Operating Systems','What is the key difference between a process and a thread?',['Threads have separate memory; processes share memory','A thread is a unit of execution within a process; threads in the same process share memory and resources C) Processes run faster than threads','A process can only contain one thread'],1],
+  ['B','Operating Systems','Which scheduling algorithm minimises average waiting time for a known set of processes?',['FCFS','Round Robin','SJF (Shortest Job First)','Priority Scheduling'],2],
+  # ---- SECTION B : Networking (Q41-Q45) ----
+  ['B','Networking','What is the primary purpose of NAT (Network Address Translation)?',['Encrypting all outgoing traffic','Translating private IP addresses to a public IP for internet access, thereby conserving IPv4 address space','Dynamically assigning MAC addresses','Routing packets between network topologies'],1],
+  ['B','Networking','What is the size of an IPv6 address?',['32 bits','64 bits','128 bits','256 bits'],2],
+  ['B','Networking','What is the role of the TTL (Time to Live) field in an IP packet?',['Sets a timer for connection establishment','Specifies the maximum lifetime of a packet in seconds','Is decremented by each router; when it reaches zero the packet is discarded, preventing infinite routing loops','Determines the QoS priority of the packet'],2],
+  ['B','Networking','Which routing protocol uses the Bellman-Ford algorithm for distance-vector routing?',['OSPF','BGP','RIP','EIGRP'],2],
+  ['B','Networking','What is the purpose of TCP\'s sliding window protocol?',['Data encryption','Flow control — allowing multiple packets to be sent before waiting for acknowledgement','Error detection using checksums only','Packet fragmentation at the IP layer'],1],
+  # ---- SECTION B : Big Data & AI Basics (Q46-Q50) ----
+  ['B','Big Data & AI Basics','What distinguishes supervised learning from reinforcement learning?',['Supervised uses rewards; reinforcement uses labels','Supervised learning trains on labelled input-output pairs; reinforcement learning uses trial-and-error with a reward signal','They are identical approaches','Reinforcement learning requires labelled data only'],1],
+  ['B','Big Data & AI Basics','In a neural network, what does a dropout layer do?',['Removes the network\'s final output','Randomly deactivates a fraction of neurons during training to act as a regulariser and prevent overfitting','Compresses intermediate feature maps','Performs max-pooling on spatial features'],1],
+  ['B','Big Data & AI Basics','The CAP theorem states that a distributed data store can simultaneously guarantee at most how many of Consistency, Availability, and Partition tolerance?',['All three simultaneously','Two out of three — it cannot guarantee all three at once','Only one, chosen at design time','None — it is a theoretical impossibility'],0],
+  ['B','Big Data & AI Basics','What is Apache Spark\'s main advantage over Hadoop MapReduce for iterative machine learning algorithms?',['Spark uses more disk I/O than MapReduce','Spark processes data in-memory, avoiding repeated disk reads and making it significantly faster for iterative workloads','Spark cannot process structured data','Spark is limited to batch processing only'],1],
+  ['B','Big Data & AI Basics','In a Convolutional Neural Network (CNN), what is the primary role of a pooling layer?',['Add more trainable parameters to the network','Apply learned filters to detect spatial features','Reduce the spatial dimensions of feature maps, decreasing computation and providing translational invariance','Fully connect all neurons to all output nodes'],2],
+]
+
+assert len(s6_data) == 100, f"Set 6 count wrong: {len(s6_data)}"
+assert len(s7_data) == 100, f"Set 7 count wrong: {len(s7_data)}"
+print(f"Question counts: Set1={len(s1_data)}, Set2={len(s2_data)}, Set3={len(s3_data)}, Set5={len(s5_data)}, Set6={len(s6_data)}, Set7={len(s7_data)}")
 
 # ================================================================
 #  ENCODE ANSWER KEYS
@@ -655,7 +776,8 @@ s2_ak = encode_ak([q[4] for q in s2_data])
 s3_ak = encode_ak([q[4] for q in s3_data])
 s5_ak = encode_ak([q[4] for q in s5_data])
 s6_ak = encode_ak([q[4] for q in s6_data])
-print(f"AKs computed: s1={len(s1_ak)}, s2={len(s2_ak)}, s3={len(s3_ak)}, s5={len(s5_ak)}, s6={len(s6_ak)}")
+s7_ak = encode_ak([q[4] for q in s7_data])
+print(f"AKs computed: s1={len(s1_ak)}, s2={len(s2_ak)}, s3={len(s3_ak)}, s5={len(s5_ak)}, s6={len(s6_ak)}, s7={len(s7_ak)}")
 
 # ================================================================
 #  READ EXISTING HTML
@@ -735,6 +857,7 @@ s2_qs = qs_to_js(s2_data)
 s3_qs = qs_to_js(s3_data)
 s5_qs = qs_to_js(s5_data)
 s6_qs = qs_to_js(s6_data)
+s7_qs = qs_to_js(s7_data)
 
 # ================================================================
 #  NEW CSS
@@ -814,6 +937,13 @@ NEW_WAITING = """<div id="waiting-screen">
       <div class="sc-meta">100 Questions &nbsp;&middot;&nbsp; 2 Hours</div>
       <div class="sc-meta" style="font-size:0.7rem;opacity:0.65;margin-top:3px;">Blockchain, Quantum, AVL, Banker\'s, Backprop</div>
     </div>
+    <div class="set-card" id="card-7" onclick="selectSet('7')">
+      <div class="sc-badge" style="background:#b71c1c;">Hardest</div>
+      <div class="sc-num">Practice Set 7</div>
+      <div class="sc-name">Section A + B</div>
+      <div class="sc-meta">100 Questions &nbsp;&middot;&nbsp; 2 Hours</div>
+      <div class="sc-meta" style="font-size:0.7rem;opacity:0.65;margin-top:3px;">Push your limits — maximum C-CAT difficulty</div>
+    </div>
   </div>
   <div id="set-info-panel" style="display:none">
     <div class="info-grid" id="set-info-grid"></div>
@@ -863,6 +993,10 @@ const SETS = {
   '6': { name:'Practice Set 6', level:'Advanced Pro', totalQ:100, sections:['A','B'], maxScore:300,
          ak:'__S6_AK__', questions:[
   __S6_Q__
+  ]},
+  '7': { name:'Practice Set 7', level:'Hardest', totalQ:100, sections:['A','B'], maxScore:300,
+         ak:'__S7_AK__', questions:[
+  __S7_Q__
   ]}
 };
 
@@ -1377,12 +1511,14 @@ final_js = final_js.replace('__S3_AK__', s3_ak)
 final_js = final_js.replace('__S4_AK__', s4_ak)
 final_js = final_js.replace('__S5_AK__', s5_ak)
 final_js = final_js.replace('__S6_AK__', s6_ak)
+final_js = final_js.replace('__S7_AK__', s7_ak)
 final_js = final_js.replace('  __S1_Q__\n', '  ' + s1_qs.replace('\n', '\n  ') + '\n')
 final_js = final_js.replace('  __S2_Q__\n', '  ' + s2_qs.replace('\n', '\n  ') + '\n')
 final_js = final_js.replace('  __S3_Q__\n', '  ' + s3_qs.replace('\n', '\n  ') + '\n')
 final_js = final_js.replace('__S4_Q__', q4_content)
 final_js = final_js.replace('  __S5_Q__\n', '  ' + s5_qs.replace('\n', '\n  ') + '\n')
 final_js = final_js.replace('  __S6_Q__\n', '  ' + s6_qs.replace('\n', '\n  ') + '\n')
+final_js = final_js.replace('  __S7_Q__\n', '  ' + s7_qs.replace('\n', '\n  ') + '\n')
 
 script_replacement = '<script>\n' + final_js + '\n</script>'
 html = script_pat.sub(lambda m: script_replacement, html)
