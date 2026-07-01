@@ -863,6 +863,26 @@ s7_qs = qs_to_js(s7_data)
 #  NEW CSS
 # ================================================================
 NEW_CSS = """
+/* ===== CREATOR CARD ===== */
+.creator-card {
+  background:#fff; border-radius:12px; border-left:4px solid #0077b5;
+  padding:20px 24px; margin:0 0 20px 0;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+.creator-name { font-size:1.05rem; font-weight:700; color:#1a237e; }
+.creator-tag  { font-size:0.78rem; color:#0077b5; margin:2px 0 8px; }
+.creator-msg  { font-size:0.85rem; color:#555; line-height:1.5; max-width:460px; }
+.creator-li-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  background:#0077b5; color:white; text-decoration:none;
+  padding:11px 22px; border-radius:8px; font-size:0.9rem; font-weight:600;
+  white-space:nowrap; flex-shrink:0; transition:background 0.15s;
+}
+.creator-li-btn:hover { background:#005f91; }
+@media(max-width:600px){
+  .creator-card { flex-direction:column; align-items:flex-start; }
+}
 /* ===== SET SELECTOR ===== */
 .set-cards-grid {
   display: grid; grid-template-columns: repeat(2, 1fr);
@@ -1498,6 +1518,24 @@ html = html.replace(
 html = html.replace(
     "onclick=\"filterSol('all',this)\">All 100</button>",
     "id=\"filter-all-btn\" onclick=\"filterSol('all',this)\">All 100</button>"
+)
+
+# 6b. Insert creator thank-you card between score grid and filter bar
+CREATOR_CARD = """    <div class="creator-card">
+      <div>
+        <div class="creator-name">Mohd Wamique</div>
+        <div class="creator-tag">ex-CDACian &nbsp;&middot;&nbsp; PG-DAC Alumni</div>
+        <div class="creator-msg">Built this to help C-CAT aspirants like you. If it helped your prep, I&rsquo;d love to connect!</div>
+      </div>
+      <a href="https://www.linkedin.com/in/mohammadwamique/" target="_blank" rel="noopener" class="creator-li-btn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="white" style="flex-shrink:0"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        Connect on LinkedIn
+      </a>
+    </div>
+"""
+html = html.replace(
+    '    <div class="filter-bar">',
+    CREATOR_CARD + '    <div class="filter-bar">'
 )
 
 # 7. Replace script section
